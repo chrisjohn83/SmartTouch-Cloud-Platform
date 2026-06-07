@@ -1,0 +1,52 @@
+site_name: SmartTouch Cloud Platform
+site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
+
+theme:
+  name: material
+
+  palette:
+    - scheme: default
+      primary: blue
+      accent: cyan
+
+    - scheme: slate
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+extra_css:
+  - assets/custom.css
+
+nav:
+  - Developers:
+      - Home: developers/get-started/connect-first-device/index.md
+      - Getting Started: developers/get-started/README.md
+      - Connecting First Service:  developers/get-started/connect-first-device/01-provision-certificate.md
+      - Deploying First IoT Service: developers/get-started/connect-first-device/01-create-service-spec.md
+      - Setting up Local development: developers/get-started/connect-first-device/01-install-stctl.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+
+exclude_docs: |
+  strategy/**
+
+copyright: >
+  © 2026 SmartTouch Cloud Platform |
+  Documentation Prototype by Chris Johnjoseph
