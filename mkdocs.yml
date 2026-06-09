@@ -92,6 +92,8 @@ markdown_extensions:
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  version: 1.0.0
+    provider: mike
 
 exclude_docs: |
   strategy/**
