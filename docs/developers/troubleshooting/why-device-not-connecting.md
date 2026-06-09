@@ -68,7 +68,7 @@ journalctl -u smarttouch-agent -n 50
 
 ## Agent is not running
 
-### Symptom
+### Symptom: Agent shows offline
 
 `stctl device agent-status` shows `offline`. `systemctl status smarttouch-agent` on the device shows the service as `inactive` or `failed`.
 
@@ -92,7 +92,7 @@ journalctl -u smarttouch-agent --since "1 hour ago" -n 100
 Common failure messages:
 
 | Log message | Cause |
-|---|---|
+| --- | --- |
 | `certificate file not found: /etc/smarttouch/device.crt` | Certificate path in `agent.yaml` is wrong or the file was deleted |
 | `failed to connect to broker: dial tcp: connection refused` | Broker URL is unreachable |
 | `certificate has expired` | Device certificate passed its expiry date |
@@ -111,7 +111,7 @@ systemctl enable smarttouch-agent
 
 **If the unit file is missing**, reinstall the agent — see [Install the Remote Access Agent](../get-started/connect-first-device/02-install-remote-access-agent.md).
 
-### Prevention
+### Prevent this
 
 - Enable `smarttouch-agent` with `systemctl enable` during provisioning so it starts on boot.
 - Add a systemd watchdog restart policy to the agent unit file:
@@ -126,11 +126,11 @@ systemctl enable smarttouch-agent
 
 ## Certificate error
 
-### Symptom
+### Symptom: Certificate validation fails
 
 The agent is running but the device does not appear online. Agent logs contain messages such as `certificate has expired`, `certificate file not found`, or `x509: certificate signed by unknown authority`.
 
-### Diagnosis
+### Diagnosys
 
 The device certificate used to authenticate the WebSocket connection to the broker is missing, expired, or was signed by an authority the broker does not trust.
 
@@ -159,7 +159,7 @@ cat /etc/smarttouch/ca-bundle.crt
 
 This file must contain the SmartTouch platform CA certificate. Compare its fingerprint with the one shown in the SmartTouch Console under **Settings → Certificate Authorities**.
 
-### Resolution
+### Solution
 
 **Expired certificate:** Provision a new certificate — see [Provision a device certificate for remote access](../get-started/connect-first-device/01-provision-certificate.md). After replacing the certificate files, restart the agent:
 
@@ -179,7 +179,7 @@ Submit the CSR and install the signed certificate at `/etc/smarttouch/device.crt
 
 **Wrong or missing CA bundle:** Copy the platform CA certificate from the SmartTouch Console and write it to `/etc/smarttouch/ca-bundle.crt`. Restart the agent.
 
-### Prevention
+### Prevent certificate failures
 
 - Set a calendar reminder 30 days before the certificate expiry date shown in `stctl device get <device_id>`.
 - Automate certificate renewal using the SmartTouch certificate rotation API — see [How do I manage secrets securely?](../secrets-config/how-to-manage-secrets.md).
@@ -188,11 +188,11 @@ Submit the CSR and install the signed certificate at `/etc/smarttouch/device.crt
 
 ## Cannot reach the broker
 
-### Symptom
+### Symptom: Broker connection fails
 
 The agent is running and the certificate is valid, but agent logs show `connection refused`, `i/o timeout`, or `no route to host` when connecting to the broker URL.
 
-### Diagnosis
+### Analysis
 
 The device cannot establish the outbound WebSocket connection to the Remote Access Service broker. The broker URL is configured in `/etc/smarttouch/agent.yaml`.
 
@@ -224,13 +224,13 @@ openssl s_client -connect broker.smarttouch.local:8443 \
 **Diagnose the failure:**
 
 | Test result | Cause |
-|---|---|
+| --- | --- |
 | `nc` fails with `Connection refused` | Broker service is down or the port is not open |
 | `nc` fails with `No route to host` | Network routing or firewall issue |
 | `nc` succeeds but TLS fails | Certificate mismatch or CA bundle problem |
 | `nc` times out | Firewall blocking outbound port 8443 |
 
-### Resolution
+### Solution steps
 
 **Wrong broker URL:** Update `/etc/smarttouch/agent.yaml` with the correct broker URL. The correct value is shown in `stctl device get sensor-001` under `remote_access.broker_url`. Restart the agent after editing.
 
@@ -246,7 +246,7 @@ stctl status --env staging | grep -i broker
 
 If the broker shows `unhealthy`, contact your Platform Engineer.
 
-### Prevention
+### Prevent connectivity issues
 
 - Test broker connectivity as part of device provisioning before the device is deployed to the field.
 - Configure device network policy to explicitly allow outbound connections to the broker hostname on port 8443.
@@ -256,7 +256,7 @@ If the broker shows `unhealthy`, contact your Platform Engineer.
 
 ## stctl remote-access open fails
 
-### Symptom
+### Symptom: Session open request fails
 
 The device shows `online` in `stctl device agent-status`, but `stctl remote-access open` fails with an error.
 
@@ -268,12 +268,12 @@ Error: conflict — a session is already open for this device on this protocol
 Error: unprocessable_entity — device agent is offline
 ```
 
-### Diagnosis
+### Analysis steps
 
 **`forbidden`:** You are requesting a protocol your role does not permit. See the protocol permission table:
 
 | Protocol | Minimum role |
-|---|---|
+| --- | --- |
 | `diagnostics` | developer |
 | `shell` | platform-engineer |
 | `file-transfer` | administrator |
@@ -282,7 +282,7 @@ Error: unprocessable_entity — device agent is offline
 
 **`unprocessable_entity`:** The device appeared online when you checked but went offline between the check and the session open attempt. This can happen if the device has an intermittent network connection.
 
-### Resolution
+### Remediation
 
 **`forbidden`:** Use a protocol your role permits. As a developer, use `--protocol diagnostics`.
 
@@ -302,7 +302,7 @@ stctl remote-access open sensor-001 --protocol diagnostics
 
 **`unprocessable_entity`:** Wait 30 seconds for the agent to reconnect and retry. If the device continues to drop connection, check the agent logs on the device for network errors.
 
-### Prevention
+### Best practices
 
 - Build session teardown into your automation scripts so sessions are always closed after use.
 - Use `stctl remote-access list --device <id> --status open` to check for existing sessions before opening a new one.
@@ -311,7 +311,7 @@ stctl remote-access open sensor-001 --protocol diagnostics
 
 ## Device not registered
 
-### Symptom
+### Symptom: Device not found
 
 `stctl device get sensor-001` returns a `404 not_found` error. The device ID does not exist in the platform.
 
@@ -319,11 +319,11 @@ stctl remote-access open sensor-001 --protocol diagnostics
 Error: device not found: sensor-001
 ```
 
-### Diagnosis
+### Why this happens
 
 The device was never registered with the platform, or it was registered under a different device ID.
 
-### Resolution
+### Register the device
 
 **List all registered devices** to check whether the device exists under a different ID:
 
@@ -335,7 +335,7 @@ stctl device list --status offline
 
 The device is registered automatically the first time the Remote Access Agent successfully connects to the broker using its certificate.
 
-### Prevention
+### Best practice
 
 - Keep a record of all device IDs and their corresponding certificate CNs.
 - Use a consistent naming convention for device IDs (for example, `<fleet>-<device-type>-<serial>`).

@@ -51,7 +51,7 @@ Open a diagnostics session and a shell session to `sensor-001`, understand what 
 ## Session protocols at a glance
 
 | Protocol | What you get | Who can open it |
-|---|---|---|
+| --- | --- | --- |
 | `diagnostics` | Read-only stream: CPU, memory, disk, uptime, network, agent version | `developer`, `platform-engineer`, `administrator` |
 | `shell` | Interactive terminal on the device | `platform-engineer`, `administrator` |
 | `file-transfer` | Secure file upload and download | `administrator` |
@@ -221,7 +221,7 @@ Audit records are retained for the period set in the Remote Access Service SSD (
 Remote access is fully working when all three checks pass:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Device reachable | `stctl device status --id sensor-001 --env dev` | `Agent: installed, connected` |
 | Session opens | `stctl remote-access open --device sensor-001 --protocol diagnostics --env dev` | Diagnostics stream appears |
 | Audit log records session | `stctl remote-access audit list --device sensor-001 --since 1h --env dev` | Session entry present |
@@ -264,11 +264,11 @@ cat /etc/smarttouch-agent/agent.yaml | grep protocols -A 5
 
 If `diagnostics` is missing, add it and restart the agent.
 
-**Shell session opens but commands are slow or unresponsive**
+## Shell session opens but commands are slow or unresponsive
 
 High `broker_latency` in the diagnostics stream (above 500ms) indicates a slow network path between the device and the platform. Commands are transmitted over the same path, so high latency produces a sluggish shell. This is a network condition, not an agent or broker issue.
 
-**Session not appearing in the audit log**
+## Session not appearing in the audit log
 
 Audit events are written asynchronously — they can take up to 30 seconds to appear after a session closes. Wait and re-run the audit list command.
 

@@ -51,13 +51,13 @@ Configure `kubectl` to reach the SmartTouch `dev` cluster and confirm you can vi
 
 ### Step 1 — Install kubectl
 
-**macOS**
+### macOS
 
 ```bash
 brew install kubectl
 ```
 
-**Linux**
+### Linux
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -sSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -131,7 +131,7 @@ kubectl config set-context --current --namespace team-myteam
 ## Remote Access namespace layout
 
 | Namespace | Contains | Your access |
-|---|---|---|
+| --- | --- | --- |
 | `team-<name>` | Your deployed services | Full read/write |
 | `smarttouch-remote-access` | Remote Access Service, session proxy | Read only |
 | `smarttouch-audit` | Audit log collector | No direct access — use `stctl remote-access audit` |

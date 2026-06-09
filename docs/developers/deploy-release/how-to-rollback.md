@@ -143,7 +143,7 @@ Open a pull request from `fix/rollback-v1.1.0` to `main`. The pull request shows
 Rollback is complete when:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Correct image running | `stctl status --env dev --service remote-access-service` | Previous image tag |
 | Session broker active | `stctl remote-access probe --env dev` | Probe succeeds |
 | Active sessions unaffected | `stctl remote-access list --env dev` | Sessions that were open before rollback remain open |

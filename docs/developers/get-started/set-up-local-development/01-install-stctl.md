@@ -52,19 +52,19 @@ Install `stctl` and verify that the `remote-access` command group is available w
 
 ### Step 1 — Install stctl
 
-**macOS (Homebrew)**
+## macOS (Homebrew)
 
 ```bash
 brew tap smarttouch/tap && brew install stctl
 ```
 
-**Linux**
+## Linux
 
 ```bash
 curl -sSL https://get.smarttouch.io/stctl | bash
 ```
 
-**Windows (WSL2 only)**
+## Windows (WSL2 only)
 
 Run the Linux command above inside your WSL2 terminal.
 

@@ -139,7 +139,7 @@ The final line — `✔  Audit event recorded` — confirms the audit log captur
 The Remote Access Service is fully operational when all four checks pass:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Service running | `stctl status --env dev --service remote-access-service` | `Running, 2/2 ready` |
 | Broker ready | `stctl remote-access status --env dev` | `Session broker: ready` |
 | Protocols active | Same command | `shell: enabled, diagnostics: enabled` |

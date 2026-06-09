@@ -52,7 +52,8 @@ Install the Remote Access Agent on `sensor-001`, configure it with the device ce
 
 ## How the agent works
 
-```
+---
+
 Device                          SmartTouch Remote Access Service
   │                                         │
   │── outbound WebSocket (TLS) ────────────▶│
@@ -61,7 +62,8 @@ Device                          SmartTouch Remote Access Service
   │◀── session request ─────────────────────│ (when a user opens a session)
   │                                         │
   │── session tunnel (bidirectional) ──────▶│◀── stctl / Console (user)
-```
+
+---
 
 The agent does not listen on any port. All traffic flows over the single outbound WebSocket. If the connection drops — due to a network interruption or device reboot — the agent reconnects automatically with exponential back-off.
 

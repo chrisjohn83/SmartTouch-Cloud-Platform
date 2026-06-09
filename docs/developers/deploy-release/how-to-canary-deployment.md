@@ -149,7 +149,7 @@ stctl canary set-weight \
 Repeat in increments: 10% → 50% → 100%. The recommended progression is:
 
 | Weight | Duration before next increase |
-|---|---|
+| --- | --- |
 | 10% | 15 minutes |
 | 50% | 30 minutes |
 | 100% | Canary promoted to stable |
@@ -163,6 +163,7 @@ stctl canary promote --env dev --service remote-access-service
 ```
 
 This command:
+
 - Sets all traffic to v1.2.0
 - Removes the v1.1.0 stable deployment
 - Updates the SSD to remove the `canary` block
@@ -184,7 +185,7 @@ This routes all traffic back to the stable version (v1.1.0) and stops the canary
 The canary deployment is healthy when:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Both versions running | `stctl pods --env dev --service remote-access-service` | One stable pod, one canary pod |
 | Canary metrics healthy | `stctl canary status --env dev --service remote-access-service` | All metrics within threshold |
 | Traffic split active | Same command | Percentages match configured weight |
@@ -197,7 +198,7 @@ The canary deployment is healthy when:
 
 Canary deployments require Istio to be installed in your namespace. Contact your Platform Engineer to confirm Istio is enabled for your team's namespace.
 
-**Canary automatically halted**
+### Canary automatically halted
 
 The metrics thresholds were exceeded. View the canary analysis logs:
 

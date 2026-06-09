@@ -43,7 +43,7 @@ The Service Spec Definition (SSD) is the YAML manifest that configures how Smart
 Required. Identifies the service.
 
 | Field | Type | Required | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `name` | string | Yes | Unique service identifier. Lowercase, hyphens only. Maximum 63 characters. |
 | `version` | string | Yes | Semver string e.g. `"1.0.0"` |
 
@@ -60,7 +60,7 @@ service:
 Required. Configures the runtime deployment.
 
 | Field | Type | Required | Default | Description |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `replicas` | integer | Yes | — | Minimum replica count. KEDA scales above this. |
 | `image` | string | Yes | — | Full Harbor image URI including tag. |
 | `port` | integer | Yes | — | Port your service listens on. Must match `EXPOSE` in the Dockerfile. |
@@ -84,7 +84,7 @@ deployment:
 Optional. Enables metrics and distributed tracing.
 
 | Field | Type | Required | Default | Description |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `metrics` | boolean | No | `true` | Expose a Prometheus metrics endpoint at `/metrics` on port 8081. |
 | `tracing` | boolean | No | `true` | Enable OpenTelemetry distributed tracing. |
 
@@ -101,7 +101,7 @@ observability:
 Optional. Configures the SmartTouch remote device access session broker.
 
 | Field | Type | Required | Default | Description |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `enabled` | boolean | Yes | — | Must be `true` to activate the remote access subsystem. |
 | `session-timeout` | duration | No | `"30m"` | Maximum session duration. Closed automatically when exceeded. |
 | `idle-timeout` | duration | No | `"5m"` | Sessions idle for this period are closed. |
@@ -146,7 +146,7 @@ remote-access:
 Optional. Configures Vault secret injection at runtime.
 
 | Field | Type | Required | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `vault-path` | string | Yes | Vault path pattern. Use `{{env}}` as an environment placeholder. |
 | `inject[].key` | string | Yes | Secret key name in Vault. |
 | `inject[].mount-path` | string | Yes | File path where the secret is written inside the pod. |
@@ -168,7 +168,7 @@ secrets:
 Optional. References a Kubernetes ConfigMap for environment-specific non-secret configuration.
 
 | Field | Type | Required | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `from-configmap` | string | Yes | Name of the ConfigMap to read. |
 | `env-vars` | array | Yes | List of keys to inject as environment variables. |
 
@@ -188,7 +188,7 @@ config:
 Optional. Configures a canary deployment alongside the stable version.
 
 | Field | Type | Required | Default | Description |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `enabled` | boolean | Yes | — | Must be `true` to activate canary mode. |
 | `stable-version` | string | Yes | — | The version string of the stable deployment. |
 | `initial-weight` | integer | No | `10` | Percentage of new sessions routed to the canary on first deploy. |

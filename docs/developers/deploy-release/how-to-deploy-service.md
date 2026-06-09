@@ -167,7 +167,7 @@ Broker latency: 18ms
 The deployment is successful when:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Service running | `stctl status --env dev --service remote-access-service` | `Status: Running, 2/2 ready` |
 | Correct version deployed | Same command | Image tag matches your new version |
 | Session broker active | `stctl remote-access probe --env dev` | Probe succeeds |
@@ -186,7 +186,7 @@ stctl pods --env dev --service remote-access-service
 
 If any pod shows `CrashLoopBackOff` or `ImagePullBackOff`, see [Why is my deployment failing?](../troubleshooting/why-deployment-failing.md).
 
-**Argo CD has not picked up the manifest change**
+### Argo CD has not picked up the manifest change
 
 Force a sync:
 

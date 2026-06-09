@@ -71,7 +71,7 @@ The OTel Collector sidecar is injected automatically when `observability.metrics
 
 ### Step 1 — Install the OTel SDK
 
-** Node.js**
+### Node.js installation
 
 ```bash
 npm install @opentelemetry/sdk-node \
@@ -79,7 +79,7 @@ npm install @opentelemetry/sdk-node \
             @opentelemetry/exporter-otlp-grpc
 ```
 
-**Python**
+### Python
 
 ```bash
 pip install opentelemetry-sdk \
@@ -91,7 +91,7 @@ pip install opentelemetry-sdk \
 
 Create a file that initialises OTel before your service starts. This file must be loaded before any other imports.
 
-**Node.js — `src/telemetry.js`**
+Node.js — `src/telemetry.js`
 
 ```javascript
 const { NodeSDK } = require('@opentelemetry/sdk-node');
@@ -139,7 +139,7 @@ def init_telemetry(service_name: str):
 
 Track session-specific metrics that are relevant to the Remote Access Service:
 
-**Node.js**
+#### Node.js metrics
 
 ```javascript
 const { metrics } = require('@opentelemetry/api');
@@ -177,7 +177,7 @@ function onSessionClose(sessionId, durationSeconds, protocol) {
 
 SmartTouch Loki indexes logs by `service`, `env`, and any additional labels you include. Structure your logs as JSON:
 
-**Node.js**
+#### Node.js logging
 
 ```javascript
 function log(level, message, fields = {}) {
@@ -210,6 +210,7 @@ stctl dashboard open --name service-overview --env dev
 ```
 
 In the Grafana dashboard, confirm:
+
 - The `remote_access_sessions_opened_total` metric is increasing as sessions open
 - Log lines from your service appear in the Logs panel
 - Traces appear in the Traces panel after opening a session
@@ -230,7 +231,7 @@ Instrumentation is working when:
 
 ## Troubleshooting
 
-** No metrics in Grafana after deployment **
+No metrics in Grafana after deployment
 
 Confirm `observability.metrics: true` is in your SSD and the service is running. Then check whether the OTel Collector sidecar is running in your pod:
 

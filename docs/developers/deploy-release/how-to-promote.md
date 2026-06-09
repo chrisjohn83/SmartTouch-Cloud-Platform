@@ -155,7 +155,7 @@ Broker latency: 19ms
 Promotion is complete when:
 
 | Check | Command | Expected |
-|---|---|---|
+| --- | --- | --- |
 | Correct version running | `stctl status --env prod --service remote-access-service` | Image tag matches release tag |
 | Broker active | `stctl remote-access probe --env prod` | Probe succeeds |
 
@@ -163,11 +163,11 @@ Promotion is complete when:
 
 ## Troubleshooting
 
-**GitHub Actions did not create a prod PR after the tag push**
+### GitHub Actions did not create a prod PR after the tag push**
 
 Check the Actions workflow run in GitHub. Common causes: the image for the tag does not exist in Harbor, or the vulnerability scan failed. Rebuild and push the image, then re-push the tag.
 
-**Approver cannot find the pull request**
+### Approver cannot find the pull request**
 
 The PR is opened against the `prod` branch in the same repository. Check the Pull Requests tab filtered by `base: prod`.
 
