@@ -34,7 +34,7 @@ review-cadence: quarterly
 
 > **Keyword:** How do I run a canary deployment on SmartTouch?
 
-A canary deployment routes a percentage of traffic to a new service version while the current version continues to serve the remainder. SmartTouch uses Istio traffic splitting to manage the canary percentage. You increase the canary weight incrementally as you gain confidence in the new version.
+A canary deployment routes a percentage of traffic to a new service version while the current version continues to serve the remainder. SmartTouch uses traffic splitting to manage the canary percentage. You increase the canary weight incrementally as you gain confidence in the new version.
 
 ---
 
@@ -48,7 +48,7 @@ Deploy Remote Access Service v1.2.0 as a canary alongside v1.1.0, starting at 10
 
 - v1.2.0 image built and pushed to Harbor
 - `stctl` authenticated with `developer` or higher role
-- Familiarity with the standard deployment workflow — see [How do I deploy a service?](./how-to-deploy-service.md)
+- Familiarity with the standard deployment workflow—see [How do I deploy a service?](./how-to-deploy-service.md)
 
 ---
 
@@ -64,13 +64,13 @@ VirtualService weight rule
   └── 90% → remote-access-service v1.1.0 (stable)
 ```
 
-Istio routes a percentage of new sessions to the canary. Existing open sessions are not affected — they remain on the version that established them.
+Istio routes a percentage of new sessions to the canary. Existing open sessions aren't affected — they remain on the version that established them.
 
 ---
 
 ## Steps
 
-### Step 1 — Add the canary configuration to your SSD
+### Step 1—Add the canary configuration to your SSD
 
 ```yaml
 # smarttouch.yaml
@@ -95,7 +95,7 @@ canary:
     interval: 5m            # Metrics are evaluated every 5 minutes
 ```
 
-### Step 2 — Push and merge the canary configuration
+### Step 2—Push and merge the canary configuration
 
 Follow the standard pull request workflow. After merge, Argo CD deploys the canary alongside the stable version.
 
@@ -113,7 +113,7 @@ remote-access-service-stable-abc12   1.1.0     Running   1/1
 remote-access-service-canary-def34   1.2.0     Running   1/1
 ```
 
-### Step 3 — Monitor canary metrics
+### Step 3—Monitor canary metrics
 
 SmartTouch evaluates the canary automatically against the metrics defined in the SSD. View the current canary status:
 
@@ -135,7 +135,7 @@ Canary metrics (last 5m):
 Next evaluation: 4 minutes
 ```
 
-### Step 4 — Increase the canary weight
+### Step 4—Increase the canary weight
 
 When the canary metrics are healthy, increase the traffic percentage:
 
@@ -154,7 +154,7 @@ Repeat in increments: 10% → 50% → 100%. The recommended progression is:
 | 50% | 30 minutes |
 | 100% | Canary promoted to stable |
 
-### Step 5 — Promote the canary to stable
+### Step 5—Promote the canary to stable
 
 When you are confident the canary is healthy at 100%:
 
@@ -168,7 +168,7 @@ This command:
 - Removes the v1.1.0 stable deployment
 - Updates the SSD to remove the `canary` block
 
-### Step 6 — Halt the canary if metrics degrade
+### Step 6—Halt the canary if metrics degrade
 
 If the canary error rate or latency exceeds the thresholds, halt it immediately:
 
@@ -196,7 +196,7 @@ The canary deployment is healthy when:
 
 **`canary: enabled: feature not available`** during SSD validation
 
-Canary deployments require Istio to be installed in your namespace. Contact your Platform Engineer to confirm Istio is enabled for your team's namespace.
+Canary deployments require 'Istio' to be installed in your 'namespace'. Contact your Platform Engineer to confirm 'Istio' is enabled for your team's 'namespace'.
 
 ### Canary automatically halted
 

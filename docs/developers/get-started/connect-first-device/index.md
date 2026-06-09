@@ -44,11 +44,11 @@ This tutorial group walks you through the three steps required to make an IoT de
 The Remote Access Agent runs on each device and dials an outbound WebSocket connection to the SmartTouch Remote Access Service. Because the connection is outbound, sessions work through NAT and corporate firewalls without any special network configuration.
 
 ---
-Device (outbound WebSocket)  →  Remote Access Service  ←  stctl / SmartTouch Console
+Device (outbound WebSocket)  →  Remote Access Service  ←  'stctl' / SmartTouch Console
 
 ---
 
-When you open a session with `stctl remote-access open`, the platform routes your terminal through the broker to the agent on the device — creating a secure, authenticated tunnel for the duration of the session.
+When you open a session with `stctl remote-access open`, the platform routes your terminal through the broker to the agent on the device—creating a secure, authenticated tunnel for the duration of the session.
 
 ---
 
@@ -66,7 +66,7 @@ When you open a session with `stctl remote-access open`, the platform routes you
 
 ## Prerequisites
 
-- Remote Access Service deployed and running — see [Deploy the Remote Access Service](../deploy-first-iot-service/index.md)
+- Remote Access Service deployed and running—see [Deploy the Remote Access Service](../deploy-first-iot-service/index.md)
 - `stctl` authenticated with remote access permissions
 - OpenSSL installed locally
 - A physical or simulated device running Linux (use `stctl simulator start` for testing)

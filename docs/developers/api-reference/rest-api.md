@@ -37,7 +37,7 @@ review-cadence: quarterly
 
 The SmartTouch REST API gives you programmatic access to devices, remote access sessions, and audit logs. Use it to automate session management, integrate with external tooling, or build custom dashboards.
 
-All API calls require authentication. The `stctl` CLI wraps the majority of these endpoints — use the API directly when you need fine-grained control or when calling from a non-interactive context such as a CI pipeline or backend service.
+All API calls require authentication. The `stctl` CLI wraps the majority of these endpoints—use the API directly when you need fine-grained control or when calling from a non-interactive context such as a CI pipeline or server-side service.
 
 ---
 
@@ -47,7 +47,7 @@ All API calls require authentication. The `stctl` CLI wraps the majority of thes
 https://api.<your-platform-domain>/v1
 ```
 
-Replace `<your-platform-domain>` with the hostname of your SmartTouch installation. For local development, the default base URL is:
+Replace `<your-platform-domain>` with the host name of your SmartTouch installation. For local development, the default base URL is:
 
 ```text
 https://api.smarttouch.local/v1
@@ -69,7 +69,7 @@ Authorization: Bearer <token>
 stctl auth token
 ```
 
-Tokens expire after 8 hours. Service accounts use long-lived tokens issued by an Administrator — see [Manage service account tokens](../secrets-config/how-to-manage-secrets.md).
+Tokens expire after 8 hours. Service accounts use long-lived tokens issued by an Administrator—see [Manage service account tokens](../secrets-config/how-to-manage-secrets.md).
 
 **Error response when token is missing or expired:**
 
@@ -103,12 +103,12 @@ Every response body includes:
 | --- | --- | --- |
 | 400 | `bad_request` | Request body or query parameters are invalid |
 | 401 | `unauthorized` | Token is missing, invalid, or expired |
-| 403 | `forbidden` | Token does not have the required permission for this operation |
-| 404 | `not_found` | The requested resource does not exist |
+| 403 | `forbidden` | Token doesn't have the required permission for this operation |
+| 404 | `not_found` | The requested resource doesn't exist |
 | 409 | `conflict` | A session is already open for this device with the requested protocol |
-| 422 | `unprocessable_entity` | Request is valid but cannot be completed — for example, the device agent is offline |
-| 429 | `rate_limited` | Too many requests — back off and retry after the `Retry-After` header value |
-| 500 | `internal_error` | Platform error — check the SmartTouch status page |
+| 422 | `unprocessable_entity` | Request is valid but cann't be completed—for example, the device agent is offline |
+| 429 | `rate_limited` | Too many requests—back off and retry after the `Retry-After` header value |
+| 500 | `internal_error` | Platform error—check the SmartTouch status page |
 
 ---
 

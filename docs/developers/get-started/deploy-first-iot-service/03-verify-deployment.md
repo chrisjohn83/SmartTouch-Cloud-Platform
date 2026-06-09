@@ -28,7 +28,7 @@ review-cadence: quarterly
 # Verify the session broker is running
 
 > **Keyword:** How do I verify the Remote Access Service is running?
-> **Part of:** [Deploy the Remote Access Service](./index.md) — Step 3 of 3
+> **Part of:** [Deploy the Remote Access Service](./index.md)—Step 3 of 3
 
 After your pull request merges, Argo CD deploys the Remote Access Service. This tutorial confirms the broker is healthy, the configured protocols are active, and audit logging is recording sessions.
 
@@ -50,7 +50,7 @@ Confirm the Remote Access Service is running in `dev`, both enabled protocols ar
 
 ## Steps
 
-### Step 1 — Check deployment status
+### Step 1—Check deployment status
 
 ```bash
 stctl status --env dev --service remote-access-service
@@ -67,7 +67,7 @@ Image:       harbor.smarttouch.io/myteam/remote-access-service:1.0.0
 Deployed:    3 minutes ago by github-actions
 ```
 
-### Step 2 — Verify the session broker status
+### Step 2—Verify the session broker status
 
 ```bash
 stctl remote-access status --env dev
@@ -91,7 +91,7 @@ Active sessions:    0
 
 All enabled protocols must show `enabled` before devices can be connected for remote access.
 
-### Step 3 — Verify audit logging is active
+### Step 3—Verify audit logging is active
 
 ```bash
 stctl remote-access audit status --env dev
@@ -109,7 +109,7 @@ Events recorded: 0 (no sessions opened yet)
 
 `Events recorded: 0` is expected — no sessions have been opened yet. The important check is that `Audit logging: enabled` and the log destination is reachable.
 
-### Step 4 — Run a probe session
+### Step 4—Run a probe session
 
 Open a probe session to confirm the broker will accept connections. The probe uses a system test device and closes immediately — it is safe to run in any environment.
 

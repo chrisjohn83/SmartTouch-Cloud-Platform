@@ -32,9 +32,9 @@ reviewer: tech-writing-guild
 review-cadence: quarterly
 ---
 
-# stctl CLI reference
+# 'stctl' CLI reference
 
-> **Keyword:** What stctl commands are available?
+> **Keyword:** What 'stctl' commands are available?
 
 `stctl` is the SmartTouch command-line interface. It provides commands for deploying services, managing remote access sessions, inspecting logs and traces, and administering secrets and configuration.
 
@@ -61,12 +61,12 @@ These flags apply to all commands.
 
 | Flag | Type | Description |
 | --- | --- | --- |
-| `--context` | string | Platform context to use (overrides `STCTL_CONTEXT` env var) |
-| `--namespace` | string | Kubernetes namespace (overrides `STCTL_NAMESPACE` env var) |
+| `--context` | string | Platform context to use (overrides `STCTL_CONTEXT` 'env' var) |
+| `--namespace` | string | Kubernetes 'namespace' (overrides `STCTL_NAMESPACE` 'env' var) |
 | `--output`, `-o` | string | Output format: `text` (default), `json`, `yaml` |
-| `--quiet`, `-q` | boolean | Suppress informational output; print only results |
-| `--debug` | boolean | Enable verbose debug logging |
-| `--help`, `-h` | boolean | Show help for any command |
+| `--quiet`, `-q` | 'boolean' | Suppress informational output; print only results |
+| `--debug` | 'boolean' | Enable verbose debug logging |
+| `--help`, `-h` | 'boolean' | Show help for any command |
 
 ---
 
@@ -205,7 +205,7 @@ stctl remote-access open <device_id> \
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--protocol` | string | `diagnostics` | Session protocol |
-| `--ttl` | duration | `1h` | Session time-to-live (e.g., `30m`, `2h`) |
+| `--ttl` | duration | `1h` | Session time-to-live (for example, `30m`, `2h`) |
 
 **Protocol permission requirements:**
 
@@ -215,7 +215,7 @@ stctl remote-access open <device_id> \
 | `shell` | platform-engineer |
 | `file-transfer` | administrator |
 
-**Example — open a diagnostics session:**
+**Example—open a diagnostics session:**
 
 ```bash
 stctl remote-access open sensor-001 --protocol diagnostics
@@ -233,7 +233,7 @@ Connected. Type 'exit' to close the session.
 [sensor-001 diagnostics]$
 ```
 
-**Example — open a shell session:**
+**Example—open a shell session:**
 
 ```bash
 stctl remote-access open sensor-001 --protocol shell --ttl 30m
@@ -294,7 +294,7 @@ stctl deploy apply -f <path-to-smarttouch.yaml> [--env <dev|staging|prod>]
 | --- | --- | --- | --- |
 | `-f` | string | — | Path to `smarttouch.yaml` |
 | `--env` | string | `dev` | Target environment |
-| `--dry-run` | boolean | false | Validate the SSD without applying |
+| `--dry-run` | 'boolean' | false | Validate the SSD without applying |
 
 **Example:**
 
@@ -304,7 +304,7 @@ stctl deploy apply -f smarttouch.yaml --env staging
 
 ### deploy status
 
-Show the rollout status of a deployed service.
+Show the 'rollout' status of a deployed service.
 
 ```bash
 stctl deploy status <service_name> [--env <dev|staging|prod>]
@@ -338,13 +338,13 @@ stctl rollback <service_name> [--to <revision>] [--env <dev|staging|prod>]
 | `--to` | string | previous | Target revision tag or hash |
 | `--env` | string | `dev` | Target environment |
 
-**Example — roll back to the previous revision:**
+**Example—roll back to the previous revision:**
 
 ```bash
 stctl rollback remote-access-service --env staging
 ```
 
-**Example — roll back to a specific revision:**
+**Example—roll back to a specific revision:**
 
 ```bash
 stctl rollback remote-access-service --to v1.4.1 --env staging
@@ -380,7 +380,7 @@ Adjust the percentage of traffic routed to the canary version.
 stctl canary set-weight <service_name> --weight <0-100> [--env <dev|staging|prod>]
 ```
 
-**Example — increase canary to 50%:**
+**Example—increase canary to 50%:**
 
 ```bash
 stctl canary set-weight remote-access-service --weight 50 --env staging
@@ -443,11 +443,11 @@ SESSION_SIGNING_KEY     2026-06-01 09:00:00 UTC
 
 ---
 
-## config
+## Configuration
 
 Manage environment-specific configuration values.
 
-### config show
+### Config show
 
 Show the active configuration for a service in a given environment.
 
@@ -470,11 +470,11 @@ BROKER_URL                  wss://broker.smarttouch.local:8443
 
 ---
 
-## logs
+## Logs
 
 View and stream service logs.
 
-### log for a service
+### Log for a service
 
 Stream or retrieve logs for a service.
 
@@ -495,23 +495,23 @@ stctl logs <service_name> \
 | `--env` | string | `dev` | Target environment |
 | `--level` | string | — | Filter by log level |
 | `--since` | duration | `15m` | Return logs from this far back |
-| `--filter` | string | — | Filter by structured field (e.g., `sessionId=sess-9c4d2e`) |
+| `--filter` | string | — | Filter by structured field (for example, `sessionId=sess-9c4d2e`) |
 | `--pod` | string | — | Filter to a specific pod |
-| `--follow`, `-f` | boolean | false | Stream logs in real time |
+| `--follow`, `-f` | 'boolean' | false | Stream logs in real time |
 
-**Example — view error logs for the last hour:**
+**Example—view error logs for the last hour:**
 
 ```bash
 stctl logs remote-access-service --level error --since 1h --env staging
 ```
 
-**Example — filter logs by session ID:**
+**Example—filter logs by session ID:**
 
 ```bash
 stctl logs remote-access-service --filter sessionId=sess-9c4d2e
 ```
 
-**Example — stream logs in real time:**
+**Example—stream logs in real time:**
 
 ```bash
 stctl logs remote-access-service --follow
@@ -525,7 +525,7 @@ Inspect distributed traces for requests and sessions.
 
 ### trace open
 
-Open a trace in the Grafana trace viewer.
+Open a trace in the 'Grafana' trace viewer.
 
 ```bash
 stctl trace open <trace_id>
@@ -636,7 +636,7 @@ stctl simulator start \
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--device-id` | string | — | Device ID to register |
-| `--remote-access` | boolean | false | Enable the Remote Access Agent on the simulator |
+| `--remote-access` | 'boolean' | false | Enable the Remote Access Agent on the simulator |
 | `--env` | string | `dev` | Target environment |
 
 **Example:**
@@ -647,7 +647,7 @@ stctl simulator start --device-id sensor-001 --remote-access
 
 ### simulator stop
 
-Stop and deregister a simulated device.
+Stop and 'deregister' a simulated device.
 
 ```bash
 stctl simulator stop --device-id <id>
@@ -662,7 +662,7 @@ stctl simulator stop --device-id <id>
 | Variable | Description |
 | --- | --- |
 | `STCTL_CONTEXT` | Default context name |
-| `STCTL_NAMESPACE` | Default Kubernetes namespace |
+| `STCTL_NAMESPACE` | Default Kubernetes 'namespace' |
 | `STCTL_TOKEN` | Bearer token (bypasses stored credentials) |
 | `STCTL_OUTPUT` | Default output format (`text`, `json`, `yaml`) |
 | `STCTL_DEBUG` | Set to `1` to enable debug logging |
@@ -671,7 +671,7 @@ stctl simulator stop --device-id <id>
 
 ## Configuration file
 
-`stctl` reads from `~/.stctl/config.yaml` for default context and namespace settings.
+`stctl` reads from `~/.stctl/config.yaml` for default context and 'namespace' settings.
 
 ```yaml
 current-context: production

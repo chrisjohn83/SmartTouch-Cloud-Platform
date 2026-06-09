@@ -65,7 +65,7 @@ prod     ← requires a tagged release + manual PR approval
 
 ## Steps
 
-### Step 1 — Verify staging is healthy
+### Step 1—Verify staging is healthy
 
 Before creating a release, confirm the service is running correctly in `staging`:
 
@@ -94,7 +94,7 @@ Expected:
 Broker latency: 22ms
 ```
 
-### Step 2 — Create a release tag
+### Step 2—Create a release tag
 
 Tag the commit on `main` that you want to release:
 
@@ -105,7 +105,7 @@ git tag v1.1.0 -m "Release Remote Access Service v1.1.0"
 git push origin v1.1.0
 ```
 
-### Step 3 — GitHub Actions creates the prod promotion PR
+### Step 3—GitHub Actions creates the prod promotion PR
 
 When the tag is pushed, GitHub Actions automatically:
 
@@ -116,7 +116,7 @@ When the tag is pushed, GitHub Actions automatically:
 
 The pull request includes a deployment summary showing what changed between the current prod version and the new version.
 
-### Step 4 — Platform Engineer or Administrator approves the PR
+### Step 4—Platform Engineer or Administrator approves the PR
 
 The prod promotion PR requires approval from a `platform-engineer` or `administrator` role. The approver verifies:
 
@@ -124,7 +124,7 @@ The prod promotion PR requires approval from a `platform-engineer` or `administr
 - The vulnerability scan passed
 - The staging deployment is healthy
 
-### Step 5 — Merge the pull request
+### Step 5—Merge the pull request
 
 After approval, merge the pull request. Argo CD detects the manifest change and deploys to `prod`.
 
@@ -134,7 +134,7 @@ Monitor the prod deployment:
 stctl status --env prod --service remote-access-service
 ```
 
-### Step 6 — Verify prod deployment
+### Step 6—Verify prod deployment
 
 ```bash
 stctl remote-access probe --env prod
@@ -163,11 +163,11 @@ Promotion is complete when:
 
 ## Troubleshooting
 
-### GitHub Actions did not create a prod PR after the tag push**
+### GitHub Actions didn't create a prod PR after the tag push**
 
-Check the Actions workflow run in GitHub. Common causes: the image for the tag does not exist in Harbor, or the vulnerability scan failed. Rebuild and push the image, then re-push the tag.
+Check the Actions workflow run in GitHub. Common causes: the image for the tag doesn't exist in Harbor, or the vulnerability scan failed. Rebuild and push the image, then re-push the tag.
 
-### Approver cannot find the pull request**
+### Approver cann't find the pull request**
 
 The PR is opened against the `prod` branch in the same repository. Check the Pull Requests tab filtered by `base: prod`.
 

@@ -17,8 +17,8 @@ Returns audit log entries for remote access events. Requires administrator role 
 | `device_id` | string | No | Filter by device |
 | `user` | string | No | Filter by user email |
 | `event` | string | No | Filter by event type: `session.opened`, `session.closed`, `session.expired` |
-| `since` | string | No | ISO 8601 timestamp — return entries after this time |
-| `until` | string | No | ISO 8601 timestamp — return entries before this time |
+| `since` | string | No | ISO 8601 timestamp—return entries after this time |
+| `until` | string | No | ISO 8601 timestamp—return entries before this time |
 | `page` | integer | No | Page number (default: `1`) |
 | `per_page` | integer | No | Results per page (default: `100`, max: `500`) |
 

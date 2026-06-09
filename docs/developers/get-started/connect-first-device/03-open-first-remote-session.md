@@ -29,7 +29,7 @@ review-cadence: quarterly
 # Open your first remote access session
 
 > **Keyword:** How do I open a remote access session to a device?
-> **Part of:** [Connect a device for remote access](./index.md) — Step 3 of 3
+> **Part of:** [Connect a device for remote access](./index.md)—Step 3 of 3
 
 With the Remote Access Agent running on `sensor-001`, the device is reachable from the platform at any time. This tutorial opens a diagnostics session to inspect the device without a terminal, opens a shell session for direct interaction, and then confirms both sessions appear in the audit log.
 
@@ -56,13 +56,13 @@ Open a diagnostics session and a shell session to `sensor-001`, understand what 
 | `shell` | Interactive terminal on the device | `platform-engineer`, `administrator` |
 | `file-transfer` | Secure file upload and download | `administrator` |
 
-Start with `diagnostics` — it gives you a real-time view of device health without any risk of changing device state.
+Start with `diagnostics`—it gives you a real-time view of device health without any risk of changing device state.
 
 ---
 
 ## Steps
 
-### Step 1 — Check the device is reachable
+### Step 1—Check the device is reachable
 
 ```bash
 stctl device status --id sensor-001 --env dev
@@ -70,7 +70,7 @@ stctl device status --id sensor-001 --env dev
 
 Confirm `Agent: installed, connected` and `Open sessions: 0` before proceeding.
 
-### Step 2 — Open a diagnostics session
+### Step 2—Open a diagnostics session
 
 ```bash
 stctl remote-access open \
@@ -79,7 +79,7 @@ stctl remote-access open \
   --env dev
 ```
 
-Expected — a live stream begins immediately:
+Expected—a live stream begins immediately:
 
 ```text
 ✔  Session opened
@@ -103,11 +103,11 @@ Timeout:     30m  (idle closes after 5m)
 Press Ctrl+C to close the session.
 ```
 
-The stream updates every 5 seconds. `broker_latency` shows the round-trip time from the platform to the device — useful for understanding network quality before opening a shell session.
+The stream updates every 5 seconds. `broker_latency` shows the round-trip time from the platform to the device—useful for understanding network quality before opening a shell session.
 
 Press `Ctrl+C` to close.
 
-### Step 3 — Open a shell session
+### Step 3—Open a shell session
 
 A shell session gives you an interactive terminal on the device. It requires the `platform-engineer` or `administrator` role.
 
@@ -118,7 +118,7 @@ stctl remote-access open \
   --env dev
 ```
 
-Expected — a shell prompt from the device:
+Expected—a shell prompt from the device:
 
 ```text
 ✔  Session opened
@@ -156,7 +156,7 @@ sensor-001:~$ exit
 
 Typing `exit` closes the session and returns you to your local terminal. The agent remains connected and ready for the next session.
 
-### Step 4 — List sessions opened today
+### Step 4—List sessions opened today
 
 ```bash
 stctl remote-access list \
@@ -172,7 +172,7 @@ sess-a7c3f1    sensor-001    diagnostics  closed    14:05:22   00:01:03
 sess-b8d4e2    sensor-001    shell        closed    14:06:47   00:02:15
 ```
 
-### Step 5 — Verify the audit log
+### Step 5—Verify the audit log
 
 Every session is written to the tamper-evident audit log. Confirm both sessions were recorded:
 

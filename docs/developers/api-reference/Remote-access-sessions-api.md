@@ -17,7 +17,7 @@ Returns all sessions for the authenticated user. Administrators see sessions for
 | `device_id` | string | No | Filter by device |
 | `protocol` | string | No | Filter by protocol: `shell`, `diagnostics`, `file-transfer` |
 | `status` | string | No | Filter by status: `open`, `closed` |
-| `since` | string | No | ISO 8601 timestamp — return sessions opened after this time |
+| `since` | string | No | ISO 8601 timestamp—return sessions opened after this time |
 | `page` | integer | No | Page number (default: `1`) |
 | `per_page` | integer | No | Results per page (default: `50`, max: `200`) |
 

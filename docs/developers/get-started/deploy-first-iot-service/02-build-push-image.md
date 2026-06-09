@@ -28,9 +28,9 @@ review-cadence: quarterly
 # Build and push the Remote Access Service image
 
 > **Keyword:** How do I build the Remote Access Service image?
-> **Part of:** [Deploy the Remote Access Service](./index.md) — Step 2 of 3
+> **Part of:** [Deploy the Remote Access Service](./index.md)—Step 2 of 3
 
-The Remote Access Service handles persistent WebSocket connections from devices and users simultaneously. Its Dockerfile must expose the session broker port and pass SmartTouch's non-root security requirement.
+The Remote Access Service handles persistent WebSocket connections from devices and users simultaneously. Its Docker file must expose the session broker port and pass SmartTouch's non-root security requirement.
 
 ---
 
@@ -50,7 +50,7 @@ Build and push a Remote Access Service container image that passes Harbor's vuln
 
 ## Steps
 
-### Step 1 — Authenticate with Harbor
+### Step 1—Authenticate with Harbor
 
 ```bash
 stctl registry login
@@ -62,9 +62,9 @@ Expected output:
 ✔  Logged in to harbor.smarttouch.io
 ```
 
-### Step 2 — Write the Dockerfile
+### Step 2—Write the Docker file
 
-The Remote Access Service needs to handle long-lived WebSocket connections, so the base image must support the Node.js (or your language's) async I/O model without a hard connection limit. It exposes two ports: `8080` for the session broker WebSocket and REST API, and `8081` for the Prometheus metrics endpoint.
+The Remote Access Service needs to handle long-lived WebSocket connections, so the base image must support the Node.js (or your language's) 'async' I/O model without a hard connection limit. It exposes two ports: `8080` for the session broker WebSocket and REST API, and `8081` for the Prometheus metrics endpoint.
 
 ```dockerfile
 # Dockerfile — Remote Access Service
@@ -96,7 +96,7 @@ HEALTHCHECK --interval=15s --timeout=5s --start-period=15s \
 CMD ["node", "src/index.js"]
 ```
 
-### Step 3 — Build the image
+### Step 3—Build the image
 
 ```bash
 docker build \
@@ -105,7 +105,7 @@ docker build \
   .
 ```
 
-### Step 4 — Run a local smoke test
+### Step 4—Run a local smoke test
 
 ```bash
 docker run --rm -p 8080:8080 -p 8081:8081 \
@@ -128,7 +128,7 @@ Expected:
 curl http://localhost:8081/metrics | grep remote_access
 ```
 
-Expected — metric names beginning with `remote_access_`:
+Expected—metric names beginning with `remote_access_`:
 
 ```text
 # HELP remote_access_sessions_active Currently active remote access sessions
@@ -139,13 +139,13 @@ remote_access_sessions_total 0
 
 Press `Ctrl+C` to stop.
 
-### Step 5 — Push to Harbor
+### Step 5—Push to Harbor
 
 ```bash
 docker push harbor.smarttouch.io/myteam/remote-access-service:1.0.0
 ```
 
-### Step 6 — Confirm the vulnerability scan passed
+### Step 6—Confirm the vulnerability scan passed
 
 ```bash
 stctl registry scan-status \
@@ -161,7 +161,7 @@ High CVEs:     0
 Policy:        PASS
 ```
 
-Images with Critical or High CVEs are blocked from `staging` and `prod` deployments. Update the base image or dependencies and rebuild if any are found.
+Images with Critical or High 'CVEs' are blocked from `staging` and `prod` deployments. Update the base image or dependencies and rebuild if any are found.
 
 ---
 
@@ -183,10 +183,10 @@ stctl registry scan-status --image harbor.smarttouch.io/myteam/remote-access-ser
 The session broker is still initialising. Increase `start-period` in the `HEALTHCHECK` instruction to 30 seconds if your service needs more time to load TLS certificates on startup.
 
 **`exec format error`** on deploy
-Rebuild with `--platform linux/amd64` — the image was built for the wrong CPU architecture.
+Rebuild with `--platform linux/amd64`—the image was built for the wrong CPU architecture.
 
 **Harbor scan shows High CVEs**
-Update the Node.js base image to the latest `node:20-alpine` patch and rebuild. If CVEs are in application dependencies, run `npm audit fix` first.
+Update the Node.js base image to the latest `node:20-alpine` patch and rebuild. If 'CVEs' are in application dependencies, run `npm audit fix` first.
 
 ---
 

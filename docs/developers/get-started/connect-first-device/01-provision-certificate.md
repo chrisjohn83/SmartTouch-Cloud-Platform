@@ -29,7 +29,7 @@ review-cadence: quarterly
 # Provision a device certificate for remote access
 
 > **Keyword:** How do I provision a device certificate for remote access?
-> **Part of:** [Connect a device for remote access](./index.md) — Step 1 of 3
+> **Part of:** [Connect a device for remote access](./index.md)—Step 1 of 3
 
 Every device that connects to the SmartTouch Remote Access Service authenticates with an X.509 client certificate. This certificate identifies the device to the session broker and determines which sessions it can accept. This tutorial provisions the certificate and registers the device as remote-access-enabled.
 
@@ -43,7 +43,7 @@ Provision a TLS certificate for `sensor-001` and register it with the Remote Acc
 
 ## Prerequisites
 
-- Remote Access Service deployed and healthy — run `stctl remote-access status --env dev` and confirm `Session broker: ready`
+- Remote Access Service deployed and healthy—run `stctl remote-access status --env dev` and confirm `Session broker: ready`
 - `stctl` authenticated
 - OpenSSL installed
 
@@ -51,7 +51,7 @@ Provision a TLS certificate for `sensor-001` and register it with the Remote Acc
 
 ## Steps
 
-### Step 1 — Create the device identity
+### Step 1—Create the device identity
 
 ```bash
 stctl device create \
@@ -73,7 +73,7 @@ Remote access:      enabled
 Status:             pending-certificate
 ```
 
-### Step 2 — Generate a private key on the device
+### Step 2—Generate a private key on the device
 
 The private key must be generated on the device and must never leave it. If you are provisioning remotely (before the device is deployed), generate the key on any machine and transfer it to the device over a secure channel before installation.
 
@@ -82,7 +82,7 @@ openssl genrsa -out sensor-001.key 2048
 chmod 600 sensor-001.key
 ```
 
-### Step 3 — Create a Certificate Signing Request
+### Step 3—Create a Certificate Signing Request
 
 ```bash
 openssl req -new \
@@ -93,7 +93,7 @@ openssl req -new \
 
 The `OU=remote-access` extension tells the SmartTouch certificate authority to issue a certificate with the remote access key usage extension. Certificates without this extension are accepted for MQTT connections but rejected by the Remote Access Service.
 
-### Step 4 — Sign the certificate
+### Step 4—Sign the certificate
 
 ```bash
 stctl device certificate sign \
@@ -115,7 +115,7 @@ CA bundle:   Downloaded to smarttouch-ca.crt
 
 Confirm `Key usage` includes `remoteAccess`. If it shows only `clientAuth`, the CSR `OU` was not set correctly — regenerate the CSR with `OU=remote-access` and re-sign.
 
-### Step 5 — Verify the device is registered for remote access
+### Step 5—Verify the device is registered for remote access
 
 ```bash
 stctl device status --id sensor-001 --env dev
@@ -132,7 +132,7 @@ Agent:          not installed
 Last seen:      never
 ```
 
-`Agent: not installed` is expected — the Remote Access Agent has not been installed yet. You will do that in the next tutorial.
+`Agent: not installed` is expected—the Remote Access Agent hasn't been installed yet. You will do that in the next tutorial.
 
 ---
 
@@ -148,7 +148,7 @@ stctl device status --id sensor-001 --env dev
 
 ## Troubleshooting
 
-**`Key usage: clientAuth` only (remoteAccess missing)**
+**`Key usage: clientAuth` only ('remoteAccess' missing)**
 The CSR was generated without `OU=remote-access`. Delete the existing CSR, regenerate it with the correct `-subj` line, and re-sign:
 
 ```bash
@@ -162,7 +162,8 @@ stctl device certificate sign --device-id sensor-001 --csr sensor-001.csr --out 
 Your organisation's policy restricts which device types can have remote access enabled. Contact your Administrator to add `temperature-sensor` to the allowed types.
 
 **`Error: device ID already exists`**
-Run `stctl device status --id sensor-001 --env dev` to check the existing device. If it does not have `Remote access: enabled`, delete and recreate it with the `--remote-access` flag.
+
+Run `stctl device status --id sensor-001 --env dev` to check the existing device. If it doesn't have `Remote access: enabled`, delete and recreate it with the `--remote-access` flag.
 
 ---
 
