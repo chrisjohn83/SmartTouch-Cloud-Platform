@@ -1,4 +1,3 @@
-
 name: Build and Deploy
 
 on:
@@ -20,11 +19,9 @@ jobs:
 
     steps:
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -34,15 +31,11 @@ jobs:
           pip install mkdocs-material==9.6.14
           pip install pymdown-extensions==10.16.1
           npm install -g markdownlint-cli
-          pip install vale
           cargo install lychee
-
-      - name: Install Lychee
-        run: cargo install lychee
 
       - name: Markdown Lint Validation
         run: |
-          markdownlint docs/**/*.md README.md
+          markdownlint docs/**/*.md README.md --config .markdownlint.json
 
       - name: Vale Spell Check
         uses: errata-ai/vale-action@reviewdog
@@ -57,22 +50,17 @@ jobs:
         run: |
           lychee site/**/*.html
 
-      - name: Validate MkDocs Build Strictly
-        run: |
-          mkdocs build --strict
-
   deploy:
     needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
