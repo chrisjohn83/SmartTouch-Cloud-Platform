@@ -42,7 +42,7 @@ This tutorial group installs and configures everything you need to develop and t
 ## Tutorial sequence
 
 | Step | Tutorial | Time |
-|---|---|---|
+| --- | --- | --- |
 | 1 | [Install the SmartTouch CLI](./01-install-stctl.md) | ~10 min |
 | 2 | [Configure your local Kubernetes context](./02-configure-kubernetes.md) | ~10 min |
 | 3 | [Run the Remote Access Service locally](./03-run-service-locally.md) | ~15 min |

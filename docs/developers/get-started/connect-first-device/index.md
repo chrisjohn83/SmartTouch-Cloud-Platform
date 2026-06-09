@@ -54,7 +54,7 @@ When you open a session with `stctl remote-access open`, the platform routes you
 ## Tutorial sequence
 
 | Step | Tutorial | Time |
-|---|---|---|
+| --- | --- | --- |
 | 1 | [Provision a device certificate for remote access](./01-provision-certificate.md) | ~10 min |
 | 2 | [Install the Remote Access Agent](./02-install-remote-access-agent.md) | ~15 min |
 | 3 | [Open your first remote access session](./03-open-first-remote-session.md) | ~10 min |
@@ -86,6 +86,4 @@ The simulator handles certificate provisioning and agent installation automatica
 
 ## Next steps after this group
 
-- [How do I open a remote access session?](../../deploy-release/how-to-open-remote-session.md)
-- [How do I view the session audit log?](../../observability/how-to-view-session-audit-log.md)
-- [How do I manage sessions across multiple devices?](../../secrets-config/how-to-manage-sessions.md)
+- [How do I view the session audit log?](../../observability/how-to-view-logs.md)

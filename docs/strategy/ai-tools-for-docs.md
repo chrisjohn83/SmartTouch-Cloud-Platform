@@ -31,7 +31,7 @@ design      assistance       & metadata      & review     & embed    & RAG
 ### 2.1 Content Strategy & IA Design
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **Claude (Anthropic)** | Generates IA structures, content taxonomies, navigation trees, and metadata schemas from a product brief | IA design, strategy docs, ADR drafting |
 | **ChatGPT / GPT-4o** | Iterates on IA structures, proposes Diátaxis categorisations, generates controlled vocabulary lists | Brainstorming content types and tag vocabularies |
 | **Notion AI** | Suggests page hierarchies and database schemas within a Notion workspace | Small-team IA in Notion-based knowledge bases |
@@ -44,7 +44,7 @@ design      assistance       & metadata      & review     & embed    & RAG
 ### 2.2 Content Authoring & Drafting
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **Claude** | Drafts technical docs from architecture diagrams, ADRs, or code comments. Follows style guides when given a sample. | How-to guides, explanations, ADR drafts |
 | **GitHub Copilot (Docs mode)** | Autocompletes Markdown as you type, suggests frontmatter, and flags missing sections | In-editor drafting in VS Code |
 | **Mintlify Writer** | AI documentation generation from code (OpenAPI specs, function signatures) | Reference docs from code |
@@ -58,7 +58,7 @@ design      assistance       & metadata      & review     & embed    & RAG
 ### 2.3 Metadata & Taxonomy Generation
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **Claude** | Suggests frontmatter fields, generates controlled tag vocabularies, classifies existing docs by Diátaxis type | Bootstrapping metadata schemas, tagging legacy docs |
 | **OpenAI Embeddings API** | Clusters existing documents by semantic similarity to reveal IA gaps and overlapping content | Auditing large doc sets for redundancy |
 | **AWS Comprehend** | Extracts key phrases and entities from existing docs to build a controlled vocabulary | Taxonomy generation from legacy content |
@@ -71,7 +71,7 @@ design      assistance       & metadata      & review     & embed    & RAG
 ### 2.4 Content Validation & Quality
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **Vale** | Prose linting with configurable style rules (Microsoft, Google, custom) | Tone, inclusive language, style consistency |
 | **LanguageTool + AI** | Grammar, clarity, and readability suggestions | Editorial review pass |
 | **Grammarly Business** | Style, clarity, and engagement scoring with team style guides | Non-technical stakeholder docs |
@@ -85,7 +85,7 @@ design      assistance       & metadata      & review     & embed    & RAG
 ### 2.5 AI Consumption Layer (RAG & Semantic Search)
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **OpenAI Embeddings** (`text-embedding-3-large`) | Generates dense vector embeddings for semantic search | Vector index for RAG |
 | **pgvector** (PostgreSQL extension) | Stores and queries vector embeddings alongside metadata | Self-hosted semantic search |
 | **Pinecone** | Managed vector database with metadata filtering | Production-scale RAG with audience/version filters |
@@ -117,7 +117,7 @@ Claude or GPT-4o as answer synthesiser
 ### 2.6 Diagram & Visual IA Tools
 
 | Tool | What it does | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **Mermaid + Claude** | Claude generates Mermaid diagram code from a prose architecture description | Architecture diagrams in Markdown |
 | **Eraser.io** | AI-native diagramming from prose; exports as code | IA maps, system diagrams |
 | **Whimsical AI** | Generates flowcharts and mind maps from prompts | IA brainstorming and navigation wireframes |
@@ -128,7 +128,7 @@ Claude or GPT-4o as answer synthesiser
 ## 3. Recommended Tool Stack for SmartTouch
 
 | Phase | Tool | Usage |
-|---|---|---|
+|--- | --- | --- |
 | IA Design | Claude | Generate navigation trees, content types, metadata schemas |
 | Content Drafting | Claude + GitHub Copilot | Draft how-to guides, explanations, ADRs |
 | Reference Docs | Mintlify / Redocly | Generate from OpenAPI specs |

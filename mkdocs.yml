@@ -3,6 +3,9 @@ site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
 
 theme:
   name: material
+  features:
+    - navigation.sections
+    - navigation.indexes
 
   palette:
     - scheme: default
@@ -20,13 +23,59 @@ extra_css:
   - assets/custom.css
 
 nav:
+  - Home: index.md
   - Developers:
-      - Home: developers/get-started/connect-first-device/index.md
-      - Getting Started: developers/get-started/README.md
-      - Connecting First Service:  developers/get-started/connect-first-device/01-provision-certificate.md
-      - Deploying First IoT Service: developers/get-started/connect-first-device/01-create-service-spec.md
-      - Setting up Local development: developers/get-started/connect-first-device/01-install-stctl.md
+      - Connect First Device:
+          - Overview: developers/get-started/connect-first-device/index.md
+          - Provision Certificate: developers/get-started/connect-first-device/01-provision-certificate.md
+          - Install Remote Access Agent: developers/get-started/connect-first-device/02-install-remote-access-agent.md
+          - Open First Remote Session: developers/get-started/connect-first-device/03-open-first-remote-session.md
 
+      - Deploy First IoT Service:
+          - Overview: developers/get-started/deploy-first-iot-service/index.md
+          - Create Service Spec: developers/get-started/deploy-first-iot-service/01-create-service-spec.md
+          - Build & Push Image: developers/get-started/deploy-first-iot-service/02-build-push-image.md
+          - Verify Deployment: developers/get-started/deploy-first-iot-service/03-verify-deployment.md
+
+      - Set Up Local Development:
+          - Overview: developers/get-started/set-up-local-development/index.md
+          - Install STCTL: developers/get-started/set-up-local-development/01-install-stctl.md
+          - Configure Kubernetes: developers/get-started/set-up-local-development/02-configure-kubernetes.md
+          - Run Service Locally: developers/get-started/set-up-local-development/03-run-service-locally.md
+      - API Reference:
+          - Overview: developers/api-reference/index.md
+          - REST API: developers/api-reference/rest-api.md
+          - Device API: developers/api-reference/Device-api.md
+          - Get a Device: developers/api-reference/Get-a-device.md
+          - Get device agent status: developers/api-reference/Get-device-agent-status.md
+          - Get a session: developers/api-reference/Get-a-session.md
+          - Open a session: developers/api-reference/Open-a-session.md
+          - Close a session: developers/api-reference/Close-a-session.md
+          - Remote access sessions: developers/api-reference/Remote-access-sessions-api.md
+          - Audit logs: developers/api-reference/Audit-log-api.md
+          - stctl CLI Reference: developers/api-reference/stctl-cli-reference.md
+      - Observability:
+          - Overview: developers/observability/index.md
+          - View Logs: developers/observability/how-to-view-logs.md
+          - View Traces: developers/observability/how-to-trace-request.md
+          - Instrumentation: developers/observability/how-to-instrument-service.md
+      - Deploy Release:
+          - Overview: developers/deploy-release/index.md
+          - Promote Release: developers/deploy-release/how-to-promote.md
+          - Canary Deployments: developers/deploy-release/how-to-canary-deployment.md
+          - Deploy Service: developers/deploy-release/how-to-deploy-service.md
+          - Rollback Release: developers/deploy-release/how-to-rollback.md
+      
+      - Troubleshooting:
+          - Overview: developers/troubleshooting/index.md
+          - Deployment Failures: developers/troubleshooting/why-deployment-failing.md
+          - Logging Issues: developers/troubleshooting/why-logs-not-appearing.md
+          - Device Connection Issues: developers/troubleshooting/why-device-not-connecting.md
+      - Secrets Configuration:
+          - Overview: developers/secrets-config/index.md
+          - Environment Configuration: developers/secrets-config/how-to-environment-config.md
+          - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
+          - SSD Schema: developers/secrets-config/ssd-schema-reference.md  
 markdown_extensions:
   - admonition
   - tables

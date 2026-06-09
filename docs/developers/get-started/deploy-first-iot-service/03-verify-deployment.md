@@ -171,5 +171,4 @@ The audit stream endpoint is not reachable from the cluster. Check network polic
 The Remote Access Service is deployed and ready to broker sessions.
 
 - [Connect a device for remote access](../connect-first-device/index.md)
-- [How do I open a remote access session?](../../deploy-release/how-to-open-remote-session.md)
-- [How do I view the session audit log?](../../observability/how-to-view-session-audit-log.md)
+- [How do I view the session audit log?](../../observability/how-to-view-logs.md)

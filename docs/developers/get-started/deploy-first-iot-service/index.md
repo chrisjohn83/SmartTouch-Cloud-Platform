@@ -54,7 +54,7 @@ This tutorial group walks you through deploying the **Remote Access Service** â€
 ## Tutorial sequence
 
 | Step | Tutorial | Time |
-|---|---|---|
+| --- | --- | --- |
 | 1 | [Create the Remote Access Service SSD](./01-create-service-spec.md) | ~10 min |
 | 2 | [Build and push the Remote Access Service image](./02-build-push-image.md) | ~15 min |
 | 3 | [Verify the session broker is running](./03-verify-deployment.md) | ~5 min |
@@ -74,5 +74,4 @@ This tutorial group walks you through deploying the **Remote Access Service** â€
 ## Next steps after this group
 
 - [Connect a device for remote access](../connect-first-device/index.md)
-- [How do I open a remote access session?](../../deploy-release/how-to-open-remote-session.md)
-- [How do I view the session audit log?](../../observability/how-to-view-session-audit-log.md)
+- [How do I view the session audit log?](../../observability/how-to-view-logs.md)

@@ -282,7 +282,4 @@ Audit events are written asynchronously — they can take up to 30 seconds to ap
 
 ## Next steps
 
-- [How do I open a remote access session from the SmartTouch console (browser)?](../../deploy-release/how-to-open-remote-session.md)
-- [How do I set up alerts when a session is opened?](../../observability/how-to-session-alerts.md)
-- [How do I manage sessions across multiple devices?](../../secrets-config/how-to-manage-sessions.md)
-- [How do I export the audit log for compliance reporting?](../../observability/how-to-export-audit-log.md)
+- [How do I manage sessions across multiple devices?](../../secrets-config/how-to-manage-secrets.md)
