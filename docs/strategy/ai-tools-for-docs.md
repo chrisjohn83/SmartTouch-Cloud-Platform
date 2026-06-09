@@ -17,12 +17,17 @@ AI tools now cover every layer of the documentation workflow — from IA design 
 
 ## 1. The Documentation Workflow and Where AI Fits
 
-```
+---
+
 Plan IA → Author content → Structure & tag → Validate → Publish → Retrieve
+
   ↓             ↓                ↓               ↓           ↓          ↓
+
 AI IA       AI writing       AI tagging      AI linting   AI index   AI search
+
 design      assistance       & metadata      & review     & embed    & RAG
-```
+
+---
 
 ---
 
@@ -96,21 +101,34 @@ design      assistance       & metadata      & review     & embed    & RAG
 
 **SmartTouch recommendation for the AI Consumption Layer:**
 
-```
+---
 Documents (Markdown + frontmatter)
+
         ↓
+
 LlamaIndex ingestion pipeline
+
         ↓
+
 Chunk by ## heading → attach frontmatter as metadata
+
         ↓
+
 OpenAI text-embedding-3-large
+
         ↓
+
 pgvector (self-hosted) or Pinecone (managed)
+
         ↓
+
 RAG query with metadata filters (docType, audience, platform-version)
+
         ↓
+
 Claude or GPT-4o as answer synthesiser
-```
+
+---
 
 ---
 
@@ -128,7 +146,7 @@ Claude or GPT-4o as answer synthesiser
 ## 3. Recommended Tool Stack for SmartTouch
 
 | Phase | Tool | Usage |
-|--- | --- | --- |
+| --- | --- | --- |
 | IA Design | Claude | Generate navigation trees, content types, metadata schemas |
 | Content Drafting | Claude + GitHub Copilot | Draft how-to guides, explanations, ADRs |
 | Reference Docs | Mintlify / Redocly | Generate from OpenAPI specs |
@@ -144,41 +162,49 @@ Claude or GPT-4o as answer synthesiser
 
 ### Generate a navigation tree from a product brief
 
-```
+---
 You are a technical information architect. Given the following product brief for [Product],
 design a documentation navigation tree following the Diátaxis framework.
 Include: Get Started (tutorials), Platform Guide (how-to), Architecture (explanations + ADRs),
 and Reference sections. Output as an indented tree in Markdown code block.
 
 Product brief: [paste brief]
-```
+
+---
 
 ### Classify a document by Diátaxis type
 
-```
+---
+
 Classify the following document as one of: tutorial, how-to guide, reference, or explanation.
 Explain your reasoning in one sentence. Then suggest 3-5 metadata tags from this vocabulary: [tag list].
 
 Document: [paste document]
-```
+
+---
 
 ### Draft a how-to guide from an architecture description
 
-```
+---
+
 Write a how-to guide titled "[Task]" for an audience of [role].
 Base the guide on the following architecture description: [paste].
-Follow this structure: Prerequisites → Steps (numbered) → Expected result → Troubleshooting.
+Follow this structure: Prerequisites → Steps → Expected result → Troubleshooting.
 Use second-person ("you"). Define all acronyms on first use.
-```
+
+---
 
 ### Review a document for AI-readiness
 
-```
+---
+
 Review the following document for AI-readiness. Check:
+
 1. Does it have complete YAML frontmatter (docType, audience, status, version, last-reviewed, tags)?
 2. Is each ## section self-contained (understandable without reading other sections)?
 3. Do all code blocks have a language identifier?
 4. Are acronyms defined on first use?
 5. Is there a TL;DR or Summary section?
 Flag any issues. Output a checklist with pass/fail per criterion.
-```
+
+---

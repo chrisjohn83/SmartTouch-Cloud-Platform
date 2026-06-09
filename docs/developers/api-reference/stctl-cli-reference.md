@@ -60,7 +60,7 @@ stctl version
 These flags apply to all commands.
 
 | Flag | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `--context` | string | Platform context to use (overrides `STCTL_CONTEXT` env var) |
 | `--namespace` | string | Kubernetes namespace (overrides `STCTL_NAMESPACE` env var) |
 | `--output`, `-o` | string | Output format: `text` (default), `json`, `yaml` |
@@ -134,7 +134,7 @@ stctl device list [--status <online|offline|unknown>] [--fleet <name>]
 **Flags:**
 
 | Flag | Description |
-|---|---|
+| --- | --- |
 | `--status` | Filter by agent status |
 | `--fleet` | Filter by fleet label |
 
@@ -203,14 +203,14 @@ stctl remote-access open <device_id> \
 **Flags:**
 
 | Flag | Type | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `--protocol` | string | `diagnostics` | Session protocol |
 | `--ttl` | duration | `1h` | Session time-to-live (e.g., `30m`, `2h`) |
 
 **Protocol permission requirements:**
 
 | Protocol | Minimum role |
-|---|---|
+| --- | --- |
 | `diagnostics` | developer |
 | `shell` | platform-engineer |
 | `file-transfer` | administrator |
@@ -291,7 +291,7 @@ stctl deploy apply -f <path-to-smarttouch.yaml> [--env <dev|staging|prod>]
 **Flags:**
 
 | Flag | Type | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `-f` | string | — | Path to `smarttouch.yaml` |
 | `--env` | string | `dev` | Target environment |
 | `--dry-run` | boolean | false | Validate the SSD without applying |
@@ -334,7 +334,7 @@ stctl rollback <service_name> [--to <revision>] [--env <dev|staging|prod>]
 **Flags:**
 
 | Flag | Type | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `--to` | string | previous | Target revision tag or hash |
 | `--env` | string | `dev` | Target environment |
 
@@ -474,7 +474,7 @@ BROKER_URL                  wss://broker.smarttouch.local:8443
 
 View and stream service logs.
 
-### logs
+### log for a service
 
 Stream or retrieve logs for a service.
 
@@ -491,7 +491,7 @@ stctl logs <service_name> \
 **Flags:**
 
 | Flag | Type | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `--env` | string | `dev` | Target environment |
 | `--level` | string | — | Filter by log level |
 | `--since` | duration | `15m` | Return logs from this far back |
@@ -634,7 +634,7 @@ stctl simulator start \
 **Flags:**
 
 | Flag | Type | Default | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `--device-id` | string | — | Device ID to register |
 | `--remote-access` | boolean | false | Enable the Remote Access Agent on the simulator |
 | `--env` | string | `dev` | Target environment |
@@ -660,7 +660,7 @@ stctl simulator stop --device-id <id>
 `stctl` respects the following environment variables. Command-line flags take precedence.
 
 | Variable | Description |
-|---|---|
+| --- | --- |
 | `STCTL_CONTEXT` | Default context name |
 | `STCTL_NAMESPACE` | Default Kubernetes namespace |
 | `STCTL_TOKEN` | Bearer token (bypasses stored credentials) |
