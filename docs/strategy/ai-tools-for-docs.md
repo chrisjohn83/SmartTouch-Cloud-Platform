@@ -42,7 +42,9 @@ design      assistance       & metadata      & review     & embed    & RAG
 | **Notion AI** | Suggests page hierarchies and database schemas within a Notion workspace | Small-team IA in Notion-based knowledge bases |
 | **Confluence AI** | Auto-generates page trees and labels from existing content | Migrating legacy wikis into structured IA |
 
-**SmartTouch recommendation:** Use **Claude** for IA design sessions — it produces structured output (YAML, Markdown, tables) that integrates directly into the doc repo. Prompt with the product brief, audience list, and Diátaxis requirement.
+SmartTouch recommendation:
+
+Use **Claude** for IA design sessions — it produces structured output (YAML, Markdown, tables) that integrates directly into the doc repo. Prompt with the product brief, audience list, and Diátaxis requirement.
 
 ---
 

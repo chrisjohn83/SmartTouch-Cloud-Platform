@@ -250,11 +250,11 @@ Wait 10 seconds and retry. If the agent keeps stopping, check the logs:
 journalctl -u smarttouch-agent --since "10 minutes ago"
 ```
 
-**`Error: role insufficient for protocol shell`**
+`Error: role insufficient for protocol shell`
 
 Your account has the `developer` role. Shell sessions require `platform-engineer` or `administrator`. Open a `diagnostics` session instead, or contact your Administrator to request a role upgrade.
 
-**Diagnostics stream opens but shows no data**
+### Dignostics stream opens but shows no data
 
 The agent's diagnostics module takes up to 10 seconds to collect the first data point. Wait and observe the stream. If no data appears after 15 seconds, check whether the `diagnostics` protocol is listed in `agent.yaml` on the device:
 

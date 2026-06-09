@@ -169,7 +169,7 @@ stctl trace list --env dev --service remote-access-service --since 1h
 
 Tracing may not be enabled. Confirm `observability.tracing: true` in your SSD and that the OTel Collector sidecar is running (`READY: 2/2` in pod status). See [How do I instrument my service?](./how-to-instrument-service.md).
 
-**Trace shows only one span (no downstream spans)**
+### Trace shows only one span (no downstream spans)
 
 Context propagation is not configured. The OTel SDK must propagate the `traceparent` header in all outbound HTTP and gRPC calls. Check that `getNodeAutoInstrumentations()` (Node.js) or `opentelemetry-instrumentation` (Python) is initialised before other imports.
 

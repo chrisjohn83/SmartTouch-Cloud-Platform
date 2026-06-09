@@ -165,7 +165,7 @@ stctl config show --env prod --service remote-access-service
 
 ## Troubleshooting
 
-**Service is using SSD default values instead of overlay values**
+Service is using SSD default values instead of overlay values
 
 The ConfigMap patch may not have been applied. Check whether the overlay file is referenced in `k8s/overlays/dev/kustomization.yaml`:
 

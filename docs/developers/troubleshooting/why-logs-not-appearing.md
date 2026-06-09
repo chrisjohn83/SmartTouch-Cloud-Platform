@@ -154,11 +154,11 @@ The fix depends on the cause identified above:
 
 ## Logs visible in stctl but not in Grafana
 
-### Symptom
+### Symptoms description
 
 `stctl logs` returns results but the same logs do not appear in Grafana's Explore view or in a Loki panel.
 
-### Diagnosis
+### Resoultion steps
 
 **1. Incorrect Loki data source or label selector.**
 
@@ -180,7 +180,7 @@ Grafana's time range defaults to **Last 1 hour**. If you deployed recently, wide
 
 If a log level filter is active in the Explore panel, entries at other levels are hidden. Remove the filter or set it to **All levels**.
 
-### Resolution
+### Resolution steps
 
 Use this baseline LogQL query in Grafana Explore to verify logs are reaching Loki at all:
 
@@ -196,7 +196,7 @@ If this returns results, narrow the query to your specific use case:
 
 If the baseline returns nothing but `stctl logs` does, contact your Platform Engineer — there may be a Loki configuration issue with label mapping.
 
-### Prevention
+### Prevention method
 
 - Bookmark the Grafana dashboard for your service and verify it works after each deployment.
 - Use the standard label `service_name` in all LogQL queries rather than custom labels that may vary by environment.
@@ -205,11 +205,11 @@ If the baseline returns nothing but `stctl logs` does, contact your Platform Eng
 
 ## Remote access session logs missing
 
-### Symptom
+### Symptom of logs not appearing
 
 You opened a remote access session but cannot find session logs. Queries filtered by `sessionId` return no results.
 
-### Diagnosis
+### Diagnosis methods
 
 **1. The service is not emitting `sessionId` in log fields.**
 
@@ -230,7 +230,7 @@ stctl logs remote-access-service \
   --env staging
 ```
 
-### Resolution
+### Resolutions
 
 Search for the session by ID in the Remote Access Service logs:
 
@@ -255,7 +255,7 @@ Then open the trace to see the full request lifecycle:
 stctl trace open <trace_id>
 ```
 
-### Prevention
+### Prevention methods
 
 - Always log `sessionId` and `deviceId` as structured fields in the Remote Access Service.
 - Set the OTel batch export interval to `1s` for session-intensive workloads to reduce the risk of missing short-session logs.
@@ -264,17 +264,17 @@ stctl trace open <trace_id>
 
 ## Logs appearing but truncated
 
-### Symptom
+### Symptoms of log files missing
 
 Log entries appear in `stctl logs` or Grafana but are cut off mid-message.
 
-### Diagnosis
+### Diagnosis steps
 
 Loki has a default maximum log line size of 256 KB. Log lines that exceed this limit are truncated.
 
 This commonly occurs when a log entry includes a full request/response body, a stack trace, or a binary payload.
 
-### Resolution
+### Resolution types
 
 Reduce log entry size by:
 
@@ -282,7 +282,7 @@ Reduce log entry size by:
 - Truncating stack traces to the first 10 frames.
 - Using a `trace_id` reference in the log entry and storing full payloads in a trace span instead.
 
-### Prevention
+### Prevention methods for log not appearing
 
 - Enforce a maximum log message length in your logging library (for example, 4096 characters for the `msg` field).
 - Route large diagnostic payloads to distributed traces rather than structured logs.

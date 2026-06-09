@@ -113,7 +113,7 @@ Then verify the tag in Harbor at `https://harbor.<your-domain>/library/remote-ac
 
 ## CrashLoopBackOff
 
-### Symptom
+### Symptoms
 
 `stctl pods` shows one or more pods in `CrashLoopBackOff` state. The `RESTARTS` count increases over time.
 
@@ -122,7 +122,7 @@ POD                                  STATUS              RESTARTS   AGE
 remote-access-service-78d4b-lx9rp   CrashLoopBackOff   5          12m
 ```
 
-### Diagnosis
+### Diagnosis steps
 
 The container starts but exits immediately with a non-zero exit code. Kubernetes restarts it in a loop.
 
@@ -146,7 +146,7 @@ Common causes in the Remote Access Service:
 - Port already in use — another pod is still running and holding the session broker port.
 - Health check endpoint not responding within the startup probe timeout.
 
-### Resolution
+### Resolution for
 
 **Missing environment variable:** Check that all required keys are present in the SSD `config` block.
 
@@ -198,7 +198,7 @@ deployment:
     failureThreshold: 10
 ```
 
-### Prevention
+### Prevention steps
 
 - Test the container image locally with `docker run` before pushing.
 - Validate your SSD with `stctl deploy apply --dry-run` before applying to any environment.
@@ -208,7 +208,7 @@ deployment:
 
 ## SSD validation error
 
-### Symptom
+### Validation symptom
 
 `stctl deploy apply` exits with a non-zero status and prints a validation error. The service is not updated.
 
@@ -218,11 +218,11 @@ Error: SSD validation failed
   - remote-access.broker-url: required field is missing
 ```
 
-### Diagnosis
+### Diagnosis method
 
 The `smarttouch.yaml` file contains a field that is missing, has an invalid value, or uses a deprecated key.
 
-### Resolution
+### Resolution type
 
 Fix each reported field. Common mistakes:
 
@@ -252,7 +252,7 @@ After fixing the file, validate before applying:
 stctl deploy apply -f smarttouch.yaml --dry-run --env staging
 ```
 
-### Prevention
+### Prevention method
 
 - Run `stctl deploy apply --dry-run` in CI on every pull request before merging.
 - Use the SSD JSON Schema in your editor for inline validation — see the [SSD schema reference](../secrets-config/ssd-schema-reference.md).
@@ -261,7 +261,7 @@ stctl deploy apply -f smarttouch.yaml --dry-run --env staging
 
 ## Argo CD sync failure
 
-### Symptom
+### Failure symptom
 
 `stctl deploy status` shows `OutOfSync` or `SyncFailed`. The deployment does not roll out even though the image tag was updated.
 
@@ -272,7 +272,7 @@ Status:       SyncFailed
 Message:      1 error(s) occurred: ConfigMap "remote-access-config" already exists
 ```
 
-### Diagnosis
+### Diagnosis methods
 
 Argo CD attempted to apply the manifest but encountered a conflict or permission error in the cluster. Common causes:
 
@@ -280,7 +280,7 @@ Argo CD attempted to apply the manifest but encountered a conflict or permission
 - The Argo CD service account does not have permission to update a specific resource type.
 - A Helm hook or init container is failing, blocking the sync.
 
-### Resolution
+### Resolution methods
 
 **Resource already exists with different owner:** Ask a Platform Engineer to delete the conflicting resource so Argo CD can recreate it under its management.
 
@@ -296,7 +296,7 @@ stctl deploy status remote-access-service --env staging --output json \
 # Then ask a Platform Engineer to trigger a hard refresh in the Argo CD UI
 ```
 
-### Prevention
+### Resolution for deployment failure
 
 - Do not create cluster resources manually with `kubectl` in environments managed by Argo CD. All resources should originate from Git.
 - Annotate resources with `argocd.argoproj.io/managed-by: argocd` if you must create them outside of a GitOps workflow.
