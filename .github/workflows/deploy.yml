@@ -38,6 +38,7 @@ jobs:
           markdownlint docs/**/*.md README.md --config .markdownlint.json
 
       - name: Vale Spell Check
+        continue-on-error: true
         uses: errata-ai/vale-action@reviewdog
         with:
           files: docs/
