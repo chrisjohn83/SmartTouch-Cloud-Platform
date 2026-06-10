@@ -63,7 +63,8 @@ If any of these are not ready, complete [Authentication](./authentication.md) fi
 
 ## The journey at a glance
 
-```
+---
+
 Step 1 → Get credentials        (done in Authentication)
 Step 2 → Generate a token       (confirm $TOKEN is set)
 Step 3 → Find a device          (GET /devices)
@@ -71,11 +72,12 @@ Step 4 → Verify device online   (GET /devices/{id}/agent-status)
 Step 5 → Open a session         (POST /remote-access/sessions)
 Step 6 → Confirm success        (GET /remote-access/sessions/{id})
 Step 7 → Close the session      (DELETE /remote-access/sessions/{id})
-```
 
 ---
 
-## Step 1 — Get credentials
+---
+
+## Step 1—Get credentials
 
 **Status: complete.** You completed this in [Authentication](./authentication.md). Your credentials are stored in `~/.stctl/credentials`.
 
@@ -87,7 +89,7 @@ stctl auth login
 
 ---
 
-## Step 2 — Generate a token
+## Step 2—Generate a token
 
 Refresh your bearer token and store it in `$TOKEN`. Do this at the start of any new terminal session.
 
@@ -121,7 +123,7 @@ export TOKEN=<service-account-token>
 
 ---
 
-## Step 3 — Find a device
+## Step 3—Find a device
 
 List the devices registered on the platform to find one you can connect to.
 
@@ -173,7 +175,7 @@ Expected response:
 
 ---
 
-## Step 4 — Verify the device is online
+## Step 4—Verify the device is online
 
 Before opening a session, confirm the Remote Access Agent on the device is connected and responsive.
 
@@ -220,7 +222,7 @@ Expected response:
 
 ---
 
-## Step 5 — Open a session
+## Step 5—Open a session
 
 Open a `diagnostics` session to the device. The `diagnostics` protocol allows read-only inspection and is available to all developers.
 
@@ -376,7 +378,7 @@ Expected response includes a `session.opened` event:
 
 ---
 
-## Step 7 — Close the session
+## Step 7—Close the session
 
 Close the session when you are finished. Sessions expire automatically after their TTL, but closing them explicitly is best practice — it frees the protocol slot on the device immediately and creates a clean audit record.
 
@@ -529,7 +531,7 @@ See [Common errors](./common-errors.md) for a reference to every error you may h
 ## Next steps
 
 | What to do next | Link |
-|---|---|
+| --- | --- |
 | Connect a real physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Deploy your first IoT service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
 | See all REST API endpoints | [SmartTouch REST API reference](../api-reference/rest-api.md) |

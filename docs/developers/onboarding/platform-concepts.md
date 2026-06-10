@@ -90,7 +90,7 @@ Devices are registered automatically the first time the Remote Access Agent conn
 A remote access session uses one of three **protocols**. Each protocol grants a different level of access to the device.
 
 | Protocol | What you can do | Minimum role required |
-|---|---|---|
+| --- | --- | --- |
 | `diagnostics` | Run read-only diagnostic commands on the device | developer |
 | `shell` | Full interactive shell on the device | platform-engineer |
 | `file-transfer` | Upload and download files to/from the device | administrator |
@@ -136,7 +136,7 @@ The SSD is not relevant to the REST API onboarding journey, but you will use it 
 SmartTouch has three deployment environments that map to stages of the development lifecycle.
 
 | Environment | Purpose | Deploys when |
-|---|---|---|
+| --- | --- | --- |
 | `dev` | Active development and testing | Every push to a feature branch |
 | `staging` | Integration validation before production | On merge to `main` |
 | `prod` | Live services | On a tagged release, with manual approval |

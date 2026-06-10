@@ -26,7 +26,7 @@ ai-retrieval-questions:
   - "How do I log in to SmartTouch with stctl?"
   - "How do I use a service account token with SmartTouch?"
   - "How long does a SmartTouch bearer token last?"
-  
+
 owner: developer-experience-team
 reviewer: tech-writing-guild
 review-cadence: quarterly
@@ -50,7 +50,7 @@ Authenticate with the SmartTouch platform and obtain a bearer token you can use 
 
 ---
 
-## Step 1 — Log in with stctl
+## Step 1—Log in with stctl
 
 Run the login command. This opens a browser window for SSO authentication.
 
@@ -80,7 +80,7 @@ You do not need to log in again until the token expires (8 hours) or you run `st
 
 ---
 
-## Step 2 — Verify your authentication status
+## Step 2—Verify your authentication status
 
 Confirm the login succeeded and check your assigned role.
 
@@ -102,7 +102,7 @@ If your role shows `developer` or higher, you are ready to proceed. If the role 
 
 ---
 
-## Step 3 — Generate a bearer token for REST API calls
+## Step 3—Generate a bearer token for REST API calls
 
 All REST API calls require the token in an `Authorization: Bearer` header. Print the current token:
 
@@ -130,7 +130,7 @@ echo $TOKEN
 
 ---
 
-## Step 4 — Make a test API call
+## Step 4—Make a test API call
 
 Confirm your token works by calling the platform status endpoint:
 
@@ -238,7 +238,7 @@ You can have separate tokens for separate contexts. `stctl` tracks them independ
 ## Troubleshooting authentication
 
 | Error | Cause | Fix |
-|---|---|---|
+| --- | --- | --- |
 | `Authentication failed: SSO error` | Incorrect password or MFA failed | Retry login. Confirm SSO credentials with your Administrator. |
 | `Token valid but role is missing` | Account exists but no role was assigned | Ask your Administrator to assign the `developer` role. |
 | `401 unauthorized` on API call | Token expired or `$TOKEN` variable is empty | Run `TOKEN=$(stctl auth token)` and retry. |

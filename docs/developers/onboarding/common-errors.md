@@ -44,7 +44,7 @@ This reference covers every error you are likely to encounter while working thro
 ## Quick lookup table
 
 | HTTP status | Error code | Where it occurs | Go to |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 401 | `unauthorized` | Any API call | [401 Unauthorized](#401-unauthorized) |
 | 403 | `forbidden` | Opening a session | [403 Forbidden](#403-forbidden) |
 | 404 | `not_found` | Get device, get session | [404 Not Found](#404-not-found) |
@@ -75,7 +75,7 @@ This reference covers every error you are likely to encounter while working thro
 **Causes and fixes:**
 
 | Cause | Fix |
-|---|---|
+| --- | --- |
 | `$TOKEN` variable is empty | Run `TOKEN=$(stctl auth token)` and verify `echo $TOKEN` prints a value |
 | Token has expired (8-hour lifetime) | Run `TOKEN=$(stctl auth token)` to refresh |
 | `Authorization` header typo | Confirm the header is exactly `Authorization: Bearer <token>` with a capital A and a space between `Bearer` and the token |
@@ -114,7 +114,7 @@ curl -s \
 **Protocol role requirements:**
 
 | Protocol | Minimum role |
-|---|---|
+| --- | --- |
 | `diagnostics` | developer |
 | `shell` | platform-engineer |
 | `file-transfer` | administrator |
@@ -122,7 +122,7 @@ curl -s \
 **Causes and fixes:**
 
 | Cause | Fix |
-|---|---|
+| --- | --- |
 | Requesting `shell` with a `developer` role | Use `"protocol": "diagnostics"` instead, or ask a Platform Engineer to open the `shell` session |
 | Requesting `file-transfer` with a `developer` role | Ask an Administrator to perform the file transfer |
 | Account role not yet assigned | Ask your Administrator to assign the correct role |
@@ -154,7 +154,7 @@ stctl auth status
 **Causes and fixes:**
 
 | Cause | Fix |
-|---|---|
+| --- | --- |
 | Device ID is misspelled | Run `stctl device list` to see the exact registered IDs |
 | Device has never connected to the platform | Provision the device and install the Remote Access Agent — see [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Device was deleted from the platform | Ask your Administrator to re-register the device |
@@ -288,7 +288,7 @@ For detailed device connection troubleshooting, see [Why is my device not connec
 **Rate limits:**
 
 | Endpoint group | Limit |
-|---|---|
+| --- | --- |
 | `GET /devices` | 120 requests per minute |
 | `POST /remote-access/sessions` | 30 requests per minute |
 | `GET /audit/remote-access` | 60 requests per minute |

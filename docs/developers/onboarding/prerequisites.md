@@ -42,7 +42,7 @@ Before you start the [onboarding journey](./first-api-call.md), confirm that you
 ## Access
 
 | Requirement | How to get it |
-|---|---|
+| --- | --- |
 | SmartTouch platform account | Request access from your Administrator or Platform Engineer. You will receive an email invitation with SSO login instructions. |
 | `developer` role or higher | Verify your role with `stctl auth status` after login. The `developer` role is required to open `diagnostics` sessions. |
 | A registered device or simulator access | Ask your Platform Engineer for a registered device ID, or use the built-in simulator (see below). |
@@ -121,7 +121,7 @@ The onboarding journey uses a terminal. Any standard shell works: `bash`, `zsh`,
 Your workstation must be able to reach the following endpoints:
 
 | Endpoint | Port | Protocol | Used for |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `api.<your-platform-domain>` | 443 | HTTPS | SmartTouch REST API |
 | `broker.<your-platform-domain>` | 8443 | WSS | Remote access session broker |
 

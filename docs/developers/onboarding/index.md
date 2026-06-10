@@ -43,7 +43,8 @@ You will follow a single guided journey — from getting credentials to opening 
 
 ## The onboarding journey
 
-```
+``` mermaid
+
 Get credentials
       ↓
 Generate a token
@@ -57,6 +58,7 @@ Open a remote access session
 Confirm success
       ↓
 Close the session
+
 ```
 
 Each step in [First API call](./first-api-call.md) shows the `stctl` command and the equivalent REST API call so you can use whichever fits your workflow.
@@ -66,7 +68,7 @@ Each step in [First API call](./first-api-call.md) shows the `stctl` command and
 ## Onboarding documents
 
 | Document | What it covers | Time |
-|---|---|---|
+| --- | --- | --- |
 | [Prerequisites](./prerequisites.md) | Tools and access you need before starting | 5 min |
 | [Platform concepts](./platform-concepts.md) | Key terms and how the platform fits together | 10 min |
 | [Authentication](./authentication.md) | How to get credentials and generate tokens | 10 min |
@@ -101,7 +103,7 @@ Each step in [First API call](./first-api-call.md) shows the `stctl` command and
 Once you have completed the journey, the rest of the developer section is task-based:
 
 | Next topic | Link |
-|---|---|
+| --- | --- |
 | Deploy a service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
 | Connect a physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Instrument your service | [How do I instrument my service?](../observability/how-to-instrument-service.md) |
