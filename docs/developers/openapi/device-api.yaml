@@ -104,6 +104,8 @@ paths:
   /devices/{deviceId}:
     parameters:
       - $ref: '#/components/parameters/DeviceId'
+    
+    <swagger-ui src="openapi.yaml"/>
 
     get:
       operationId: getDevice
