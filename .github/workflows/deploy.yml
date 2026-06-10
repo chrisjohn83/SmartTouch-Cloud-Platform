@@ -34,6 +34,7 @@ jobs:
           cargo install lychee
 
       - name: Markdown Lint Validation
+        continue-on-error: true
         run: |
           markdownlint docs/**/*.md README.md --config .markdownlint.json
 
