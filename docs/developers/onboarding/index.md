@@ -43,8 +43,7 @@ You will follow a single guided journey — from getting credentials to opening 
 
 ## The onboarding journey
 
-``` mermaid
-
+```mermaid
 Get credentials
       ↓
 Generate a token
