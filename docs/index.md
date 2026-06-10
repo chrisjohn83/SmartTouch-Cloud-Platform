@@ -4,11 +4,19 @@ Welcome to the SmartTouch Cloud Platform.
 
 ## Features
 
-- Developers
-  - Connecting First Device
-    - Deploying First IoT Service
-    - Setting Up Local Development
+- Developer onboarding
+  - Overview: developers/onboarding/index.md
+  - Prerequisites: developers/onboarding/prerequisites.md
+  - Platform Concepts: developers/onboarding/platform-concepts.md
+  - Authentication: developers/onboarding/authentication.md
+  - First API call: developers/onboarding/first-api-call.md
+  - Common Errors: developers/onboarding/common-errors.md
 
-## Quick Links
+- Platform Engineers
+  - Overview: platform-engineers/index.md
+  - Architecture: platform-engineers/architecture.md
+  - Installation: platform-engineers/installation.md
 
-- [Overview] ()
+- REST API Reference
+  - Overview: developers/api-reference/index.md
+  - Onboarding Endpoint: developers/onboarding-endpoint.md

@@ -25,6 +25,14 @@ extra_css:
 nav:
   - Home: index.md
   - Developers:
+      - Developer Onboarding:
+          - Overview: developers/onboarding/index.md
+          - prerequisites: developers/onboarding/prerequisites.md
+          - platform-concepts: developers/onboarding/platform-concepts.md
+          - authentication: developers/onboarding/authentication.md
+          - First api call: developers/onboarding/first-api-call.md
+          - Common Errors: developers/onboarding/common-errors.md
+      
       - Connect First Device:
           - Overview: developers/get-started/connect-first-device/index.md
           - Provision Certificate: developers/get-started/connect-first-device/01-provision-certificate.md
@@ -90,11 +98,12 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
+extra:
+  version:
+    provider: mike
+
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-
-exclude_docs: |
-  strategy/**
 
 copyright: >
   © 2026 SmartTouch Cloud Platform |

@@ -54,7 +54,7 @@ stctl logs remote-access-service --since 1h --env staging
 stctl status --env staging | grep -i otel
 ```
 
-If `stctl logs` returns results, the pipeline is working and the issue is a query filter or a Grafana configuration problem. If `stctl logs` returns nothing, the pipeline itself is broken — start from **No logs in stctl logs** below.
+If `stctl logs` returns results, the pipeline is working and the issue is a query filter or a Grafana configuration problem. If `stctl logs` returns nothing, the pipeline itself is broken—start from **No logs in stctl logs** below.
 
 ---
 
@@ -73,9 +73,9 @@ No log entries found for the last 1h.
 
 Work through these causes in order.
 
-**1. The service is not emitting structured JSON logs.**
+**1. The service isn't emitting structured JSON logs.**
 
-`stctl logs` queries Loki using structured fields. If your service writes plain-text logs, Loki cannot index them and they do not appear.
+`stctl logs` queries Loki using structured fields. If your service writes plain-text logs, Loki cannot index them and they don't appear.
 
 Check what your service is actually writing:
 
