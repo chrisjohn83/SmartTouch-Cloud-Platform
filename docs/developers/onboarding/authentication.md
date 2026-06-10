@@ -4,7 +4,7 @@ task: [authentication, getting-started]
 product: [smarttouch-cloud]
 difficulty: beginner
 status: published
-version: "1.0"
+version: "1.0.0"
 platform-version: "1.x"
 last-reviewed: "2026-06-08"
 locale: en-US
@@ -66,7 +66,6 @@ Waiting for authentication...
 ```
 
 Your browser opens the SmartTouch SSO login page. Enter your credentials and complete any MFA prompts.
-
 After you authenticate, the browser displays a confirmation message and `stctl` stores your credentials in `~/.stctl/credentials`.
 
 ```text
