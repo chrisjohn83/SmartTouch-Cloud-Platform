@@ -1,0 +1,908 @@
+openapi: 3.0.3
+
+info:
+  title: SmartTouch Deployment API
+  description: |
+    Deploy, manage, and promote IoT services on the SmartTouch Cloud Platform.
+
+    The Deployment API lets you apply Service Spec Definitions (SSDs), check service
+    health, roll back to previous revisions, list revision history, and manage canary
+    traffic splits.
+
+    ## Deployment model
+
+    SmartTouch uses a GitOps model. In normal operation, deployments are triggered by
+    commits to Git (picked up by Argo CD). Use this API for:
+    - Programmatic deployments from CI pipelines
+    - Rollbacks that need to bypass the Git merge cycle
+    - Canary weight management during gradual rollouts
+    - Status checks in automated health gates
+
+    ## Service Spec Definition (SSD)
+
+    A service is defined by a `smarttouch.yaml` file. Submit its content as
+    `application/yaml` in `POST /services`. The platform validates the SSD before
+    creating or updating the service.
+
+    ## Environments
+
+    All write endpoints require an `env` query parameter: `dev`, `staging`, or `prod`.
+    Production deployments also require an `administrator` or `platform-engineer` role.
+
+    ## Authentication
+    All endpoints require a bearer token obtained via `stctl auth token`.
+
+    ## Base URL
+    ```
+    https://api.<your-platform-domain>/v1
+    ```
+
+    ## Related APIs
+    - [Remote Access API](./remote-access-api.yaml) — remote access service configuration
+    - [Audit Log API](./audit-log-api.yaml) — deployment event history
+  version: "1.0.0"
+  contact:
+    name: SmartTouch Developer Experience
+    url: https://docs.smarttouch.io
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.smarttouch.local/v1
+    description: Local development environment
+  - url: https://api.dev.smarttouch.example.com/v1
+    description: Dev environment
+  - url: https://api.staging.smarttouch.example.com/v1
+    description: Staging environment
+  - url: https://api.smarttouch.example.com/v1
+    description: Production environment
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Services
+    description: Service lifecycle — deploy, status, and remove services
+  - name: Revisions
+    description: Revision history and rollback operations
+  - name: Canary
+    description: Canary traffic split management
+
+paths:
+
+  /services:
+    get:
+      operationId: listServices
+      summary: List services
+      description: Returns all services deployed in the specified environment.
+      tags: [Services]
+      parameters:
+        - $ref: '#/components/parameters/EnvParam'
+        - name: status
+          in: query
+          required: false
+          description: Filter by service health status
+          schema:
+            type: string
+            enum: [healthy, degraded, failed, deploying]
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 50
+            maximum: 200
+      responses:
+        '200':
+          description: List of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceListResponse'
+              example:
+                status: 200
+                data:
+                  - name: remote-access-service
+                    environment: staging
+                    status: healthy
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                    replicas:
+                      desired: 3
+                      ready: 3
+                    current_revision: v1.4.2
+                    last_deployed_at: "2026-06-08T08:00:00Z"
+                meta:
+                  page: 1
+                  per_page: 50
+                  total: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidEnvironment'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      operationId: deployService
+      summary: Deploy a service
+      description: |
+        Apply a Service Spec Definition (SSD) to deploy or update a service.
+
+        The SSD is validated before deployment. If validation fails, the service is
+        not changed and the response includes the list of validation errors.
+
+        Use `dry_run=true` to validate the SSD without applying it — useful in CI pipelines.
+
+        **Deploying to `prod`** requires the `platform-engineer` or `administrator` role.
+      tags: [Services]
+      parameters:
+        - $ref: '#/components/parameters/EnvParam'
+        - name: dry_run
+          in: query
+          required: false
+          description: Validate the SSD without applying it
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        required: true
+        description: |
+          The `smarttouch.yaml` SSD content. Submit as `application/yaml`.
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/SsdContent'
+            example: |
+              service:
+                name: remote-access-service
+                image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+
+              deployment:
+                replicas: 3
+
+              remote-access:
+                enabled: true
+                broker-url: "wss://broker.smarttouch.local:8443"
+                protocols:
+                  - diagnostics
+                  - shell
+
+              observability:
+                logs: true
+                metrics: true
+                traces: true
+
+              secrets:
+                vault:
+                  - path: "secret/data/remote-access-service/staging/broker-tls"
+                    env: BROKER_TLS_CERT
+
+              config:
+                env:
+                  LOG_LEVEL: info
+                  MAX_SESSIONS_PER_DEVICE: "10"
+                  SESSION_TTL_SECONDS: "3600"
+      responses:
+        '200':
+          description: Service deployed successfully (or dry-run passed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployResponse'
+              example:
+                status: 200
+                data:
+                  name: remote-access-service
+                  environment: staging
+                  status: deploying
+                  image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                  replicas:
+                    desired: 3
+                    ready: 0
+                  current_revision: v1.4.2
+                  previous_revision: v1.4.1
+                  last_deployed_at: "2026-06-08T09:30:00Z"
+                  dry_run: false
+        '400':
+          description: SSD validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+              example:
+                error: bad_request
+                message: SSD validation failed
+                status: 400
+                validation_errors:
+                  - field: "deployment.replicas"
+                    message: "must be greater than 0"
+                  - field: "remote-access.broker-url"
+                    message: "required field is missing"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/InvalidEnvironment'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /services/{serviceName}:
+    parameters:
+      - $ref: '#/components/parameters/ServiceName'
+      - $ref: '#/components/parameters/EnvParam'
+
+    get:
+      operationId: getService
+      summary: Get service status
+      description: Returns the current health, replica state, and deployment details for a service.
+      tags: [Services]
+      responses:
+        '200':
+          description: Service status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+              example:
+                status: 200
+                data:
+                  name: remote-access-service
+                  environment: staging
+                  status: healthy
+                  image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                  replicas:
+                    desired: 3
+                    ready: 3
+                  current_revision: v1.4.2
+                  previous_revision: v1.4.1
+                  last_deployed_at: "2026-06-08T09:30:00Z"
+                  argo_sync_status: Synced
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: removeService
+      summary: Remove a service
+      description: |
+        Permanently removes a service from the platform in the specified environment.
+        All running pods are terminated. This action cannot be undone.
+        Requires the `platform-engineer` or `administrator` role.
+      tags: [Services]
+      responses:
+        '204':
+          description: Service removed successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /services/{serviceName}/revisions:
+    parameters:
+      - $ref: '#/components/parameters/ServiceName'
+      - $ref: '#/components/parameters/EnvParam'
+
+    get:
+      operationId: listRevisions
+      summary: List revisions
+      description: Returns the deployment history for a service in reverse chronological order.
+      tags: [Revisions]
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        '200':
+          description: Revision history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevisionListResponse'
+              example:
+                status: 200
+                data:
+                  - revision: v1.4.2
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                    deployed_at: "2026-06-08T09:30:00Z"
+                    deployed_by: alice@example.com
+                    status: current
+                  - revision: v1.4.1
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.1
+                    deployed_at: "2026-06-07T14:00:00Z"
+                    deployed_by: alice@example.com
+                    status: previous
+                  - revision: v1.4.0
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.0
+                    deployed_at: "2026-06-06T10:00:00Z"
+                    deployed_by: bob@example.com
+                    status: available
+                meta:
+                  page: 1
+                  per_page: 20
+                  total: 3
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /services/{serviceName}/rollback:
+    parameters:
+      - $ref: '#/components/parameters/ServiceName'
+      - $ref: '#/components/parameters/EnvParam'
+
+    post:
+      operationId: rollbackService
+      summary: Roll back a service
+      description: |
+        Roll back a service to a previous revision. If `revision` is omitted, rolls back
+        to the immediately preceding revision.
+
+        Rollback creates a new deployment using the specified revision's image tag.
+        The previous revision becomes available for rollback in turn.
+
+        Requires the `developer` role for `dev`, `platform-engineer` for `staging` and `prod`.
+      tags: [Revisions]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RollbackRequest'
+            examples:
+              previous:
+                summary: Roll back to the previous revision
+                value: {}
+              specific:
+                summary: Roll back to a specific revision
+                value:
+                  revision: v1.4.0
+      responses:
+        '200':
+          description: Rollback initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployResponse'
+              example:
+                status: 200
+                data:
+                  name: remote-access-service
+                  environment: staging
+                  status: deploying
+                  image: harbor.smarttouch.local/library/remote-access-service:1.4.1
+                  replicas:
+                    desired: 3
+                    ready: 0
+                  current_revision: v1.4.1
+                  previous_revision: v1.4.2
+                  last_deployed_at: "2026-06-08T10:00:00Z"
+                  dry_run: false
+        '400':
+          description: Target revision not found in history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: bad_request
+                message: "Revision v1.3.0 is not in the revision history for remote-access-service."
+                status: 400
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /services/{serviceName}/canary:
+    parameters:
+      - $ref: '#/components/parameters/ServiceName'
+      - $ref: '#/components/parameters/EnvParam'
+
+    get:
+      operationId: getCanaryStatus
+      summary: Get canary status
+      description: Returns the current canary traffic split and revision details for a service.
+      tags: [Canary]
+      responses:
+        '200':
+          description: Canary status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanaryResponse'
+              example:
+                status: 200
+                data:
+                  service: remote-access-service
+                  environment: staging
+                  canary_active: true
+                  stable:
+                    revision: v1.4.1
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.1
+                    weight: 80
+                  canary:
+                    revision: v1.4.2
+                    image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                    weight: 20
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    put:
+      operationId: setCanaryWeight
+      summary: Set canary weight
+      description: |
+        Adjust the percentage of traffic routed to the canary version.
+
+        Set `weight` to `100` to promote the canary to stable (all traffic).
+        Set `weight` to `0` to halt the canary (all traffic returns to stable).
+
+        Use `POST /services/{serviceName}/canary/promote` and
+        `POST /services/{serviceName}/canary/halt` for explicit promote/halt operations
+        with clearer intent.
+      tags: [Canary]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CanaryWeightRequest'
+            example:
+              weight: 50
+      responses:
+        '200':
+          description: Canary weight updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanaryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: No canary deployment is active for this service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: conflict
+                message: No canary deployment is active for remote-access-service in staging.
+                status: 409
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: haltCanary
+      summary: Halt canary
+      description: |
+        Stops the canary deployment and routes all traffic back to the stable revision.
+        The canary revision remains deployed but receives 0% of traffic.
+        Equivalent to setting weight to 0.
+      tags: [Canary]
+      responses:
+        '200':
+          description: Canary halted — all traffic returned to stable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /services/{serviceName}/canary/promote:
+    parameters:
+      - $ref: '#/components/parameters/ServiceName'
+      - $ref: '#/components/parameters/EnvParam'
+
+    post:
+      operationId: promoteCanary
+      summary: Promote canary to stable
+      description: |
+        Promotes the canary version to stable — routes 100% of traffic to it.
+        The previous stable revision is archived in revision history and can be
+        used for rollback.
+      tags: [Canary]
+      responses:
+        '200':
+          description: Canary promoted to stable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployResponse'
+              example:
+                status: 200
+                data:
+                  name: remote-access-service
+                  environment: staging
+                  status: healthy
+                  image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+                  replicas:
+                    desired: 3
+                    ready: 3
+                  current_revision: v1.4.2
+                  previous_revision: v1.4.1
+                  last_deployed_at: "2026-06-08T11:00:00Z"
+                  dry_run: false
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+
+    ServiceName:
+      name: serviceName
+      in: path
+      required: true
+      description: Service name as defined in the SSD `service.name` field
+      schema:
+        type: string
+        example: remote-access-service
+
+    EnvParam:
+      name: env
+      in: query
+      required: true
+      description: Target deployment environment
+      schema:
+        type: string
+        enum: [dev, staging, prod]
+        example: staging
+
+  schemas:
+
+    SsdContent:
+      type: object
+      description: |
+        SmartTouch Service Spec Definition (SSD). See the SSD schema reference for all fields.
+      example:
+        service:
+          name: remote-access-service
+          image: harbor.smarttouch.local/library/remote-access-service:1.4.2
+        deployment:
+          replicas: 3
+
+    ReplicaStatus:
+      type: object
+      properties:
+        desired:
+          type: integer
+          description: Target replica count
+          example: 3
+        ready:
+          type: integer
+          description: Number of replicas currently ready to serve traffic
+          example: 3
+
+    Service:
+      type: object
+      properties:
+        name:
+          type: string
+          example: remote-access-service
+        environment:
+          type: string
+          enum: [dev, staging, prod]
+        status:
+          type: string
+          enum: [healthy, degraded, failed, deploying]
+        image:
+          type: string
+          example: harbor.smarttouch.local/library/remote-access-service:1.4.2
+        replicas:
+          $ref: '#/components/schemas/ReplicaStatus'
+        current_revision:
+          type: string
+          example: v1.4.2
+        previous_revision:
+          type: string
+          nullable: true
+          example: v1.4.1
+        last_deployed_at:
+          type: string
+          format: date-time
+        argo_sync_status:
+          type: string
+          enum: [Synced, OutOfSync, SyncFailed, Unknown]
+          description: Argo CD sync state
+        dry_run:
+          type: boolean
+          description: Present in deploy responses. True when the request was a dry run.
+
+    Revision:
+      type: object
+      properties:
+        revision:
+          type: string
+          example: v1.4.1
+        image:
+          type: string
+          example: harbor.smarttouch.local/library/remote-access-service:1.4.1
+        deployed_at:
+          type: string
+          format: date-time
+        deployed_by:
+          type: string
+          example: alice@example.com
+        status:
+          type: string
+          enum: [current, previous, available]
+
+    CanaryStatus:
+      type: object
+      properties:
+        service:
+          type: string
+          example: remote-access-service
+        environment:
+          type: string
+          enum: [dev, staging, prod]
+        canary_active:
+          type: boolean
+        stable:
+          type: object
+          properties:
+            revision:
+              type: string
+              example: v1.4.1
+            image:
+              type: string
+            weight:
+              type: integer
+              minimum: 0
+              maximum: 100
+              example: 80
+        canary:
+          type: object
+          nullable: true
+          properties:
+            revision:
+              type: string
+              example: v1.4.2
+            image:
+              type: string
+            weight:
+              type: integer
+              minimum: 0
+              maximum: 100
+              example: 20
+
+    RollbackRequest:
+      type: object
+      properties:
+        revision:
+          type: string
+          description: Target revision tag. Omit to roll back to the immediately previous revision.
+          example: v1.4.0
+
+    CanaryWeightRequest:
+      type: object
+      required: [weight]
+      properties:
+        weight:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Percentage of traffic to route to the canary version (0–100)
+          example: 50
+
+    ValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+          example: "deployment.replicas"
+        message:
+          type: string
+          example: "must be greater than 0"
+
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+
+    ServiceListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    ServiceResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/Service'
+
+    DeployResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/Service'
+
+    RevisionListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Revision'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    CanaryResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/CanaryStatus'
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: bad_request
+        message:
+          type: string
+          example: SSD validation failed
+        status:
+          type: integer
+          example: 400
+        validation_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+
+    Error:
+      type: object
+      required: [error, message, status]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+
+  responses:
+
+    Unauthorized:
+      description: Token is missing, invalid, or expired
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: unauthorized
+            message: Bearer token is missing or has expired.
+            status: 401
+
+    Forbidden:
+      description: Insufficient role for this environment or operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: forbidden
+            message: Deploying to production requires the platform-engineer role.
+            status: 403
+
+    NotFound:
+      description: Service not found in the specified environment
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: not_found
+            message: Service not found.
+            status: 404
+
+    BadRequest:
+      description: Invalid request body or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InvalidEnvironment:
+      description: The env parameter value is invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: unprocessable_entity
+            message: "'env' must be one of: dev, staging, prod."
+            status: 422
+
+    InternalError:
+      description: Internal platform error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: internal_error
+            message: An internal error occurred. Request ID: req-abc123.
+            status: 500
