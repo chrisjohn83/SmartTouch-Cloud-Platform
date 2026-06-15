@@ -546,5 +546,6 @@ See [Common errors](./common-errors.md) for a reference to every error you may h
 | --- | --- |
 | Connect a real physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Deploy your first IoT service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
-| See all REST API endpoints | [SmartTouch REST API reference](../api-reference/rest-api.md) |
-| See all stctl commands | [stctl CLI reference](../api-reference/stctl-cli-reference.md) |
+| See all REST API endpoints | [SmartTouch REST API reference](../api-reference/index.md) |
+
+<!--| See all stctl commands | [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->

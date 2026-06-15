@@ -18,7 +18,6 @@ accessibility:
 tags: [onboarding, getting-started, developer, authentication, remote-access, first-api-call]
 related:
   - docs/developers/index.md
-  - docs/developers/api-reference/rest-api.md
   - docs/developers/api-reference/stctl-cli-reference.md
 ai-retrieval-questions:
   - "How do I get started as a SmartTouch developer?"

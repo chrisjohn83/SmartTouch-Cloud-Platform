@@ -415,4 +415,4 @@ cat /tmp/response.json
 - [First API call](./first-api-call.md)
 - [Authentication](./authentication.md)
 - [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md)
-- [SmartTouch REST API reference — Error codes](../api-reference/rest-api.md#error-codes)
+- [SmartTouch REST API reference — Error codes](../api-reference/Device-api.md)

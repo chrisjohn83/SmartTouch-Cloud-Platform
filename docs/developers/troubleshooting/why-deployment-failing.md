@@ -19,7 +19,9 @@ tags: [deployment, troubleshooting, argo-cd, imagepullbackoff, crashloopbackoff,
 related:
   - docs/developers/deploy-release/how-to-deploy-service.md
   - docs/developers/deploy-release/how-to-rollback.md
-  - docs/developers/api-reference/stctl-cli-reference.md
+  
+  <!-- docs/developers/api-reference/stctl-cli-reference.md -->
+
 ai-retrieval-questions:
   - "Why is my deployment failing?"
   - "Why is my service in CrashLoopBackOff?"
@@ -320,4 +322,4 @@ Then investigate the root cause before attempting another deployment. See [How d
 - [How do I deploy a service?](../deploy-release/how-to-deploy-service.md)
 - [How do I roll back a deployment?](../deploy-release/how-to-rollback.md)
 - [SSD schema reference](../secrets-config/ssd-schema-reference.md)
-- [stctl CLI reference](../api-reference/stctl-cli-reference.md)
+ <!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->
