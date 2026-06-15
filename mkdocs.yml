@@ -1,6 +1,9 @@
 site_name: SmartTouch Cloud Platform
 site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
 
+plugins:
+  - search
+
 theme:
   name: material
   features:
@@ -18,9 +21,6 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
-
-extra_css:
-  - assets/custom.css
 
 nav:
   - Home: index.md
@@ -50,18 +50,22 @@ nav:
           - Install STCTL: developers/get-started/set-up-local-development/01-install-stctl.md
           - Configure Kubernetes: developers/get-started/set-up-local-development/02-configure-kubernetes.md
           - Run Service Locally: developers/get-started/set-up-local-development/03-run-service-locally.md
+      
       - API Reference:
-          - Overview: developers/api-reference/index.md
-          - REST API: developers/api-reference/rest-api.md
-          - Device API: developers/api-reference/Device-api.md
-          - Get a Device: developers/api-reference/Get-a-device.md
-          - Get device agent status: developers/api-reference/Get-device-agent-status.md
-          - Get a session: developers/api-reference/Get-a-session.md
-          - Open a session: developers/api-reference/Open-a-session.md
-          - Close a session: developers/api-reference/Close-a-session.md
-          - Remote access sessions: developers/api-reference/Remote-access-sessions-api.md
-          - Audit logs: developers/api-reference/Audit-log-api.md
-          - stctl CLI Reference: developers/api-reference/stctl-cli-reference.md
+          - Overview: api-reference/index.md
+          - Device API: api-reference/device-api.md
+          - Deployment API: api-reference/deployment-api.md
+          - Session API: api-reference/session-api.md
+          - Remote access sessions: api-reference/remote-access-api.md
+          - Audit logs: api-reference/audit-log-api.md
+      
+      - API Playground:
+          - Overview: playground/index.md
+          - Device API: playground/device-api.md
+          - Deployment API: playground/deployment-api.md
+          - Session API: playground/session-api.md
+          - Remote access sessions: playground/remote-access-api.md
+          - Audit logs: playground/audit-log-api.md
       - Observability:
           - Overview: developers/observability/index.md
           - View Logs: developers/observability/how-to-view-logs.md

@@ -1,0 +1,538 @@
+  openapi: 3.0.3
+
+  info:
+    title: SmartTouch Device API
+    description: |
+      Manage IoT devices registered with the SmartTouch Cloud Platform.
+
+      The Device API lets you list, inspect, update, and deregister devices.
+      A device is automatically registered the first time its Remote Access Agent
+      connects to the session broker using a valid TLS certificate.
+
+      ## Authentication
+      All endpoints require a bearer token obtained via `stctl auth token`.
+
+      ## Base URL
+      ```
+      https://api.<your-platform-domain>/v1
+      ```
+
+      ## Related APIs
+      - [Session API](./session-api.yaml) — open and close remote access sessions
+      - [Remote Access API](./remote-access-api.yaml) — broker health and protocol configuration
+      - [Audit Log API](./audit-log-api.yaml) — remote access event history
+    version: "1.0.0"
+    contact:
+      name: SmartTouch Developer Experience
+      url: https://docs.smarttouch.io
+    license:
+      name: Proprietary
+      url: https://smarttouch.io/legal/license
+
+  servers:
+    - url: https://api.smarttouch.local/v1
+      description: Local development environment
+    - url: https://api.dev.smarttouch.example.com/v1
+      description: Dev environment
+    - url: https://api.staging.smarttouch.example.com/v1
+      description: Staging environment
+    - url: https://api.smarttouch.example.com/v1
+      description: Production environment
+
+  security:
+    - bearerAuth: []
+
+  tags:
+    - name: Devices
+      description: Device registry — list, get, update, and deregister devices
+    - name: Agent Status
+      description: Remote Access Agent connectivity state for a device
+
+  paths:
+
+    /devices:
+      get:
+        operationId: listDevices
+        summary: List devices
+        description: |
+          Returns all devices visible to the authenticated user.
+          Supports filtering by agent status and fleet label.
+        tags: [Devices]
+        parameters:
+          - $ref: '#/components/parameters/StatusFilter'
+          - $ref: '#/components/parameters/FleetFilter'
+          - $ref: '#/components/parameters/PageParam'
+          - $ref: '#/components/parameters/PerPageParam'
+        responses:
+          '200':
+            description: List of devices
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DeviceListResponse'
+                example:
+                  status: 200
+                  data:
+                    - id: sensor-001
+                      display_name: Temperature Sensor 001
+                      fleet: factory-floor
+                      agent_status: online
+                      agent_version: 1.4.2
+                      last_seen_at: "2026-06-08T09:12:00Z"
+                      certificate:
+                        subject: "CN=sensor-001,OU=remote-access,O=smarttouch"
+                        expires_at: "2027-06-08T00:00:00Z"
+                    - id: sensor-002
+                      display_name: Humidity Sensor 002
+                      fleet: factory-floor
+                      agent_status: offline
+                      agent_version: 1.4.1
+                      last_seen_at: "2026-06-08T06:00:00Z"
+                      certificate:
+                        subject: "CN=sensor-002,OU=remote-access,O=smarttouch"
+                        expires_at: "2027-06-08T00:00:00Z"
+                  meta:
+                    page: 1
+                    per_page: 50
+                    total: 2
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '429':
+            $ref: '#/components/responses/RateLimited'
+          '500':
+            $ref: '#/components/responses/InternalError'
+
+    /devices/{deviceId}:
+      parameters:
+        - $ref: '#/components/parameters/DeviceId'
+
+      get:
+        operationId: getDevice
+        summary: Get a device
+        description: Returns full details for a single device, including certificate metadata and remote access configuration.
+        tags: [Devices]
+        responses:
+          '200':
+            description: Device details
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DeviceResponse'
+                example:
+                  status: 200
+                  data:
+                    id: sensor-001
+                    display_name: Temperature Sensor 001
+                    fleet: factory-floor
+                    agent_status: online
+                    agent_version: 1.4.2
+                    last_seen_at: "2026-06-08T09:12:00Z"
+                    remote_access:
+                      enabled: true
+                      broker_url: "wss://broker.smarttouch.local:8443"
+                      allowed_protocols:
+                        - shell
+                        - diagnostics
+                    certificate:
+                      subject: "CN=sensor-001,OU=remote-access,O=smarttouch"
+                      serial: "4a:f3:1b:cc:00:de"
+                      issued_at: "2026-06-08T00:00:00Z"
+                      expires_at: "2027-06-08T00:00:00Z"
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalError'
+
+      patch:
+        operationId: updateDevice
+        summary: Update device metadata
+        description: |
+          Update the display name or fleet label of a device.
+          Certificate and agent configuration cannot be changed through this endpoint.
+        tags: [Devices]
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceUpdateRequest'
+              example:
+                display_name: Temperature Sensor 001 (Revised)
+                fleet: assembly-line
+        responses:
+          '200':
+            description: Updated device
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DeviceResponse'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '403':
+            $ref: '#/components/responses/Forbidden'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalError'
+
+      delete:
+        operationId: deregisterDevice
+        summary: Deregister a device
+        description: |
+          Permanently removes a device from the platform registry.
+          Any open sessions to this device are closed immediately.
+          This action cannot be undone. Requires the `administrator` role.
+        tags: [Devices]
+        responses:
+          '204':
+            description: Device deregistered successfully
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '403':
+            $ref: '#/components/responses/Forbidden'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalError'
+
+    /devices/{deviceId}/agent-status:
+      parameters:
+        - $ref: '#/components/parameters/DeviceId'
+
+      get:
+        operationId: getDeviceAgentStatus
+        summary: Get agent status
+        description: |
+          Returns the current connection state of the Remote Access Agent on the device.
+          Use this endpoint to verify the agent is online before opening a session.
+        tags: [Agent Status]
+        responses:
+          '200':
+            description: Agent status
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AgentStatusResponse'
+                example:
+                  status: 200
+                  data:
+                    device_id: sensor-001
+                    agent_status: online
+                    connected_at: "2026-06-08T08:55:32Z"
+                    broker_url: "wss://broker.smarttouch.local:8443"
+                    latency_ms: 12
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalError'
+
+  components:
+
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+        description: |
+          Obtain a token with `stctl auth token`.
+          Pass it as `Authorization: Bearer <token>`.
+          Tokens expire after 8 hours.
+
+    parameters:
+
+      DeviceId:
+        name: deviceId
+        in: path
+        required: true
+        description: Unique device identifier (e.g., `sensor-001`)
+        schema:
+          type: string
+          example: sensor-001
+
+      StatusFilter:
+        name: status
+        in: query
+        required: false
+        description: Filter devices by agent status
+        schema:
+          type: string
+          enum: [online, offline, unknown]
+
+      FleetFilter:
+        name: fleet
+        in: query
+        required: false
+        description: Filter devices by fleet label
+        schema:
+          type: string
+          example: factory-floor
+
+      PageParam:
+        name: page
+        in: query
+        required: false
+        description: Page number (1-based)
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+
+      PerPageParam:
+        name: per_page
+        in: query
+        required: false
+        description: Number of results per page
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+
+    schemas:
+
+      Device:
+        type: object
+        required: [id, agent_status]
+        properties:
+          id:
+            type: string
+            description: Unique device identifier
+            example: sensor-001
+          display_name:
+            type: string
+            description: Human-readable device name
+            example: Temperature Sensor 001
+          fleet:
+            type: string
+            nullable: true
+            description: Fleet label this device belongs to
+            example: factory-floor
+          agent_status:
+            type: string
+            enum: [online, offline, unknown]
+            description: Current Remote Access Agent connection state
+          agent_version:
+            type: string
+            description: Installed Remote Access Agent version
+            example: "1.4.2"
+          last_seen_at:
+            type: string
+            format: date-time
+            description: ISO 8601 timestamp of the last agent heartbeat
+          remote_access:
+            $ref: '#/components/schemas/RemoteAccessConfig'
+          certificate:
+            $ref: '#/components/schemas/CertificateSummary'
+
+      RemoteAccessConfig:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Whether remote access is enabled for this device
+          broker_url:
+            type: string
+            description: WebSocket URL of the session broker the agent connects to
+            example: "wss://broker.smarttouch.local:8443"
+          allowed_protocols:
+            type: array
+            items:
+              type: string
+              enum: [shell, diagnostics, file-transfer]
+            description: Session protocols permitted for this device
+
+      CertificateSummary:
+        type: object
+        properties:
+          subject:
+            type: string
+            description: Certificate subject DN
+            example: "CN=sensor-001,OU=remote-access,O=smarttouch"
+          serial:
+            type: string
+            description: Certificate serial number
+            example: "4a:f3:1b:cc:00:de"
+          issued_at:
+            type: string
+            format: date-time
+          expires_at:
+            type: string
+            format: date-time
+
+      AgentStatus:
+        type: object
+        required: [device_id, agent_status]
+        properties:
+          device_id:
+            type: string
+            example: sensor-001
+          agent_status:
+            type: string
+            enum: [online, offline, unknown]
+          connected_at:
+            type: string
+            format: date-time
+            nullable: true
+            description: When the agent last connected to the broker. Null if offline.
+          broker_url:
+            type: string
+            description: Broker the agent is connected to
+            example: "wss://broker.smarttouch.local:8443"
+          latency_ms:
+            type: integer
+            description: Round-trip latency to the agent in milliseconds. Null if offline.
+            nullable: true
+            example: 12
+
+      DeviceUpdateRequest:
+        type: object
+        properties:
+          display_name:
+            type: string
+            description: New human-readable name for the device
+            example: Temperature Sensor 001 (Revised)
+          fleet:
+            type: string
+            nullable: true
+            description: Fleet label to assign. Set to null to remove fleet membership.
+            example: assembly-line
+
+      PaginationMeta:
+        type: object
+        properties:
+          page:
+            type: integer
+            example: 1
+          per_page:
+            type: integer
+            example: 50
+          total:
+            type: integer
+            description: Total number of matching records
+            example: 142
+
+      DeviceListResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/Device'
+          meta:
+            $ref: '#/components/schemas/PaginationMeta'
+
+      DeviceResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          data:
+            $ref: '#/components/schemas/Device'
+
+      AgentStatusResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          data:
+            $ref: '#/components/schemas/AgentStatus'
+
+      Error:
+        type: object
+        required: [error, message, status]
+        properties:
+          error:
+            type: string
+            description: Machine-readable error code
+            example: not_found
+          message:
+            type: string
+            description: Human-readable error description
+            example: 'Device not found: sensor-999'
+          status:
+            type: integer
+            description: HTTP status code
+            example: 404
+
+    responses:
+      Unauthorized:
+        description: Token is missing, invalid, or expired
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: unauthorized
+              message: Bearer token is missing or has expired.
+              status: 401
+
+      Forbidden:
+        description: Token does not have the required role for this operation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: forbidden
+              message: This operation requires the administrator role.
+              status: 403
+
+      NotFound:
+        description: Resource not found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: not_found
+              message: Device not found.
+              status: 404
+
+      BadRequest:
+        description: Request body or query parameters are invalid
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: bad_request
+              message: "display_name must be a non-empty string."
+              status: 400
+
+      RateLimited:
+        description: Rate limit exceeded
+        headers:
+          Retry-After:
+            description: Seconds to wait before retrying
+            schema:
+              type: integer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: rate_limited
+              message: Too many requests. Retry after 30 seconds.
+              status: 429
+
+      InternalError:
+        description: Internal platform error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              error: internal_error
+              message: 'An internal error occurred. Request ID: req-abc123.'
+              status: 500

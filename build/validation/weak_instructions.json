@@ -1,0 +1,49 @@
+from pathlib import Path
+import json
+import re
+
+rules_file = Path(
+    "validation/weak_instructions.json"
+)
+
+rules = json.loads(
+    rules_file.read_text(
+        encoding="utf-8"
+    )
+)
+
+WEAK_TERMS = rules["weak_terms"]
+{
+  "weak_terms": [
+    "click here",
+    "do the setup",
+    "configure settings",
+    "appropriate button",
+    "simply",
+    "easily",
+    "obviously",
+    "somehow"
+  ]
+}
+def find_weak_instructions(content):
+
+    findings = []
+
+    lower_content = content.lower()
+
+    for term in WEAK_TERMS:
+
+        if term in lower_content:
+
+            findings.append(term)
+
+    return findings
+
+    content = """
+1. Click here
+2. Configure settings
+"""
+
+print(
+    find_weak_instructions(content)
+)

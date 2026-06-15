@@ -7,7 +7,6 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint-docs": "textlint docs/**/*.md"
   },
   "repository": {
@@ -23,6 +22,9 @@
   },
   "homepage": "https://github.com/chrisjohn83/SmartTouch-Cloud-Platform#index.md",
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@redocly/cli": "^2.32.2",
+    "@types/node": "^25.9.3",
     "textlint": "^15.7.1",
     "textlint-rule-en-capitalization": "^2.0.3",
     "textlint-rule-no-todo": "^2.0.1",
@@ -30,6 +32,7 @@
     "textlint-rule-terminology": "^5.2.16"
   },
   "dependencies": {
+    "@scalar/api-reference": "^1.59.3",
     "bail": "^1.0.5",
     "boundary": "^2.0.0",
     "ccount": "^1.1.0",

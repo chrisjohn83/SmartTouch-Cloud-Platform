@@ -1,0 +1,53 @@
+[
+  {
+    "file": "docs\\test-weak-instructions.md",
+    "score": 60,
+    "issues": [
+      "Expected Result is too short",
+      "Weak step: 'Click here' (matched: click here)",
+      "Weak step: 'Configure settings' (matched: configure settings)",
+      "Weak step: 'Select the appropriate button' (matched: appropriate button)"
+    ]
+  },
+  {
+    "file": "docs\\developers\\deploy-release\\how-to-promote.md",
+    "score": 80,
+    "issues": [
+      "Expected Result section is empty"
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\authentication.md",
+    "score": 80,
+    "issues": [
+      "Expected Result section is empty"
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\common-errors.md",
+    "score": 40,
+    "issues": [
+      "Missing Prerequisites section",
+      "Expected Result section is empty",
+      "Missing Troubleshooting section"
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\first-api-call.md",
+    "score": 40,
+    "issues": [
+      "Missing Prerequisites section",
+      "Expected Result section is empty",
+      "Missing Troubleshooting section"
+    ]
+  },
+  {
+    "file": "docs\\developers\\troubleshooting\\why-deployment-failing.md",
+    "score": 40,
+    "issues": [
+      "Missing Prerequisites section",
+      "Expected Result section is empty",
+      "Missing Troubleshooting section"
+    ]
+  }
+]

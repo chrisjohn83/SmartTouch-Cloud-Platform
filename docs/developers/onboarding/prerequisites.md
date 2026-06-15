@@ -43,9 +43,9 @@ Before you start the [onboarding journey](./first-api-call.md), confirm that you
 
 | Requirement | How to get it |
 | --- | --- |
-| SmartTouch platform account | Request access from your Administrator or Platform Engineer. You will receive an email invitation with SSO login instructions. |
-| `developer` role or higher | Verify your role with `stctl auth status` after login. The `developer` role is required to open `diagnostics` sessions. |
-| A registered device or simulator access | Ask your Platform Engineer for a registered device ID, or use the built-in simulator (see below). |
+| SmartTouch platform account | You must request access from your Administrator or Platform Engineer. You will receive an email invitation with SSO login instructions. |
+| `developer` role or higher | You must verify your role with `stctl auth status` after login. The `developer` role is required to open `diagnostics` sessions. |
+| A registered device or simulator access | You must ask your Platform Engineer for a registered device ID, or use the built-in simulator. |
 
 ---
 

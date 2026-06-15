@@ -2,6 +2,7 @@
 persona: [developer]
 task: [getting-started, remote-access, authentication]
 product: [smarttouch-cloud]
+validation: automation
 difficulty: beginner
 status: published
 version: "1.0"
