@@ -351,6 +351,7 @@ The device is registered automatically the first time the Remote Access Agent su
 
 - [Provision a device certificate for remote access](../get-started/connect-first-device/01-provision-certificate.md)
 - [Install the Remote Access Agent](../get-started/connect-first-device/02-install-remote-access-agent.md)
-- [SmartTouch REST API reference](../api-reference/index.md)
+
+<!-- - [SmartTouch REST API reference](../api-reference/index.md) -->
 
 <!-- - ['stctl' CLI reference](../api-reference/stctl-cli-reference.md) -->
