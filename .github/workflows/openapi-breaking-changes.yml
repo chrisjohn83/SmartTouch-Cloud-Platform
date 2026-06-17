@@ -1,0 +1,62 @@
+name: OpenAPI Breaking Changes
+
+on:
+  pull_request:
+    paths:
+      - "docs/openapi/**"
+      - ".github/workflows/openapi-breaking-changes.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  breaking-changes:
+    name: Detect OpenAPI breaking changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch base branch
+        run: git fetch --depth=1 origin ${{ github.base_ref }}
+
+      - name: Check audit log API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@v0
+        with:
+          base: 'origin/${{ github.base_ref }}:docs/openapi/audit-log-api.yaml'
+          revision: 'HEAD:docs/openapi/audit-log-api.yaml'
+          fail-on: WARN
+          review: false
+
+      - name: Check deployment API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@v0
+        with:
+          base: 'origin/${{ github.base_ref }}:docs/openapi/deployment-api.yaml'
+          revision: 'HEAD:docs/openapi/deployment-api.yaml'
+          fail-on: WARN
+          review: false
+
+      - name: Check device API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@v0
+        with:
+          base: 'origin/${{ github.base_ref }}:docs/openapi/device-api.yaml'
+          revision: 'HEAD:docs/openapi/device-api.yaml'
+          fail-on: WARN
+          review: false
+
+      - name: Check remote access API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@v0
+        with:
+          base: 'origin/${{ github.base_ref }}:docs/openapi/remote-access-api.yaml'
+          revision: 'HEAD:docs/openapi/remote-access-api.yaml'
+          fail-on: WARN
+          review: false
+
+      - name: Check session API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@v0
+        with:
+          base: 'origin/${{ github.base_ref }}:docs/openapi/session-api.yaml'
+          revision: 'HEAD:docs/openapi/session-api.yaml'
+          fail-on: WARN
+          review: false
