@@ -49,15 +49,16 @@ info:
     url: https://docs.smarttouch.io
   license:
     name: Proprietary
+    url: https://docs.smarttouch.io/legal/license
 
 servers:
   - url: https://api.smarttouch.local/v1
     description: Local development environment
-  - url: https://api.dev.smarttouch.example.com/v1
+  - url: https://api.dev.smarttouch.io/v1
     description: Dev environment
-  - url: https://api.staging.smarttouch.example.com/v1
+  - url: https://api.staging.smarttouch.io/v1
     description: Staging environment
-  - url: https://api.smarttouch.example.com/v1
+  - url: https://api.smarttouch.io/v1 
     description: Production environment
 
 security:

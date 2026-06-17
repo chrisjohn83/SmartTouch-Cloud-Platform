@@ -43,6 +43,9 @@ jobs:
         uses: errata-ai/vale-action@reviewdog
         with:
           files: docs/
+      
+      - name: Lint OpenAPI specs
+        run: npx @redocly/cli lint
 
       - name: Build MkDocs Site
         run: |
