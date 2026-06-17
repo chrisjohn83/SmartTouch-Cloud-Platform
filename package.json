@@ -10,7 +10,7 @@
     "lint-docs": "textlint docs/**/*.md"
   },
   "scripts": {
-     "lint:openapi": "node ./node_modules/@redocly/cli/bin/cli.js lint",
+     "lint:openapi": "redocly lint"
      "where:redocly": "node -e \"console.log(require.resolve('@redocly/cli/package.json'))\""
   },
   "repository": {

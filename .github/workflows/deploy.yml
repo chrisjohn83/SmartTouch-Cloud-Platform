@@ -32,7 +32,8 @@ jobs:
           pip install pymdown-extensions==10.16.1
           npm install -g markdownlint-cli
           cargo install lychee
-      
+          npm ci --include=dev
+
       - name: Markdown Lint Validation
         continue-on-error: true
         run: |
@@ -74,9 +75,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
         
       - name: Install MkDocs
         run: |
