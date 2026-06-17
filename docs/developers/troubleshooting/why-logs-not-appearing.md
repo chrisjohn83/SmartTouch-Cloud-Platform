@@ -19,7 +19,8 @@ tags: [logs, observability, troubleshooting, loki, opentelemetry, remote-access,
 related:
   - docs/developers/observability/how-to-view-logs.md
   - docs/developers/observability/how-to-instrument-service.md
-  - docs/developers/api-reference/stctl-cli-reference.md
+
+  <!-- - docs/developers/api-reference/stctl-cli-reference.md -->
 ai-retrieval-questions:
   - "Why are my logs not appearing?"
   - "Why can I not see logs in Grafana?"
@@ -294,4 +295,5 @@ Reduce log entry size by:
 - [How do I view logs for my service?](../observability/how-to-view-logs.md)
 - [How do I instrument my service?](../observability/how-to-instrument-service.md)
 - [How do I trace a request end-to-end?](../observability/how-to-trace-request.md)
-- [stctl CLI reference](../api-reference/stctl-cli-reference.md)
+
+<!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->

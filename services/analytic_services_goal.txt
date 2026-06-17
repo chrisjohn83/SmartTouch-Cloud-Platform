@@ -1,0 +1,9 @@
+Collect analytics events
+
+Store analytics events
+
+Provide analytics APIs
+
+Generate reports
+
+Support gap detection

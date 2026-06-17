@@ -18,7 +18,6 @@ accessibility:
 tags: [onboarding, getting-started, developer, authentication, remote-access, first-api-call]
 related:
   - docs/developers/index.md
-  - docs/developers/api-reference/rest-api.md
   - docs/developers/api-reference/stctl-cli-reference.md
 ai-retrieval-questions:
   - "How do I get started as a SmartTouch developer?"
@@ -43,8 +42,7 @@ You will follow a single guided journey — from getting credentials to opening 
 
 ## The onboarding journey
 
-``` mermaid
-
+```mermaid
 Get credentials
       ↓
 Generate a token
@@ -93,8 +91,9 @@ Each step in [First API call](./first-api-call.md) shows the `stctl` command and
 
 - [Common errors](./common-errors.md) — covers the most frequent errors at each step of the journey.
 - [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md) — agent and certificate issues.
-- [stctl CLI reference](../api-reference/stctl-cli-reference.md) — full command reference.
-- [SmartTouch REST API reference](../api-reference/rest-api.md) — full endpoint reference.
+<!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) — full command reference. -->
+
+<!-- - [SmartTouch REST API reference](../api-reference/index.md) — full endpoint reference. -->
 
 ---
 

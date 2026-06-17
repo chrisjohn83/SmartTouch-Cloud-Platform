@@ -2,6 +2,7 @@
 persona: [developer]
 task: [getting-started, remote-access, authentication]
 product: [smarttouch-cloud]
+validation: automation
 difficulty: beginner
 status: published
 version: "1.0"
@@ -66,11 +67,17 @@ If any of these are not ready, complete [Authentication](./authentication.md) fi
 ---
 
 Step 1 → Get credentials        (done in Authentication)
+
 Step 2 → Generate a token       (confirm $TOKEN is set)
+
 Step 3 → Find a device          (GET /devices)
+
 Step 4 → Verify device online   (GET /devices/{id}/agent-status)
+
 Step 5 → Open a session         (POST /remote-access/sessions)
+
 Step 6 → Confirm success        (GET /remote-access/sessions/{id})
+
 Step 7 → Close the session      (DELETE /remote-access/sessions/{id})
 
 ---
@@ -108,8 +115,11 @@ stctl auth status
 Expected output:
 
 ```text
+
 User:   alice@example.com
+
 Token:  valid (expires in 7h 55m)
+
 Role:   developer
 ```
 
@@ -137,8 +147,11 @@ Expected output:
 
 ```text
 ID                       DISPLAY NAME              FLEET           AGENT STATUS   LAST SEEN
+
 onboarding-device-01     Onboarding Device 01      —               online         1m ago
+
 sensor-001               Temperature Sensor 001   factory-floor   online         4m ago
+
 sensor-002               Humidity Sensor 002      factory-floor   offline        2h ago
 ```
 
@@ -534,5 +547,7 @@ See [Common errors](./common-errors.md) for a reference to every error you may h
 | --- | --- |
 | Connect a real physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Deploy your first IoT service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
-| See all REST API endpoints | [SmartTouch REST API reference](../api-reference/rest-api.md) |
-| See all stctl commands | [stctl CLI reference](../api-reference/stctl-cli-reference.md) |
+
+<!-- | See all REST API endpoints | [SmartTouch REST API reference](../api-reference/index.md) | -->
+
+<!--| See all stctl commands | [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->

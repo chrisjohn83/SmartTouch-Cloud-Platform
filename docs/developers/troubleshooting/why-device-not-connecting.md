@@ -19,8 +19,10 @@ tags: [device, remote-access, troubleshooting, certificate, agent, broker, webso
 related:
   - docs/developers/get-started/connect-first-device/01-provision-certificate.md
   - docs/developers/get-started/connect-first-device/02-install-remote-access-agent.md
-  - docs/developers/api-reference/stctl-cli-reference.md
-  - docs/developers/api-reference/rest-api.md
+  
+  <!-- - docs/developers/api-reference/stctl-cli-reference.md -->
+
+  - docs/developers/api-reference/index.md
 ai-retrieval-questions:
   - "Why is my device not connecting?"
   - "Why is the Remote Access Agent offline?"
@@ -349,5 +351,7 @@ The device is registered automatically the first time the Remote Access Agent su
 
 - [Provision a device certificate for remote access](../get-started/connect-first-device/01-provision-certificate.md)
 - [Install the Remote Access Agent](../get-started/connect-first-device/02-install-remote-access-agent.md)
-- [SmartTouch REST API reference](../api-reference/rest-api.md)
-- ['stctl' CLI reference](../api-reference/stctl-cli-reference.md)
+
+<!-- - [SmartTouch REST API reference](../api-reference/index.md) -->
+
+<!-- - ['stctl' CLI reference](../api-reference/stctl-cli-reference.md) -->
