@@ -45,7 +45,7 @@ Required. Identifies the service.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | string | Yes | Unique service identifier. Lowercase, hyphens only. Maximum 63 characters. |
-| `version` | string | Yes | Semver string e.g. `"1.0.0"` |
+| `version` | string | Yes | SemVer string e.g. `"1.0.0"` |
 
 ```yaml
 service:

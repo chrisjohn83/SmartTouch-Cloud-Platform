@@ -175,7 +175,7 @@ function onSessionClose(sessionId, durationSeconds, protocol) {
 
 ### Step 4 — Add structured logging
 
-SmartTouch Loki indexes logs by `service`, `env`, and any additional labels you include. Structure your logs as JSON:
+SmartTouch Loki indices logs by `service`, `env`, and any additional labels you include. Structure your logs as JSON:
 
 #### Node.js logging
 

@@ -66,19 +66,13 @@ If any of these are not ready, complete [Authentication](./authentication.md) fi
 
 ---
 
-Step 1 → Get credentials        (done in Authentication)
-
-Step 2 → Generate a token       (confirm $TOKEN is set)
-
-Step 3 → Find a device          (GET /devices)
-
-Step 4 → Verify device online   (GET /devices/{id}/agent-status)
-
-Step 5 → Open a session         (POST /remote-access/sessions)
-
-Step 6 → Confirm success        (GET /remote-access/sessions/{id})
-
-Step 7 → Close the session      (DELETE /remote-access/sessions/{id})
+- Step 1: Get credentials. Done in Authentication.
+- Step 2: Generate a token. Confirm `$TOKEN` is set.
+- Step 3: Find a device. Use `GET /devices`.
+- Step 4: Verify the device is online. Use `GET /devices/{id}/agent-status`.
+- Step 5: Open a session. Use `POST /remote-access/sessions`.
+- Step 6: Confirm success. Use `GET /remote-access/sessions/{id}`.
+- Step 7: Close the session. Use `DELETE /remote-access/sessions/{id}`.
 
 ---
 

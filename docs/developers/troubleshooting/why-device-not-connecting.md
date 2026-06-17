@@ -236,7 +236,7 @@ openssl s_client -connect broker.smarttouch.local:8443 \
 
 **Wrong broker URL:** Update `/etc/smarttouch/agent.yaml` with the correct broker URL. The correct value is shown in `stctl device get sensor-001` under `remote_access.broker_url`. Restart the agent after editing.
 
-**Firewall blocking outbound port 8443:** The Remote Access Agent requires outbound TCP/WebSocket access on port 8443. Work with your network administrator to allow outbound connections to the broker host name on port 8443.
+**Firewall blocking outbound port 8443:** The Remote Access Agent requires outbound TCP/WebSocket access on port 8443. Work with your network administrator to allow outbound connections to the broker hostname on port 8443.
 
 The agent doesn't require any inbound ports—all sessions are initiated via the outbound WebSocket connection.
 
@@ -251,7 +251,7 @@ If the broker shows `unhealthy`, contact your Platform Engineer.
 ### Prevent connectivity issues
 
 - Test broker connectivity as part of device provisioning before the device is deployed to the field.
-- Configure device network policy to explicitly allow outbound connections to the broker host name on port 8443.
+- Configure device network policy to explicitly allow outbound connections to the broker hostname on port 8443.
 - Monitor agent connectivity with `stctl device agent-status` or via the SmartTouch Console fleet view.
 
 ---
