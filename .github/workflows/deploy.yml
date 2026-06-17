@@ -45,7 +45,7 @@ jobs:
           files: docs/
       
       - name: Lint OpenAPI specs
-        run: npm exec --package=@redocly/cli -- redocly lint
+        run: npm run lint:openapi
 
       - name: Build MkDocs Site
         run: |

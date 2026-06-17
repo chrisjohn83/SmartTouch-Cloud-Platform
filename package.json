@@ -9,6 +9,9 @@
   "scripts": {
     "lint-docs": "textlint docs/**/*.md"
   },
+  "scripts": {
+    "lint:openapi": "node ./node_modules/@redocly/cli/bin/cli.js lint"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chrisjohn83/SmartTouch-Cloud-Platform.git"
@@ -23,7 +26,7 @@
   "homepage": "https://github.com/chrisjohn83/SmartTouch-Cloud-Platform#index.md",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@redocly/cli": "^2.32.2",
+    "@redocly/cli": "^2.34.0",
     "@types/node": "^25.9.3",
     "textlint": "^15.7.1",
     "textlint-rule-en-capitalization": "^2.0.3",
