@@ -1,0 +1,56 @@
+[
+  {
+    "file": "docs\\developers\\deploy-release\\how-to-promote.md",
+    "step_count": 4,
+    "steps": [
+      "Verifies the image for `1.1.0` exists in Harbor",
+      "Runs the Harbor vulnerability scan",
+      "Updates the image tag in `k8s/overlays/prod/`",
+      "Opens a pull request titled: `chore: promote remote-access-service v1.1.0 to prod`"
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\authentication.md",
+    "step_count": 3,
+    "steps": [
+      "Ask your Administrator to create a service account in the SmartTouch Console.",
+      "The Administrator generates a token and shares it securely (for example, via Vault).",
+      "Store the token in a secret \u2014 never in a `.env` file or source code."
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\common-errors.md",
+    "step_count": 8,
+    "steps": [
+      "Verify the agent status:",
+      "If `agent_status` is `offline`, check whether the agent process is running on the device:",
+      "If the agent is stopped, start it:",
+      "Wait 15 seconds, then check agent status again:",
+      "Retry opening the session once `agent_status` returns `online`.",
+      "Check the platform status page or run `stctl status --env dev`.",
+      "If the platform is healthy, retry the request after 30 seconds \u2014 the error may be transient.",
+      "If the error persists, contact your Platform Engineer with the `Request ID` from the response body."
+    ]
+  },
+  {
+    "file": "docs\\developers\\onboarding\\first-api-call.md",
+    "step_count": 6,
+    "steps": [
+      "Authenticated and generated a bearer token",
+      "Listed devices and identified an online device",
+      "Verified the device agent is connected",
+      "Opened a `diagnostics` session using both `stctl` and the REST API",
+      "Confirmed the session was active and visible in the audit log",
+      "Closed the session and verified the close event in the audit log"
+    ]
+  },
+  {
+    "file": "docs\\developers\\troubleshooting\\why-deployment-failing.md",
+    "step_count": 3,
+    "steps": [
+      "The image tag does not exist in Harbor \u2014 the build pipeline failed or the tag was not pushed.",
+      "Harbor credentials stored in the cluster are expired or incorrect.",
+      "The image failed the Harbor vulnerability scan and was rejected."
+    ]
+  }
+]

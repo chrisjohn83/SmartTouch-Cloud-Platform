@@ -1,5 +1,8 @@
-site_name: SmartTouch Cloud Platform
+﻿site_name: SmartTouch Cloud Platform
 site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
+
+plugins:
+  - search
 
 theme:
   name: material
@@ -19,49 +22,52 @@ theme:
         icon: material/weather-night
         name: Switch to dark mode
 
-extra_css:
-  - assets/custom.css
-
 nav:
   - Home: index.md
-  - Developers:
-      - Developer Onboarding:
-          - Overview: developers/onboarding/index.md
-          - prerequisites: developers/onboarding/prerequisites.md
-          - platform-concepts: developers/onboarding/platform-concepts.md
-          - authentication: developers/onboarding/authentication.md
-          - First api call: developers/onboarding/first-api-call.md
-          - Common Errors: developers/onboarding/common-errors.md
-      
+  - Developer Journey:
+      - Overview: developers/onboarding/index.md
+      - Prerequisites: developers/onboarding/prerequisites.md
+      - Platform Concepts: developers/onboarding/platform-concepts.md
+      - Authentication: developers/onboarding/authentication.md
+      - First API Call: developers/onboarding/first-api-call.md
+      - Common Errors: developers/onboarding/common-errors.md
+  - Getting Started:
       - Connect First Device:
           - Overview: developers/get-started/connect-first-device/index.md
           - Provision Certificate: developers/get-started/connect-first-device/01-provision-certificate.md
           - Install Remote Access Agent: developers/get-started/connect-first-device/02-install-remote-access-agent.md
           - Open First Remote Session: developers/get-started/connect-first-device/03-open-first-remote-session.md
-
       - Deploy First IoT Service:
           - Overview: developers/get-started/deploy-first-iot-service/index.md
           - Create Service Spec: developers/get-started/deploy-first-iot-service/01-create-service-spec.md
-          - Build & Push Image: developers/get-started/deploy-first-iot-service/02-build-push-image.md
+          - Build and Push Image: developers/get-started/deploy-first-iot-service/02-build-push-image.md
           - Verify Deployment: developers/get-started/deploy-first-iot-service/03-verify-deployment.md
-
       - Set Up Local Development:
           - Overview: developers/get-started/set-up-local-development/index.md
           - Install STCTL: developers/get-started/set-up-local-development/01-install-stctl.md
           - Configure Kubernetes: developers/get-started/set-up-local-development/02-configure-kubernetes.md
           - Run Service Locally: developers/get-started/set-up-local-development/03-run-service-locally.md
+  - Build and Integrate:
       - API Reference:
-          - Overview: developers/api-reference/index.md
-          - REST API: developers/api-reference/rest-api.md
-          - Device API: developers/api-reference/Device-api.md
-          - Get a Device: developers/api-reference/Get-a-device.md
-          - Get device agent status: developers/api-reference/Get-device-agent-status.md
-          - Get a session: developers/api-reference/Get-a-session.md
-          - Open a session: developers/api-reference/Open-a-session.md
-          - Close a session: developers/api-reference/Close-a-session.md
-          - Remote access sessions: developers/api-reference/Remote-access-sessions-api.md
-          - Audit logs: developers/api-reference/Audit-log-api.md
-          - stctl CLI Reference: developers/api-reference/stctl-cli-reference.md
+          - Overview: api-reference/index.md
+          - Device API: api-reference/device-api.md
+          - Deployment API: api-reference/deployment-api.md
+          - Session API: api-reference/session-api.md
+          - Remote Access Sessions: api-reference/remote-access-api.md
+          - Audit Logs: api-reference/audit-log-api.md
+      - API Playground:
+          - Overview: playground/index.md
+          - Device API: playground/device-api.md
+          - Deployment API: playground/deployment-api.md
+          - Session API: playground/session-api.md
+          - Remote Access Sessions: playground/remote-access-api.md
+          - Audit Logs: playground/audit-log-api.md
+      - Secrets Configuration:
+          - Overview: developers/secrets-config/index.md
+          - Environment Configuration: developers/secrets-config/how-to-environment-config.md
+          - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
+          - SSD Schema: developers/secrets-config/ssd-schema-reference.md
+  - Platform Engineering:
       - Observability:
           - Overview: developers/observability/index.md
           - View Logs: developers/observability/how-to-view-logs.md
@@ -73,17 +79,12 @@ nav:
           - Canary Deployments: developers/deploy-release/how-to-canary-deployment.md
           - Deploy Service: developers/deploy-release/how-to-deploy-service.md
           - Rollback Release: developers/deploy-release/how-to-rollback.md
-      
       - Troubleshooting:
           - Overview: developers/troubleshooting/index.md
           - Deployment Failures: developers/troubleshooting/why-deployment-failing.md
           - Logging Issues: developers/troubleshooting/why-logs-not-appearing.md
           - Device Connection Issues: developers/troubleshooting/why-device-not-connecting.md
-      - Secrets Configuration:
-          - Overview: developers/secrets-config/index.md
-          - Environment Configuration: developers/secrets-config/how-to-environment-config.md
-          - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
-          - SSD Schema: developers/secrets-config/ssd-schema-reference.md  
+
 markdown_extensions:
   - admonition
   - tables

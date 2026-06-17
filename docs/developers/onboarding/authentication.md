@@ -146,7 +146,7 @@ Expected output (partial):
 {"status":200,"data":[
 ```
 
-If you see `{"error":"unauthorized"`, the token is expired or the variable was not set. Re-run `stctl auth token` and re-export.
+If you see `{"error":"unauthorized"`, the token is expired or the variable was not set. Re-run `stctl auth token` and reexport.
 
 ---
 
@@ -176,7 +176,7 @@ stctl auth status
 }
 ```
 
-When you receive a `401` response, log in again and re-export the token.
+When you receive a `401` response, log in again and reexport the token.
 
 ---
 

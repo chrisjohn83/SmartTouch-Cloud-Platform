@@ -91,8 +91,9 @@ Each step in [First API call](./first-api-call.md) shows the `stctl` command and
 
 - [Common errors](./common-errors.md) — covers the most frequent errors at each step of the journey.
 - [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md) — agent and certificate issues.
-- [stctl CLI reference](../api-reference/stctl-cli-reference.md) — full command reference.
-- [SmartTouch REST API reference](../api-reference/rest-api.md) — full endpoint reference.
+<!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) — full command reference. -->
+
+<!-- - [SmartTouch REST API reference](../api-reference/index.md) — full endpoint reference. -->
 
 ---
 

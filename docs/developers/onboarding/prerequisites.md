@@ -43,9 +43,9 @@ Before you start the [onboarding journey](./first-api-call.md), confirm that you
 
 | Requirement | How to get it |
 | --- | --- |
-| SmartTouch platform account | Request access from your Administrator or Platform Engineer. You will receive an email invitation with SSO login instructions. |
-| `developer` role or higher | Verify your role with `stctl auth status` after login. The `developer` role is required to open `diagnostics` sessions. |
-| A registered device or simulator access | Ask your Platform Engineer for a registered device ID, or use the built-in simulator (see below). |
+| SmartTouch platform account | You must request access from your Administrator or Platform Engineer. You will receive an email invitation with SSO login instructions. |
+| `developer` role or higher | You must verify your role with `stctl auth status` after login. The `developer` role is required to open `diagnostics` sessions. |
+| A registered device or simulator access | You must ask your Platform Engineer for a registered device ID, or use the built-in simulator. |
 
 ---
 
@@ -84,7 +84,7 @@ If `stctl version` fails, confirm that `~/.local/bin` (Linux) or `/usr/local/bin
 
 ---
 
-### curl
+### cURL
 
 `curl` is used in this guide for all REST API examples. Most operating systems include it by default.
 
@@ -165,11 +165,11 @@ stctl simulator stop --device-id onboarding-device-01
 
 Before continuing to [Authentication](./authentication.md), confirm:
 
-- [ ] Platform account created and SSO invitation received
-- [ ] `stctl` installed and `stctl version` returns output
-- [ ] `curl` available
-- [ ] Network can reach the platform API and broker endpoints
-- [ ] A device ID is available (physical device or simulator running)
+- Platform account created and SSO invitation received
+- `stctl` installed and `stctl version` returns output
+- `cURL` available
+- Network can reach the platform API and broker endpoints
+- A device ID is available (physical device or simulator running)
 
 ---
 

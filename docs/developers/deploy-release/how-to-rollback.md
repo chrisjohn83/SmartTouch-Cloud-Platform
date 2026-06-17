@@ -33,7 +33,7 @@ review-cadence: quarterly
 
 > **Keyword:** How do I roll back a deployment on SmartTouch?
 
-SmartTouch provides two rollback methods. Use `stctl rollback` for the fastest recovery during an incident. Use a git revert pull request for a traceable, 'auditable' rollback.
+SmartTouch provides two rollback methods. Use `stctl rollback` for the fastest recovery during an incident. Use a Git revert pull request for a traceable, 'auditable' rollback.
 
 ---
 
@@ -108,7 +108,7 @@ stctl remote-access probe --env dev
 
 ---
 
-## Method 2—Audit rollback via git revert
+## Method 2—Audit rollback via Git revert
 
 This method creates a pull request that reverses the offending commit. Use it for non-urgent rollbacks where a full audit trail is required (for example, production rollbacks or compliance environments).
 
