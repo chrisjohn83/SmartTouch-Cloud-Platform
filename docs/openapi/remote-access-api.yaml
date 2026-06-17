@@ -104,6 +104,16 @@ paths:
                     nodes: 3
                     active_connections: 142
                   checked_at: "2026-06-08T09:00:00Z"
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: rate_limited
+                message: Too many health check requests. Try again later.
+                status: 429
         '503':
           description: Service is unavailable
           content:
@@ -155,52 +165,52 @@ paths:
           $ref: '#/components/responses/InternalError'
 
     patch:
-      operationId: updateRemoteAccessConfig
-      summary: Update Remote Access Service configuration
-      description: |
-        Update one or more service-level configuration values. Only the fields
-        included in the request body are changed.
+        operationId: updateRemoteAccessConfig
+        summary: Update Remote Access Service configuration
+        description: |
+          Update one or more service-level configuration values. Only the fields
+          included in the request body are changed.
 
-        Changes take effect within 30 seconds. Active sessions are not interrupted.
+          Changes take effect within 30 seconds. Active sessions are not interrupted.
 
-        Requires the `platform-engineer` role.
-      tags: [Configuration]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RemoteAccessConfigUpdateRequest'
-            examples:
-              reduce_ttl:
-                summary: Reduce the default session TTL to 30 minutes
-                value:
-                  default_ttl_seconds: 1800
-              increase_session_limit:
-                summary: Allow up to 5 concurrent sessions per device
-                value:
-                  max_sessions_per_device: 5
-              restrict_protocols:
-                summary: Disable file-transfer protocol platform-wide
-                value:
-                  allowed_protocols:
-                    - diagnostics
-                    - shell
-      responses:
-        '200':
-          description: Configuration updated
+          Requires the `platform-engineer` role.
+        tags: [Configuration]
+        requestBody:
+          required: true
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RemoteAccessConfigResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/InternalError'
+                $ref: '#/components/schemas/RemoteAccessConfigUpdateRequest'
+              examples:
+                reduce_ttl:
+                  summary: Reduce the default session TTL to 30 minutes
+                  value:
+                    default_ttl_seconds: 1800
+                increase_session_limit:
+                  summary: Allow up to 5 concurrent sessions per device
+                  value:
+                    max_sessions_per_device: 5
+                restrict_protocols:
+                  summary: Disable file-transfer protocol platform-wide
+                  value:
+                    allowed_protocols:
+                      - diagnostics
+                      - shell
+        responses:
+          '200':
+            description: Configuration updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/RemoteAccessConfigResponse'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '403':
+            $ref: '#/components/responses/Forbidden'
+          '500':
+            $ref: '#/components/responses/InternalError'
 
   /remote-access/protocols:
     get:
@@ -707,30 +717,8 @@ components:
             message: This operation requires the platform-engineer role.
             status: 403
 
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error: not_found
-            message: Resource not found.
-            status: 404
-
     BadRequest:
       description: Invalid request body
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-
-    RateLimited:
-      description: Rate limit exceeded
-      headers:
-        Retry-After:
-          schema:
-            type: integer
       content:
         application/json:
           schema:
