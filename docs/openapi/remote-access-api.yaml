@@ -105,7 +105,7 @@ paths:
                     active_connections: 142
                   checked_at: "2026-06-08T09:00:00Z"
         '503':
-          description: Service is degraded or unavailable
+          description: Service is unavailable
           content:
             application/json:
               schema:
