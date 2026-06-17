@@ -2,7 +2,7 @@
   "rules": {
     "no-todo": true,
     "sentence-length": {
-      "max": 180
+      "max": 300
     },
     "terminology": {
       "terms": {

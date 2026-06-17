@@ -56,6 +56,45 @@ jobs:
         continue-on-error: true
         run: |
           lychee site/**/*.html
+  
+  openapi-breaking-changes:
+    name: OpenAPI Breaking Change Detection
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Check audit log API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/docs/openapi/audit-log-api.yaml
+          revision: docs/openapi/audit-log-api.yaml
+
+      - name: Check deployment API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/docs/openapi/deployment-api.yaml
+          revision: docs/openapi/deployment-api.yaml
+
+      - name: Check device API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/docs/openapi/device-api.yaml
+          revision: docs/openapi/device-api.yaml
+
+      - name: Check remote access API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/docs/openapi/remote-access-api.yaml
+          revision: docs/openapi/remote-access-api.yaml
+
+      - name: Check session API breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/docs/openapi/session-api.yaml
+          revision: docs/openapi/session-api.yaml
 
   deploy:
     needs: validate
