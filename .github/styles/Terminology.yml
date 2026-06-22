@@ -1,0 +1,11 @@
+extends: substitution
+message: "Use '%s' instead of '%s'."
+level: warning
+ignorecase: false
+swap:
+  Github: GitHub
+  API Endpoint: API endpoint
+  Kubernetes Cluster: Kubernetes cluster
+  whitelist: allowlist
+  blacklist: blocklist
+  
