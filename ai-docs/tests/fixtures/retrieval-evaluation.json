@@ -1,0 +1,106 @@
+[
+  {
+    "query": "Why can my device not connect to the broker?",
+    "acceptable_paths": [
+      "Cann't reach the broker"
+    ]
+  },
+  {
+    "query": "My device certificate has expired",
+    "acceptable_paths": [
+      "Certificate error"
+    ]
+  },
+  {
+    "query": "Why can't stctl authenticate me?",
+    "acceptable_paths": [
+      "Authentication",
+      "Error: authentication required"
+    ]
+  },
+  {
+    "query": "Kubernetes cannot pull my container image",
+    "acceptable_paths": [
+      "ImagePullBackOff"
+    ]
+  },
+  {
+    "query": "The Remote Access Agent is offline",
+    "acceptable_paths": [
+    "Agent isn't running",
+    "Install the Remote Access Agent"
+    ]
+},
+{
+  "query": "A remote diagnostics session is already open",
+  "acceptable_paths": [
+    "Error: session already open for protocol diagnostics",
+    "Session open request fails",
+    "Remediation"
+  ]
+},
+{
+  "query": "My account is forbidden from opening shell sessions",
+  "acceptable_paths": ["forbidden", "403 Forbidden"]
+},
+{
+  "query": "My deployment is stuck in CrashLoopBackOff",
+  "acceptable_paths": ["CrashLoopBackOff"]
+},
+{
+  "query": "The SSD service specification is invalid",
+  "acceptable_paths": ["SSD validation error"],
+  "acceptable_sources": ["ssd-schema-reference.md"]
+},
+{
+  "query": "Argo CD cannot synchronize my release",
+  "acceptable_paths": ["Argo CD sync failure"]
+},
+{
+  "query": "How do I roll back a failed release?",
+  "acceptable_sources": ["how-to-rollback.md"]
+},
+{
+  "query": "How do I deploy with a canary strategy?",
+  "acceptable_sources": ["how-to-canary-deployment.md"]
+},
+{
+  "query": "Why are my application logs not appearing?",
+  "acceptable_sources": ["why-logs-not-appearing.md"]
+},
+{
+  "query": "How can I trace a request across services?",
+  "acceptable_sources": ["how-to-trace-request.md"]
+},
+{
+  "query": "How do I instrument a service for observability?",
+  "acceptable_sources": ["how-to-instrument-service.md"]
+},
+{
+  "query": "How should I securely manage application secrets?",
+  "acceptable_sources": ["how-to-manage-secrets.md"]
+},
+{
+  "query": "How do I configure Kubernetes for local development?",
+  "acceptable_sources": ["02-configure-kubernetes.md"]
+},
+{
+  "query": "How do I make my first SmartTouch API request?",
+  "acceptable_sources": ["first-api-call.md"]
+},
+{
+  "query": "How do I provision a certificate for a new device?",
+  "acceptable_sources": ["01-provision-certificate.md"]
+},
+{
+  "query": "How can I verify that my IoT service deployed successfully?",
+   "acceptable_sources": [
+    "03-verify-deployment.md",
+    "how-to-deploy-service.md"
+  ],
+  "acceptable_paths": [
+    "Verify the new version",
+    "Validation"
+  ]
+}
+]
