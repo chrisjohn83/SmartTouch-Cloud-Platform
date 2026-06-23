@@ -1,0 +1,10 @@
+# Generated documentation
+site/**
+docs/assets/apis/**
+docs/assets/playground/**
+
+# Generated or copied API files
+docs/assets/openapi/**
+
+# Temporarily excluded while front matter is repaired
+docs/developers/troubleshooting/why-deployment-failing.md

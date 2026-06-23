@@ -20,7 +20,7 @@ related:
   - docs/developers/get-started/deploy-first-iot-service/01-create-service-spec.md
   - docs/developers/secrets-config/how-to-manage-secrets.md
 ai-retrieval-questions:
-  - "What is the SSD schema?"
+  - "What's the SSD schema?"
   - "What fields are available in smarttouch.yaml?"
   - "What does the remote-access SSD block do?"
   - "How do I configure the canary block in the SSD?"
@@ -32,7 +32,7 @@ review-cadence: on-change
 
 # SSD Schema Reference
 
-> **Keyword:** What is the SSD schema?
+> **Keyword:** What's the SSD schema?
 
 The Service Spec Definition (SSD) is the YAML manifest that configures how SmartTouch deploys and runs your service. Every SmartTouch service requires a `smarttouch.yaml` file in the repository root.
 
@@ -45,7 +45,7 @@ Required. Identifies the service.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `name` | string | Yes | Unique service identifier. Lowercase, hyphens only. Maximum 63 characters. |
-| `version` | string | Yes | SemVer string e.g. `"1.0.0"` |
+| `version` | string | Yes | SemVer string for example, `"1.0.0"` |
 
 ```yaml
 service:
@@ -63,9 +63,9 @@ Required. Configures the runtime deployment.
 | --- | --- | --- | --- | --- |
 | `replicas` | integer | Yes | — | Minimum replica count. KEDA scales above this. |
 | `image` | string | Yes | — | Full Harbor image URI including tag. |
-| `port` | integer | Yes | — | Port your service listens on. Must match `EXPOSE` in the Dockerfile. |
-| `resources.cpu` | string | No | `"100m"` | CPU request. Kubernetes format e.g. `"250m"`. |
-| `resources.memory` | string | No | `"128Mi"` | Memory request. Kubernetes format e.g. `"256Mi"`. |
+| `port` | integer | Yes | — | Port your service listens on. Must match `EXPOSE` in the Docker file. |
+| `resources.cpu` | string | No | `"100m"` | CPU request. Kubernetes format for example, `"250m"`. |
+| `resources.memory` | string | No | `"128Mi"` | Memory request. Kubernetes format for example, `"256Mi"`. |
 
 ```yaml
 deployment:
@@ -79,14 +79,14 @@ deployment:
 
 ---
 
-## observability
+## Observability
 
 Optional. Enables metrics and distributed tracing.
 
 | Field | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| `metrics` | boolean | No | `true` | Expose a Prometheus metrics endpoint at `/metrics` on port 8081. |
-| `tracing` | boolean | No | `true` | Enable OpenTelemetry distributed tracing. |
+| `metrics` | 'boolean' | No | `true` | Expose a Prometheus metrics endpoint at `/metrics` on port 8081. |
+| `tracing` | 'boolean' | No | `true` | Enable OpenTelemetry distributed tracing. |
 
 ```yaml
 observability:
@@ -96,22 +96,22 @@ observability:
 
 ---
 
-## remote-access
+## Remote-access
 
 Optional. Configures the SmartTouch remote device access session broker.
 
 | Field | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| `enabled` | boolean | Yes | — | Must be `true` to activate the remote access subsystem. |
+| `enabled` | 'boolean' | Yes | — | Must be `true` to activate the remote access subsystem. |
 | `session-timeout` | duration | No | `"30m"` | Maximum session duration. Closed automatically when exceeded. |
 | `idle-timeout` | duration | No | `"5m"` | Sessions idle for this period are closed. |
 | `max-concurrent-sessions` | integer | No | `10` | Platform-wide session limit. |
 | `protocols[].name` | string | Yes | — | `shell`, `diagnostics`, or `file-transfer` |
-| `protocols[].enabled` | boolean | Yes | — | `true` to enable this protocol. |
+| `protocols[].enabled` | 'boolean' | Yes | — | `true` to enable this protocol. |
 | `access-control.<protocol>.allowed-roles` | array | Yes | — | Roles that can open this protocol type. |
-| `audit.enabled` | boolean | No | `true` | Enable session audit logging. |
+| `audit.enabled` | 'boolean' | No | `true` | Enable session audit logging. |
 | `audit.retention` | duration | No | `"30d"` | How long audit records are retained. |
-| `audit.log-keystrokes` | boolean | No | `false` | Record every keystroke in shell sessions. Enable only for compliance requirements. |
+| `audit.log-keystrokes` | 'boolean' | No | `false` | Record every keystroke in shell sessions. Enable only for compliance requirements. |
 
 ```yaml
 remote-access:
@@ -163,7 +163,7 @@ secrets:
 
 ---
 
-## config
+## Config
 
 Optional. References a Kubernetes ConfigMap for environment-specific non-secret configuration.
 
@@ -183,13 +183,13 @@ config:
 
 ---
 
-## canary
+## Canary
 
 Optional. Configures a canary deployment alongside the stable version.
 
 | Field | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| `enabled` | boolean | Yes | — | Must be `true` to activate canary mode. |
+| `enabled` | 'boolean' | Yes | — | It must be `true` to activate canary mode. |
 | `stable-version` | string | Yes | — | The version string of the stable deployment. |
 | `initial-weight` | integer | No | `10` | Percentage of new sessions routed to the canary on first deploy. |
 | `analysis.metrics[].name` | string | Yes | — | Metric name to evaluate. |

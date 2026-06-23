@@ -19,8 +19,6 @@ tags: [deployment, troubleshooting, argo-cd, imagepullbackoff, crashloopbackoff,
 related:
   - docs/developers/deploy-release/how-to-deploy-service.md
   - docs/developers/deploy-release/how-to-rollback.md
-  
-  <!-- docs/developers/api-reference/stctl-cli-reference.md -->
 
 ai-retrieval-questions:
   - "Why is my deployment failing?"
@@ -73,9 +71,9 @@ remote-access-service-78d4b-lx9rp   ImagePullBackOff   0          3m
 
 ### Diagnosis
 
-The cluster cannot pull the container image from Harbor. Possible causes:
+The cluster cann't pull the container image from Harbor. Possible causes:
 
-1. The image tag does not exist in Harbor — the build pipeline failed or the tag was not pushed.
+1. The image tag doesn't exist in Harbor—The build pipeline failed or the tag wasn't pushed.
 2. Harbor credentials stored in the cluster are expired or incorrect.
 3. The image failed the Harbor vulnerability scan and was rejected.
 
@@ -100,11 +98,17 @@ Then verify the tag in Harbor at `https://harbor.<your-domain>/library/remote-ac
 
 ### Resolution
 
-**If the image tag does not exist:** Re-run the CI pipeline. In GitHub Actions, navigate to the workflow run and click **Re-run all jobs**. The build pushes a new image tag to Harbor on success.
+**If the image tag doesn't exist:**
+Re-run the CI pipeline.
+In GitHub Actions, navigate to the workflow run and click **Re-run all jobs**.
+The build pushes a new image tag to Harbor on success.
 
-**If Harbor credentials are expired:** Ask a Platform Engineer to rotate the `imagePullSecret` in the cluster.
+**If Harbor credentials expire:**
+Ask a Platform Engineer to rotate the `imagePullSecret` in the cluster.
 
-**If the vulnerability scan rejected the image:** Review the scan report in Harbor, address the flagged CVEs in your `Dockerfile` dependencies, and push a new image.
+**If the vulnerability scan rejected the image:**
+Review the scan report in Harbor,
+address the flagged 'CVEs' in your `Dockerfile` dependencies, and push a new image.
 
 ### Prevention
 
@@ -144,8 +148,8 @@ stctl exec remote-access-service -- kubectl logs \
 Common causes in the Remote Access Service:
 
 - Missing required environment variable (for example, `BROKER_URL` not set).
-- Secret not mounted — Vault injection failed because the policy path is incorrect.
-- Port already in use — another pod is still running and holding the session broker port.
+- Secret not mounted—Vault injection failed because the policy path is incorrect.
+- Port already in use—another pod is still running and holding the session broker port.
 - Health check endpoint not responding within the startup probe timeout.
 
 ### Resolution for
@@ -212,7 +216,7 @@ deployment:
 
 ### Validation symptom
 
-`stctl deploy apply` exits with a non-zero status and prints a validation error. The service is not updated.
+`stctl deploy apply` exits with a non-zero status and prints a validation error. The service isn't updated.
 
 ```text
 Error: SSD validation failed
@@ -222,7 +226,7 @@ Error: SSD validation failed
 
 ### Diagnosis method
 
-The `smarttouch.yaml` file contains a field that is missing, has an invalid value, or uses a deprecated key.
+The `smarttouch.yaml` file contains a field that's missing, has an invalid value, or uses a deprecated key.
 
 ### Resolution type
 
@@ -257,7 +261,7 @@ stctl deploy apply -f smarttouch.yaml --dry-run --env staging
 ### Prevention method
 
 - Run `stctl deploy apply --dry-run` in CI on every pull request before merging.
-- Use the SSD JSON Schema in your editor for inline validation — see the [SSD schema reference](../secrets-config/ssd-schema-reference.md).
+- Use the SSD JSON Schema in your editor for inline validation—See the [SSD schema reference](../secrets-config/ssd-schema-reference.md).
 
 ---
 
@@ -279,14 +283,14 @@ Message:      1 error(s) occurred: ConfigMap "remote-access-config" already exis
 Argo CD attempted to apply the manifest but encountered a conflict or permission error in the cluster. Common causes:
 
 - A resource (ConfigMap, Service, Deployment) already exists in the cluster with a different owner annotation.
-- The Argo CD service account does not have permission to update a specific resource type.
+- The Argo CD service account doesn't have permission to update a specific resource type.
 - A Helm hook or init container is failing, blocking the sync.
 
 ### Resolution methods
 
 **Resource already exists with different owner:** Ask a Platform Engineer to delete the conflicting resource so Argo CD can recreate it under its management.
 
-**Permission error:** Ask a Platform Engineer to review the Argo CD RBAC policy for the service's namespace.
+**Permission error:** Ask a Platform Engineer to review the Argo CD RBAC policy for the service's 'namespace'.
 
 **Sync retry after investigation:**
 
@@ -300,7 +304,7 @@ stctl deploy status remote-access-service --env staging --output json \
 
 ### Resolution for deployment failure
 
-- Do not create cluster resources manually with `kubectl` in environments managed by Argo CD. All resources should originate from Git.
+- Don't create cluster resources manually with `kubectl` in environments managed by Argo CD. All resources should originate from Git.
 - Annotate resources with `argocd.argoproj.io/managed-by: argocd` if you must create them outside of a GitOps workflow.
 
 ---
@@ -322,4 +326,3 @@ Then investigate the root cause before attempting another deployment. See [How d
 - [How do I deploy a service?](../deploy-release/how-to-deploy-service.md)
 - [How do I roll back a deployment?](../deploy-release/how-to-rollback.md)
 - [SSD schema reference](../secrets-config/ssd-schema-reference.md)
- <!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->
