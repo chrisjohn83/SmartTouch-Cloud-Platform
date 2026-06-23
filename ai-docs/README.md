@@ -1,0 +1,30 @@
+# SmartTouch AI documentation ingestion
+
+This component parses MkDocs Markdown, preserves YAML front matter, splits content
+along heading and block boundaries, and emits deterministic JSONL records for a
+later embedding and vector-storage stage.
+
+## Run
+
+From the `ai-docs` directory in the SmartTouch repository:
+
+```powershell
+python -m ai_docs.ingest `
+  --docs-root ../docs `
+  --output build/chunks.jsonl `
+  --exclude "test-*.md"
+```
+
+Each JSONL record includes:
+
+- a deterministic chunk ID and content hash;
+- source path, source URL, document title, heading, and heading hierarchy;
+- line locations, chunk index, and word count;
+- all source YAML front matter, including SmartTouch personas, tasks, tags,
+  related documents, owners, review metadata, and retrieval questions.
+
+## Test
+
+```powershell
+python -m unittest discover -s tests -v
+```
