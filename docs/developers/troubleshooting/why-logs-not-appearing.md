@@ -20,7 +20,6 @@ related:
   - docs/developers/observability/how-to-view-logs.md
   - docs/developers/observability/how-to-instrument-service.md
 
-  <!-- - docs/developers/api-reference/stctl-cli-reference.md -->
 ai-retrieval-questions:
   - "Why are my logs not appearing?"
   - "Why can I not see logs in Grafana?"

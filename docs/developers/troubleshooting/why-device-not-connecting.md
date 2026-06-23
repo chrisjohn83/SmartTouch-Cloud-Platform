@@ -19,9 +19,6 @@ tags: [device, remote-access, troubleshooting, certificate, agent, broker, webso
 related:
   - docs/developers/get-started/connect-first-device/01-provision-certificate.md
   - docs/developers/get-started/connect-first-device/02-install-remote-access-agent.md
-  
-  <!-- - docs/developers/api-reference/stctl-cli-reference.md -->
-
   - docs/developers/api-reference/index.md
 ai-retrieval-questions:
   - "Why is my device not connecting?"
@@ -116,7 +113,7 @@ systemctl enable smarttouch-agent
 ### Prevention
 
 - Enable `smarttouch-agent` with `systemctl enable` during provisioning so it starts on boot.
-- Add a systemd watchdog restart policy to the agent unit file:
+- Add a 'systemd' watchdog restart policy to the agent unit file:
 
   ```ini
   [Service]
@@ -132,7 +129,7 @@ systemctl enable smarttouch-agent
 
 The agent is running but the device doesn't appear online. Agent logs contain messages such as `certificate has expired`, `certificate file not found`, or `x509: certificate signed by unknown authority`.
 
-### Diagnosys
+### Diagnosis method
 
 The device certificate used to authenticate the WebSocket connection to the broker is missing, expired, or was signed by an authority the broker doesn't trust.
 
@@ -163,7 +160,7 @@ This file must contain the SmartTouch platform CA certificate. Compare its finge
 
 ### Solution
 
-**Expired certificate:** Provision a new certificate — see [Provision a device certificate for remote access](../get-started/connect-first-device/01-provision-certificate.md). After replacing the certificate files, restart the agent:
+**Expired certificate:** Provision a new certificate—see [Provision a device certificate for remote access](../get-started/connect-first-device/01-provision-certificate.md). After replacing the certificate files, restart the agent:
 
 ```bash
 systemctl restart smarttouch-agent
@@ -184,7 +181,7 @@ Submit the CSR and install the signed certificate at `/etc/smarttouch/device.crt
 ### Prevent certificate failures
 
 - Set a calendar reminder 30 days before the certificate expiry date shown in `stctl device get <device_id>`.
-- Automate certificate renewal using the SmartTouch certificate rotation API — see [How do I manage secrets securely?](../secrets-config/how-to-manage-secrets.md).
+- Automate certificate renewal using the SmartTouch certificate rotation API—see [How do I manage secrets securely?](../secrets-config/how-to-manage-secrets.md).
 
 ---
 
@@ -236,7 +233,7 @@ openssl s_client -connect broker.smarttouch.local:8443 \
 
 **Wrong broker URL:** Update `/etc/smarttouch/agent.yaml` with the correct broker URL. The correct value is shown in `stctl device get sensor-001` under `remote_access.broker_url`. Restart the agent after editing.
 
-**Firewall blocking outbound port 8443:** The Remote Access Agent requires outbound TCP/WebSocket access on port 8443. Work with your network administrator to allow outbound connections to the broker host name on port 8443.
+**Firewall blocking outbound port 8443:** The Remote Access Agent requires outbound TCP/WebSocket access on port 8443. Work with your network administrator to allow outbound connections to the broker 'hostname' on port 8443.
 
 The agent doesn't require any inbound ports—all sessions are initiated via the outbound WebSocket connection.
 
@@ -251,7 +248,7 @@ If the broker shows `unhealthy`, contact your Platform Engineer.
 ### Prevent connectivity issues
 
 - Test broker connectivity as part of device provisioning before the device is deployed to the field.
-- Configure device network policy to explicitly allow outbound connections to the broker host name on port 8443.
+- Configure device network policy to explicitly allow outbound connections to the broker 'hostname' on port 8443.
 - Monitor agent connectivity with `stctl device agent-status` or via the SmartTouch Console fleet view.
 
 ---

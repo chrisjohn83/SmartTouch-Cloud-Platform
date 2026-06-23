@@ -102,7 +102,7 @@ Open a pull request against `main`. GitHub Actions runs automatically:
 ✔  Manifest updated: k8s/overlays/dev/kustomization.yaml
 ```
 
-The manifest update is committed automatically by the pipeline to the `k8s/overlays/dev/` overlay. You don't need to update the overlay manually.
+The pipeline automatically commits manifest update to the `k8s/overlays/dev/` overlay. You don't need to update the overlay manually.
 
 ### Step 3—Merge the pull request
 
@@ -130,7 +130,7 @@ Image:       harbor.smarttouch.io/myteam/remote-access-service:1.1.0
 
 Wait until `Replicas: 2/2 ready` before proceeding.
 
-### Step 5—Verify the new version is running
+### Step 5—Verify the new version
 
 ```bash
 stctl status --env dev --service remote-access-service
@@ -147,7 +147,7 @@ Image:       harbor.smarttouch.io/myteam/remote-access-service:1.1.0
 Deployed:    2 minutes ago by github-actions
 ```
 
-Run a probe to confirm the session broker is accepting connections:
+Run a probe to confirm the session broker accepting connections:
 
 ```bash
 stctl remote-access probe --env dev

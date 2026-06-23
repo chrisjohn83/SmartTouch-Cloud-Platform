@@ -1,0 +1,11 @@
+extends: existence
+message: "Replace placeholder '%s' with final documentation."
+level: warning
+ignorecase: true
+tokens:
+  - '\bTBD\b'
+  - '\bFIXME\b'
+  - '\bXXX\b'
+  - 'lorem ipsum'
+  - 'coming soon'
+  

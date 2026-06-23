@@ -84,7 +84,7 @@ If `stctl version` fails, confirm that `~/.local/bin` (Linux) or `/usr/local/bin
 
 ---
 
-### curl
+### cURL
 
 `curl` is used in this guide for all REST API examples. Most operating systems include it by default.
 
@@ -165,11 +165,11 @@ stctl simulator stop --device-id onboarding-device-01
 
 Before continuing to [Authentication](./authentication.md), confirm:
 
-- [ ] Platform account created and SSO invitation received
-- [ ] `stctl` installed and `stctl version` returns output
-- [ ] `curl` available
-- [ ] Network can reach the platform API and broker endpoints
-- [ ] A device ID is available (physical device or simulator running)
+- Platform account created and SSO invitation received
+- `stctl` installed and `stctl version` returns output
+- `cURL` available
+- Network can reach the platform API and broker endpoints
+- A device ID is available (physical device or simulator running)
 
 ---
 

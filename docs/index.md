@@ -4,7 +4,7 @@ SmartTouch Cloud Platform helps teams build, connect, deploy, and operate IoT-en
 
 Use this documentation to learn the platform, complete onboarding, build your first integration, and move confidently into production operations.
 
-## What Is SmartTouch?
+## What's SmartTouch?
 
 SmartTouch is a cloud platform for connected device and IoT service development. It provides a common foundation for:
 

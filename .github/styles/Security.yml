@@ -1,0 +1,11 @@
+extends: existence
+message: "Avoid insecure instruction '%s'. Provide a secure alternative."
+level: warning
+ignorecase: true
+tokens:
+  - 'disable certificate verification'
+  - 'skip TLS verification'
+  - 'turn off authentication'
+  - 'hardcode the password'
+  - 'hardcode the token'
+  

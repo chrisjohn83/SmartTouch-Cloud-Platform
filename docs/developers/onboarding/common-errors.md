@@ -7,7 +7,7 @@ status: published
 version: "1.0"
 platform-version: "1.x"
 last-reviewed: "2026-06-08"
-locale: en-US
+locale: "en-US"
 translation-status: source
 translated-from: ""
 accessibility:
@@ -35,7 +35,7 @@ review-cadence: quarterly
 
 # Common errors
 
-> **Keyword:** What errors will I encounter during SmartTouch onboarding?
+> **Keyword:** What errors will I encounter during SmartTouch developer onboarding?
 
 This reference covers every error you are likely to encounter while working through the [First API call](./first-api-call.md) journey and during normal development. Each entry includes the HTTP status code (for REST API calls), the error message, the cause, and the fix.
 
@@ -49,10 +49,10 @@ This reference covers every error you are likely to encounter while working thro
 | 403 | `forbidden` | Opening a session | [403 Forbidden](#403-forbidden) |
 | 404 | `not_found` | Get device, get session | [404 Not Found](#404-not-found) |
 | 409 | `conflict` | Opening a session | [409 Conflict](#409-conflict) |
-| 422 | `unprocessable_entity` | Opening a session | [422 Unprocessable Entity](#422-unprocessable-entity) |
+| 422 | `unprocessable_entity` | Opening a session | [422 'Unprocessable Entity'](#422-unprocessable-entity) |
 | 429 | `rate_limited` | Any API call | [429 Rate Limited](#429-rate-limited) |
 | 500 | `internal_error` | Any API call | [500 Internal Error](#500-internal-error) |
-| — | stctl errors | CLI commands | [stctl errors](#stctl-errors) |
+| — | 'stctl' errors | CLI commands | ['stctl errors'](#stctl-errors) |
 
 ---
 
@@ -109,7 +109,7 @@ curl -s \
 }
 ```
 
-**Occurs at:** `POST /remote-access/sessions` when the authenticated user's role does not meet the minimum requirement for the requested protocol.
+**Occurs at:** `POST /remote-access/sessions` when the authenticated user's role doesn't meet the minimum requirement for the requested protocol.
 
 **Protocol role requirements:**
 
@@ -156,9 +156,9 @@ stctl auth status
 | Cause | Fix |
 | --- | --- |
 | Device ID is misspelled | Run `stctl device list` to see the exact registered IDs |
-| Device has never connected to the platform | Provision the device and install the Remote Access Agent — see [Connect a device for remote access](../get-started/connect-first-device/index.md) |
+| Device has never connected to the platform | Provision the device and install the Remote Access Agent—See [Connect a device for remote access](../get-started/connect-first-device/index.md) |
 | Device was deleted from the platform | Ask your Administrator to re-register the device |
-| Simulator is not running | Run `stctl simulator start --device-id onboarding-device-01 --remote-access` |
+| Simulator isn't running | Run `stctl simulator start --device-id onboarding-device-01 --remote-access` |
 
 **Find the correct device ID:**
 
@@ -215,7 +215,7 @@ curl -s -X DELETE \
 
 ---
 
-## 422 Unprocessable Entity
+## 422 'Unprocessable' Entity
 
 **HTTP status:** 422
 
@@ -231,7 +231,7 @@ curl -s -X DELETE \
 
 **Occurs at:** `POST /remote-access/sessions`.
 
-**Cause:** The request is valid but cannot be completed because the device agent is not connected to the session broker. The device appears in the platform but is not reachable.
+**Cause:** The request is valid but cann't be completed because the device agent isn't connected to the session broker. The device appears in the platform but isn't reachable.
 
 **Fix:**
 
@@ -295,7 +295,7 @@ For detailed device connection troubleshooting, see [Why is my device not connec
 
 **Fix:** Wait the number of seconds in the `Retry-After` header before retrying.
 
-In scripts, implement exponential backoff:
+In scripts, implement exponential 'backoff':
 
 ```bash
 # Simple retry with backoff
@@ -332,22 +332,22 @@ Rate limits apply per user, not per device. If you are scripting many session op
 **Fix:**
 
 1. Check the platform status page or run `stctl status --env dev`.
-2. If the platform is healthy, retry the request after 30 seconds — the error may be transient.
+2. If the platform is healthy, retry the request after 30 seconds—The error may be transient.
 3. If the error persists, contact your Platform Engineer with the `Request ID` from the response body.
 
 ---
 
-## stctl errors
+## 'stctl' errors
 
 ### `stctl: command not found`
 
-`stctl` is not installed or not on your `PATH`. See [Prerequisites](./prerequisites.md) for installation instructions.
+`stctl` isn't installed or not on your `PATH`. See [Prerequisites](./prerequisites.md) for installation instructions.
 
 ---
 
 ### `Error: authentication required`
 
-You are not logged in. Run:
+You aren't logged in. Run:
 
 ```bash
 stctl auth login
@@ -357,7 +357,7 @@ stctl auth login
 
 ### `Error: device not found: <device_id>`
 
-The device ID does not exist or was mistyped. Run `stctl device list` to see registered device IDs.
+The device ID doesn't exist or was mistyped. Run `stctl device list` to see registered device IDs.
 
 ---
 
@@ -380,7 +380,7 @@ Equivalent to HTTP 403. Use `--protocol diagnostics` or contact your Platform En
 
 ### `Error: context deadline exceeded`
 
-The request timed out. This usually means the platform API is not reachable from your network. Verify your network can reach the API endpoint:
+The request timed out. This usually means the platform API isn't reachable from your network. Verify your network can reach the API endpoint:
 
 ```bash
 curl -s "https://api.smarttouch.local/v1/devices" --max-time 5
@@ -415,4 +415,4 @@ cat /tmp/response.json
 - [First API call](./first-api-call.md)
 - [Authentication](./authentication.md)
 - [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md)
-- [SmartTouch REST API reference — Error codes](../api-reference/Device-api.md)
+- [SmartTouch REST API reference—Error codes](../api-reference/Device-api.md)
