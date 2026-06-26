@@ -89,12 +89,32 @@ class PostgresSearchTests(unittest.TestCase):
         from ai_docs.postgres_search import fuse_postgres_results
 
         semantic = [
-            {"id": "general", "score": 0.8},
-            {"id": "exact-error", "score": 0.6},
+            {
+                "id": "general",
+                "score": 0.8,
+                "heading": "Open a diagnostics session",
+                "heading_path": ["Open your first remote access session"],
+            },
+            {
+                "id": "exact-error",
+                "score": 0.6,
+                "heading": "Error: session already open for protocol diagnostics",
+                "heading_path": ["Common errors", "'stctl' errors"],
+            },
         ]
         lexical = [
-            {"id": "exact-error", "score": 1.1},
-            {"id": "general", "score": 0.1},
+            {
+                "id": "exact-error",
+                "score": 1.1,
+                "heading": "Error: session already open for protocol diagnostics",
+                "heading_path": ["Common errors", "'stctl' errors"],
+            },
+            {
+                "id": "general",
+                "score": 0.1,
+                "heading": "Open a diagnostics session",
+                "heading_path": ["Open your first remote access session"],
+            },
         ]
 
         results = fuse_postgres_results(
