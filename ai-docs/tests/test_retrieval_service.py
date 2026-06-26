@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
-from ai_docs.retrieval_service import search_documentation
+from ai_docs.retrieval_service import get_answer_context, search_documentation
 
 
 @dataclass
@@ -84,6 +84,49 @@ class RetrievalServiceTests(unittest.TestCase):
                 search_function=lambda query, vector: [],
             )
 
+    def test_get_answer_context_uses_retrieval_response(self) -> None:
+        provider = FakeEmbeddingProvider()
+
+        def fake_search(query: str, vector: list[float]) -> list[dict]:
+            return [
+                {
+                    "id": "chunk-1",
+                    "title": "Common errors",
+                    "heading": "Error: session already open",
+                    "heading_path": [
+                        "Common errors",
+                        "Error: session already open",
+                    ],
+                    "source_path": "developers/onboarding/common-errors.md",
+                    "source_url": "https://docs.example.com/common-errors/",
+                    "content": "List and close the existing session.",
+                    "metadata": {"persona": ["developer"]},
+                    "final_score": 0.015,
+                    "semantic_score": 0.552,
+                    "lexical_score": 1.05,
+                    "semantic_rank": 14,
+                    "lexical_rank": 1,
+                }
+            ]
+
+        context = get_answer_context(
+            "A remote diagnostics session is already open",
+            embedding_provider=provider,
+            search_function=fake_search,
+            max_content_chars=20,
+        )
+
+        self.assertEqual(
+            context["query"],
+            "A remote diagnostics session is already open",
+        )
+        self.assertEqual(context["context_count"], 1)
+        self.assertEqual(context["contexts"][0]["citation_id"], "source-1")
+        self.assertEqual(
+            context["contexts"][0]["heading_label"],
+            "Common errors > Error: session already open",
+        )
+        self.assertEqual(context["contexts"][0]["excerpt"], "List and close the…")
 
 if __name__ == "__main__":
     unittest.main()

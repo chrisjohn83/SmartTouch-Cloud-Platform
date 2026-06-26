@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from typing import Any, Protocol
+from .answer_context import build_answer_context
 
 from .openai_embeddings import OpenAIEmbeddingProvider
 from .postgres_search import (
@@ -63,3 +64,30 @@ def search_documentation(
     results = search_function(normalized_query, query_vector)
 
     return build_search_response(normalized_query, results)
+
+def get_answer_context(
+    query: str,
+    *,
+    limit: int = 5,
+    model: str = "text-embedding-3-small",
+    database_url: str | None = None,
+    embedding_provider: EmbeddingProvider | None = None,
+    search_function: SearchFunction | None = None,
+    max_content_chars: int = 1200,
+) -> dict[str, Any]:
+    """Retrieve SmartTouch docs and build citation-ready answer context."""
+
+    search_response = search_documentation(
+        query,
+        limit=limit,
+        model=model,
+        database_url=database_url,
+        embedding_provider=embedding_provider,
+        search_function=search_function,
+    )
+
+    return build_answer_context(
+        search_response,
+        max_results=limit,
+        max_content_chars=max_content_chars,
+    )
