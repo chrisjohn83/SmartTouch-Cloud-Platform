@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import unittest
 
@@ -7,8 +7,10 @@ from ai_docs.import_postgres import (
     prepare_record,
     vector_literal,
 )
-from ai_docs.postgres_search import search_postgres
-
+from ai_docs.postgres_search import (
+    search_postgres,
+    search_postgres_lexical,
+)
 
 class PostgresImportTests(unittest.TestCase):
     def test_vector_literal_formats_vector(self) -> None:
@@ -67,7 +69,43 @@ class PostgresSearchTests(unittest.TestCase):
                 [0.0] * DIMENSIONS,
                 database_url="postgresql://unused",
                 limit=0,
+        )
+    def test_lexical_search_rejects_empty_query(self) -> None:
+        with self.assertRaisesRegex(ValueError, "must not be empty"):
+            search_postgres_lexical(
+                "   ",
+                database_url="postgresql://unused",
             )
+
+    def test_lexical_search_rejects_invalid_limit(self) -> None:
+        with self.assertRaisesRegex(ValueError, "at least 1"):
+            search_postgres_lexical(
+                "session already open",
+                database_url="postgresql://unused",
+                limit=0,
+            )
+
+    def test_fuses_semantic_and_lexical_results(self) -> None:
+        from ai_docs.postgres_search import fuse_postgres_results
+
+        semantic = [
+            {"id": "general", "score": 0.8},
+            {"id": "exact-error", "score": 0.6},
+        ]
+        lexical = [
+            {"id": "exact-error", "score": 1.1},
+            {"id": "general", "score": 0.1},
+        ]
+
+        results = fuse_postgres_results(
+            semantic,
+            lexical,
+            limit=2,
+        )
+
+        self.assertEqual(results[0]["id"], "exact-error")
+        self.assertEqual(results[0]["lexical_rank"], 1)
+        self.assertEqual(results[0]["semantic_rank"], 2)
 
 
 if __name__ == "__main__":

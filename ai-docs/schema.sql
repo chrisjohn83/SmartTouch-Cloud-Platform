@@ -33,3 +33,27 @@ CREATE INDEX IF NOT EXISTS document_chunks_metadata_gin_idx
 CREATE INDEX IF NOT EXISTS document_chunks_embedding_hnsw_idx
     ON document_chunks
     USING hnsw (embedding vector_cosine_ops);
+
+ALTER TABLE document_chunks
+ADD COLUMN IF NOT EXISTS search_vector tsvector
+GENERATED ALWAYS AS (
+    setweight(
+        to_tsvector('english', coalesce(title, '')),
+        'A'
+    ) ||
+    setweight(
+        to_tsvector('english', coalesce(heading, '')),
+        'A'
+    ) ||
+    setweight(
+        to_tsvector('english', coalesce(heading_path::text, '')),
+        'B'
+    ) ||
+    setweight(
+        to_tsvector('english', coalesce(content, '')),
+        'C'
+    )
+) STORED;
+
+CREATE INDEX IF NOT EXISTS document_chunks_search_vector_gin_idx
+ON document_chunks USING gin (search_vector);
