@@ -17,18 +17,22 @@ class RetrievalServiceCliTests(unittest.TestCase):
                 "3",
                 "--model",
                 "text-embedding-3-small",
+                "--format",
+                "context",
             ]
         )
 
         self.assertEqual(args.query, "device offline")
         self.assertEqual(args.limit, 3)
         self.assertEqual(args.model, "text-embedding-3-small")
+        self.assertEqual(args.format, "context")
 
     def test_run_search_delegates_to_service(self) -> None:
         args = argparse.Namespace(
             query="device offline",
             limit=3,
             model="text-embedding-3-small",
+            format="search",
         )
 
         expected = {
@@ -45,6 +49,33 @@ class RetrievalServiceCliTests(unittest.TestCase):
 
         self.assertEqual(response, expected)
         search_documentation.assert_called_once_with(
+            "device offline",
+            limit=3,
+            model="text-embedding-3-small",
+        )
+
+    def test_run_search_can_return_answer_context(self) -> None:
+        args = argparse.Namespace(
+            query="device offline",
+            limit=3,
+            model="text-embedding-3-small",
+            format="context",
+        )
+
+        expected = {
+            "query": "device offline",
+            "context_count": 0,
+            "contexts": [],
+        }
+
+        with patch(
+            "ai_docs.retrieval_service_cli.get_answer_context",
+            return_value=expected,
+        ) as get_answer_context:
+            response = run_search(args)
+
+        self.assertEqual(response, expected)
+        get_answer_context.assert_called_once_with(
             "device offline",
             limit=3,
             model="text-embedding-3-small",
