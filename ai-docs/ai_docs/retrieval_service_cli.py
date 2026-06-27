@@ -6,7 +6,11 @@ import argparse
 import json
 from typing import Any
 
-from .retrieval_service import get_answer_context, search_documentation
+from .retrieval_service import (
+    answer_question,
+    get_answer_context,
+    search_documentation,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -18,29 +22,47 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", default="text-embedding-3-small")
     parser.add_argument(
         "--format",
-        choices=("search", "context"),
+        choices=("search", "context", "answer"),
         default="search",
         help="Output the raw search response or citation-ready answer context.",
     )
     return parser
 
+def run_search(
+    argv: list[str] | argparse.Namespace | None = None,
+    *,
+    search_fn=search_documentation,
+    answer_context_fn=get_answer_context,
+    answer_question_fn=answer_question,
+) -> dict:
+    if isinstance(argv, argparse.Namespace):
+        args = argv
+    else:
+        args = build_parser().parse_args(argv)
 
-def run_search(args: argparse.Namespace) -> dict[str, Any]:
-    if args.format == "context":
-        return get_answer_context(
+    if args.format == "answer":
+        return answer_question_fn(
             args.query,
             limit=args.limit,
             model=args.model,
         )
-    return search_documentation(
+
+    if args.format == "context":
+        return answer_context_fn(
+            args.query,
+            limit=args.limit,
+            model=args.model,
+        )
+
+    return search_fn(
         args.query,
         limit=args.limit,
         model=args.model,
     )
 
-
 def main() -> int:
-    args = build_parser().parse_args()
+    parser = build_parser()
+    args = parser.parse_args()
     response = run_search(args)
     print(json.dumps(response, indent=2))
     return 0
