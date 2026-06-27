@@ -40,3 +40,15 @@ Start Docker Desktop, then start PostgreSQL with pgvector:
 ```powershell
 docker compose up -d
 docker ps
+```
+
+## RAG answer API
+
+The retrieval service can return grounded answers with citations.
+
+Start the local API:
+
+```powershell
+$env:OPENAI_API_KEY = "<your-key>"
+$env:DATABASE_URL = "postgresql://smarttouch:SmartTouch123@127.0.0.1:55432/smarttouch_ai"
+python -m uvicorn ai_docs.web_app:app --reload --port 800

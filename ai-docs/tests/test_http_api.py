@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 from ai_docs.http_api import (
     handle_answer_context_request,
+    handle_answer_request,
     handle_search_request,
     health_response,
 )
@@ -83,6 +84,32 @@ class HttpApiTests(unittest.TestCase):
                 }
             )
 
+    def test_handle_answer_request_delegates_to_service(self) -> None:
+        expected = {
+            "query": "device offline",
+            "answer": "Restart the agent [source-1].",
+            "citations": ["source-1"],
+            "sources": [],
+        }
+
+        with patch(
+            "ai_docs.http_api.answer_question",
+            return_value=expected,
+        ) as answer_question:
+            response = handle_answer_request(
+                {
+                    "query": " device offline ",
+                    "limit": 3,
+                    "answer_model": "gpt-5.4-mini",
+                }
+            )
+
+        self.assertEqual(response, expected)
+        answer_question.assert_called_once_with(
+            "device offline",
+            limit=3,
+            answer_model="gpt-5.4-mini",
+        )
 
 if __name__ == "__main__":
     unittest.main()

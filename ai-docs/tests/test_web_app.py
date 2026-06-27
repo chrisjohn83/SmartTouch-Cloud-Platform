@@ -109,6 +109,34 @@ class WebAppTests(unittest.TestCase):
             "Retrieval service is unavailable",
         )
 
+    def test_answer_endpoint(self) -> None:
+        expected = {
+            "query": "device offline",
+            "answer": "Restart the agent [source-1].",
+            "citations": ["source-1"],
+            "sources": [],
+        }
+
+        with patch(
+            "ai_docs.web_app.handle_answer_request",
+            return_value=expected,
+        ) as handle_answer_request:
+            response = self.client.post(
+                "/answer",
+                json={
+                    "query": "device offline",
+                    "limit": 3,
+                },
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), expected)
+        handle_answer_request.assert_called_once_with(
+            {
+                "query": "device offline",
+                "limit": 3,
+            }
+        )
 
 if __name__ == "__main__":
     unittest.main()

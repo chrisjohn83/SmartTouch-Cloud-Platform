@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import unittest
-from unittest.mock import patch
 
 from ai_docs.retrieval_service_cli import build_parser, run_search
 
@@ -41,18 +40,15 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "results": [],
         }
 
-        with patch(
-            "ai_docs.retrieval_service_cli.search_documentation",
-            return_value=expected,
-        ) as search_documentation:
-            response = run_search(args)
+        def fake_search(query: str, *, limit: int, model: str) -> dict:
+            self.assertEqual(query, "device offline")
+            self.assertEqual(limit, 3)
+            self.assertEqual(model, "text-embedding-3-small")
+            return expected
+
+        response = run_search(args, search_fn=fake_search)
 
         self.assertEqual(response, expected)
-        search_documentation.assert_called_once_with(
-            "device offline",
-            limit=3,
-            model="text-embedding-3-small",
-        )
 
     def test_run_search_can_return_answer_context(self) -> None:
         args = argparse.Namespace(
@@ -68,18 +64,46 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "contexts": [],
         }
 
-        with patch(
-            "ai_docs.retrieval_service_cli.get_answer_context",
-            return_value=expected,
-        ) as get_answer_context:
-            response = run_search(args)
+        def fake_answer_context(query: str, *, limit: int, model: str) -> dict:
+            self.assertEqual(query, "device offline")
+            self.assertEqual(limit, 3)
+            self.assertEqual(model, "text-embedding-3-small")
+            return expected
+
+        response = run_search(args, answer_context_fn=fake_answer_context)
 
         self.assertEqual(response, expected)
-        get_answer_context.assert_called_once_with(
-            "device offline",
-            limit=3,
-            model="text-embedding-3-small",
+
+    def test_run_search_can_return_answer(self) -> None:
+        expected = {
+            "query": "test",
+            "answer": "Use the documented command. [source-1]",
+            "citations": ["source-1"],
+            "sources": [{"citation_id": "source-1"}],
+        }
+
+        def fake_answer_question(query: str, *, limit: int, model: str) -> dict:
+            self.assertEqual(query, "test")
+            self.assertEqual(limit, 3)
+            self.assertEqual(model, "gpt-5.4-mini")
+            return expected
+
+        args = build_parser().parse_args(
+            [
+                "--query",
+                "test",
+                "--limit",
+                "3",
+                "--model",
+                "gpt-5.4-mini",
+                "--format",
+                "answer",
+            ]
         )
+
+        response = run_search(args, answer_question_fn=fake_answer_question)
+
+        self.assertEqual(response, expected)
 
 
 if __name__ == "__main__":

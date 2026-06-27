@@ -1,0 +1,75 @@
+[
+  {
+    "query": "A remote diagnostics session is already open",
+    "required_citations": ["source-1"],
+    "allowed_citations": ["source-1", "source-2", "source-3"],
+    "required_answer_contains": [
+      "close",
+      "stctl remote-access close"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  },
+  {
+    "query": "Why can't stctl authenticate me?",
+    "required_citations": [],
+    "allowed_citations": ["source-1", "source-2", "source-3"],
+    
+    "required_answer_contains": [
+      "stctl",
+      "login"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  },
+  {
+    "query": "My device certificate has expired",
+    "required_citations": [],
+    "allowed_citations": ["source-1", "source-2", "source-3"],
+    "required_answer_contains": [
+      "certificate"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  },
+  {
+    "query": "Kubernetes cannot pull my container image",
+    "required_citations": [],
+    "allowed_citations": ["source-1", "source-2", "source-3"],
+    "required_answer_contains": [
+      "ImagePullBackOff"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  },
+  {
+    "query": "Why can my device not connect to the broker?",
+    "required_citations": [],
+    "allowed_citations": ["source-1", "source-2", "source-3"],
+    "required_answer_contains": [
+      "broker"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  }
+]
