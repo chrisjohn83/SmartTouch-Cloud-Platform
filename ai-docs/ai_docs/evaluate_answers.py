@@ -36,7 +36,9 @@ def evaluate_answer_response(
         if citation not in citations:
             failures.append(f"missing required citation: {citation}")
 
-    allowed_citations = set(required_citations)
+    allowed_citations = set(
+        case.get("allowed_citations", required_citations)
+    )
     for citation in citations:
         if citation not in allowed_citations:
             failures.append(f"unexpected citation: {citation}")

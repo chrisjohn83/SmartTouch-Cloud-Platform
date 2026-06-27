@@ -67,6 +67,18 @@ class AnswerEvaluationTests(unittest.TestCase):
             "answer unexpectedly returned fallback",
             evaluate_answer_response(case, response),
         )
+    
+    def test_allows_configured_optional_citations(self) -> None:
+        case = {
+            "required_citations": ["source-1"],
+            "allowed_citations": ["source-1", "source-2"],
+        }
+        response = {
+            "answer": "Use both references. [source-1] [source-2]",
+            "citations": ["source-1", "source-2"],
+        }
+
+        self.assertEqual(evaluate_answer_response(case, response), [])
 
 
 if __name__ == "__main__":
