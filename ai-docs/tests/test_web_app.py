@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from fastapi.testclient import TestClient
-
+from ai_docs.retrieval_service import RetrievalServiceError
 from ai_docs.web_app import app
 
 
@@ -90,6 +90,24 @@ class WebAppTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["detail"], "query is required")
+
+    def test_dependency_errors_return_503(self) -> None:
+        with patch(
+            "ai_docs.web_app.handle_search_request",
+            side_effect=RetrievalServiceError(
+                "Retrieval service is unavailable"
+            ),
+        ):
+            response = self.client.post(
+                "/search",
+                json={"query": "device offline"},
+            )
+
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(
+            response.json()["detail"],
+            "Retrieval service is unavailable",
+        )
 
 
 if __name__ == "__main__":

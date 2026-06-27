@@ -13,6 +13,8 @@ from .postgres_search import (
 )
 from .retrieval_api import build_search_response
 
+class RetrievalServiceError(RuntimeError):
+    """Raised when retrieval dependencies are unavailable."""
 
 class EmbeddingProvider(Protocol):
     def embed(self, texts: list[str]) -> list[Any]:
@@ -44,24 +46,29 @@ def search_documentation(
     if limit < 1:
         raise ValueError("limit must be at least 1")
 
-    provider = embedding_provider or OpenAIEmbeddingProvider(model=model)
-    query_vector = provider.embed([normalized_query])[0].vector
+    try:
+        provider = embedding_provider or OpenAIEmbeddingProvider(model=model)
+        query_vector = provider.embed([normalized_query])[0].vector
 
-    if search_function is None:
-        resolved_database_url = database_url or database_url_from_environment()
+        if search_function is None:
+            resolved_database_url = database_url or database_url_from_environment()
 
-        def search_function(
-            search_query: str,
-            search_vector: list[float],
-        ) -> list[dict[str, Any]]:
-            return search_postgres_hybrid(
-                search_query,
-                search_vector,
-                database_url=resolved_database_url,
-                limit=limit,
-            )
+            def search_function(
+                search_query: str,
+                search_vector: list[float],
+            ) -> list[dict[str, Any]]:
+                return search_postgres_hybrid(
+                    search_query,
+                    search_vector,
+                    database_url=resolved_database_url,
+                    limit=limit,
+                )
 
-    results = search_function(normalized_query, query_vector)
+        results = search_function(normalized_query, query_vector)
+    except Exception as error:
+        raise RetrievalServiceError(
+            "Retrieval service is unavailable"
+        ) from error
 
     return build_search_response(normalized_query, results)
 

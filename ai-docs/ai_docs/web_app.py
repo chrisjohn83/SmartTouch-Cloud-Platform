@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from .retrieval_service import RetrievalServiceError
 
 from .http_api import (
     handle_answer_context_request,
@@ -30,6 +31,8 @@ def search(payload: dict[str, Any]) -> dict[str, Any]:
         return handle_search_request(payload)
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
+    except RetrievalServiceError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
 
 
 @app.post("/answer-context")
@@ -38,3 +41,5 @@ def answer_context(payload: dict[str, Any]) -> dict[str, Any]:
         return handle_answer_context_request(payload)
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
+    except RetrievalServiceError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error

@@ -3,7 +3,11 @@ from __future__ import annotations
 import unittest
 from dataclasses import dataclass
 
-from ai_docs.retrieval_service import get_answer_context, search_documentation
+from ai_docs.retrieval_service import (
+    RetrievalServiceError,
+    get_answer_context,
+    search_documentation,
+)
 
 
 @dataclass
@@ -127,6 +131,21 @@ class RetrievalServiceTests(unittest.TestCase):
             "Common errors > Error: session already open",
         )
         self.assertEqual(context["contexts"][0]["excerpt"], "List and close the…")
+
+    def test_wraps_dependency_failures(self) -> None:
+        class FailingProvider:
+            def embed(self, texts: list[str]) -> list[FakeEmbedding]:
+                raise RuntimeError("boom")
+
+        with self.assertRaisesRegex(
+            RetrievalServiceError,
+            "Retrieval service is unavailable",
+        ):
+            search_documentation(
+                "device offline",
+                embedding_provider=FailingProvider(),
+                search_function=lambda query, vector: [],
+            )
 
 if __name__ == "__main__":
     unittest.main()
