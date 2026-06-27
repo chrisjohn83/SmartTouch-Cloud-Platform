@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from ai_docs.retrieval_service import (
     RetrievalServiceError,
+    answer_question,
     get_answer_context,
     search_documentation,
 )
@@ -23,6 +24,19 @@ class FakeEmbeddingProvider:
         self.calls.append(texts)
         return [FakeEmbedding([0.1, 0.2, 0.3])]
 
+class FakeAnswerClient:
+    def __init__(self, answer: str) -> None:
+        self.answer = answer
+        self.calls = []
+
+    def generate(self, *, system: str, user: str) -> str:
+        self.calls.append(
+            {
+                "system": system,
+                "user": user,
+            }
+        )
+        return self.answer
 
 class RetrievalServiceTests(unittest.TestCase):
     def test_search_documentation_embeds_query_and_formats_response(self) -> None:
@@ -146,6 +160,57 @@ class RetrievalServiceTests(unittest.TestCase):
                 embedding_provider=FailingProvider(),
                 search_function=lambda query, vector: [],
             )
+
+    def test_answer_question_retrieves_context_and_generates_answer(self) -> None:
+        provider = FakeEmbeddingProvider()
+        answer_client = FakeAnswerClient(
+            "Close the existing diagnostics session [source-1]."
+        )
+
+        def fake_search(query: str, vector: list[float]) -> list[dict]:
+            return [
+                {
+                    "id": "chunk-1",
+                    "title": "Common errors",
+                    "heading": "Error: session already open",
+                    "heading_path": [
+                        "Common errors",
+                        "Error: session already open",
+                    ],
+                    "source_path": "developers/onboarding/common-errors.md",
+                    "source_url": "https://docs.example.com/common-errors/",
+                    "content": "List and close the existing session.",
+                    "metadata": {"persona": ["developer"]},
+                    "final_score": 0.015,
+                    "semantic_score": 0.552,
+                    "lexical_score": 1.05,
+                    "semantic_rank": 14,
+                    "lexical_rank": 1,
+                }
+            ]
+
+        response = answer_question(
+            "A remote diagnostics session is already open",
+            model_client=answer_client,
+            embedding_provider=provider,
+            search_function=fake_search,
+        )
+
+        self.assertEqual(
+            response["query"],
+            "A remote diagnostics session is already open",
+        )
+        self.assertEqual(
+            response["answer"],
+            "Close the existing diagnostics session [source-1].",
+        )
+        self.assertEqual(response["citations"], ["source-1"])
+        self.assertEqual(len(response["sources"]), 1)
+        self.assertEqual(
+            response["sources"][0]["source_url"],
+            "https://docs.example.com/common-errors/",
+        )
+        self.assertEqual(len(answer_client.calls), 1)
 
 if __name__ == "__main__":
     unittest.main()

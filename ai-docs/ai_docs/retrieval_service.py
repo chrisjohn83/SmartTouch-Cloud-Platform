@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any, Protocol
 from .answer_context import build_answer_context
+from .answer_generator import AnswerModelClient, generate_answer
 
 from .openai_embeddings import OpenAIEmbeddingProvider
 from .postgres_search import (
@@ -97,4 +98,32 @@ def get_answer_context(
         search_response,
         max_results=limit,
         max_content_chars=max_content_chars,
+    )
+
+def answer_question(
+    query: str,
+    *,
+    model_client: AnswerModelClient,
+    limit: int = 5,
+    model: str = "text-embedding-3-small",
+    database_url: str | None = None,
+    embedding_provider: EmbeddingProvider | None = None,
+    search_function: SearchFunction | None = None,
+    max_content_chars: int = 1200,
+) -> dict[str, Any]:
+    """Retrieve SmartTouch docs and generate a grounded cited answer."""
+
+    answer_context = get_answer_context(
+        query,
+        limit=limit,
+        model=model,
+        database_url=database_url,
+        embedding_provider=embedding_provider,
+        search_function=search_function,
+        max_content_chars=max_content_chars,
+    )
+
+    return generate_answer(
+        answer_context,
+        model_client=model_client,
     )
