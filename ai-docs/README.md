@@ -28,3 +28,15 @@ Each JSONL record includes:
 ```powershell
 python -m unittest discover -s tests -v
 ```
+
+## Run the local retrieval API
+
+The retrieval API exposes the SmartTouch documentation search layer over HTTP.
+
+### Prerequisites
+
+Start Docker Desktop, then start PostgreSQL with pgvector:
+
+```powershell
+docker compose up -d
+docker ps
