@@ -10,6 +10,10 @@ from .answer_prompt import build_answer_prompt
 
 CITATION_RE = re.compile(r"\[(source-\d+)\]")
 
+INSUFFICIENT_CITED_INFORMATION = (
+    "The SmartTouch documentation does not provide enough cited "
+    "information to answer this question."
+)
 
 class AnswerModelClient(Protocol):
     def generate(self, *, system: str, user: str) -> str:
@@ -29,10 +33,7 @@ def generate_answer(
     if not contexts:
         return {
             "query": query,
-            "answer": (
-                "The SmartTouch documentation does not provide enough "
-                "information to answer this question."
-            ),
+            "answer": INSUFFICIENT_CITED_INFORMATION,
             "citations": [],
             "sources": [],
         }
@@ -45,6 +46,14 @@ def generate_answer(
 
     citations = _extract_citations(answer)
     sources = _select_sources(contexts, citations)
+
+    if not sources:
+        return {
+            "query": query,
+            "answer": INSUFFICIENT_CITED_INFORMATION,
+            "citations": [],
+            "sources": [],
+        }
 
     return {
         "query": query,

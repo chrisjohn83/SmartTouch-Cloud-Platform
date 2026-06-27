@@ -97,9 +97,62 @@ class AnswerGeneratorTests(unittest.TestCase):
 
         response = generate_answer(answer_context, model_client=client)
 
-        self.assertEqual(response["citations"], ["source-99"])
+        self.assertEqual(
+            response["answer"],
+            "The SmartTouch documentation does not provide enough cited "
+            "information to answer this question.",
+        )
+        self.assertEqual(response["citations"], [])
         self.assertEqual(response["sources"], [])
 
+    def test_rejects_answer_with_only_unknown_citations(self) -> None:
+        client = FakeAnswerClient(
+            "Use the documented command [source-99]."
+        )
+        answer_context = {
+            "query": "What should I do?",
+            "contexts": [
+                {
+                    "citation_id": "source-1",
+                    "title": "Common errors",
+                }
+            ],
+        }
+
+        response = generate_answer(answer_context, model_client=client)
+
+        self.assertEqual(
+            response["answer"],
+            "The SmartTouch documentation does not provide enough cited "
+            "information to answer this question.",
+        )
+        self.assertEqual(response["citations"], [])
+        self.assertEqual(response["sources"], [])
+
+    def test_rejects_uncited_answer(self) -> None:
+        client = FakeAnswerClient(
+            "Restart the SmartTouch agent."
+        )
+        answer_context = {
+            "query": "What should I do?",
+            "contexts": [
+                {
+                    "citation_id": "source-1",
+                    "title": "Common errors",
+                }
+            ],
+        }
+
+        response = generate_answer(answer_context, model_client=client)
+
+        self.assertEqual(
+            response["answer"],
+            "The SmartTouch documentation does not provide enough cited "
+            "information to answer this question.",
+        )
+        self.assertEqual(response["citations"], [])
+        self.assertEqual(response["sources"], [])
+    
     def test_returns_safe_answer_without_context(self) -> None:
         client = FakeAnswerClient("This should not be called.")
         answer_context = {
@@ -111,7 +164,7 @@ class AnswerGeneratorTests(unittest.TestCase):
 
         self.assertEqual(
             response["answer"],
-            "The SmartTouch documentation does not provide enough "
+            "The SmartTouch documentation does not provide enough cited "
             "information to answer this question.",
         )
         self.assertEqual(response["citations"], [])
