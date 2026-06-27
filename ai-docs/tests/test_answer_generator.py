@@ -60,7 +60,7 @@ class AnswerGeneratorTests(unittest.TestCase):
             "https://docs.example.com/common-errors/",
         )
         self.assertEqual(len(client.calls), 1)
-        self.assertIn("Use only the provided sources", client.calls[0]["system"])
+        self.assertIn("Use only facts that appear in the provided sources", client.calls[0]["system"])
         self.assertIn("[source-1]", client.calls[0]["user"])
 
     def test_deduplicates_citations(self) -> None:

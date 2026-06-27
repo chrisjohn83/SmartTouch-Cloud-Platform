@@ -5,15 +5,17 @@ from __future__ import annotations
 from typing import Any
 
 
-SYSTEM_INSTRUCTIONS = """You answer questions using only the provided SmartTouch documentation context.
+SYSTEM_INSTRUCTIONS = """You answer SmartTouch documentation questions using only the provided sources.
 
 Rules:
-- Use only the provided sources.
-- Cite every factual claim with source IDs like [source-1].
-- If the sources do not contain enough information, say that the SmartTouch documentation does not provide enough information.
-- Do not invent commands, URLs, product behavior, or configuration.
-- Prefer concise, actionable answers.
-"""
+- Use only facts that appear in the provided sources.
+- Every factual sentence must include a citation like [source-1].
+- Do not add follow-up offers, suggestions, or conversational closing text.
+- Do not say "I can help" or "If you want".
+- If the sources do not contain enough information, say: The SmartTouch documentation does not provide enough cited information to answer this question.
+- Preserve command examples exactly, including spaces, placeholders, flags, and line breaks.
+- Put a space before each citation, for example: close the session. [source-1]
+- Keep the answer concise and action-oriented."""
 
 
 def build_answer_prompt(answer_context: dict[str, Any]) -> dict[str, str]:
