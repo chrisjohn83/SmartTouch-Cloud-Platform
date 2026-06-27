@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 from typing import Any, Protocol
-
 from .answer_prompt import build_answer_prompt
 
 
@@ -14,6 +13,16 @@ INSUFFICIENT_CITED_INFORMATION = (
     "The SmartTouch documentation does not provide enough cited "
     "information to answer this question."
 )
+
+FORBIDDEN_ANSWER_PHRASES = (
+    "if you want",
+    "i can help",
+    "i can also",
+)
+def _contains_forbidden_phrase(answer: str) -> bool:
+    normalized = answer.casefold()
+    return any(phrase in normalized for phrase in FORBIDDEN_ANSWER_PHRASES)
+
 
 class AnswerModelClient(Protocol):
     def generate(self, *, system: str, user: str) -> str:
@@ -43,6 +52,14 @@ def generate_answer(
         system=prompt["system"],
         user=prompt["user"],
     ).strip()
+
+    if _contains_forbidden_phrase(answer):
+        return {
+            "query": query,
+            "answer": INSUFFICIENT_CITED_INFORMATION,
+            "citations": [],
+            "sources": [],
+        }
 
     citations = _extract_citations(answer)
     sources = _select_sources(contexts, citations)

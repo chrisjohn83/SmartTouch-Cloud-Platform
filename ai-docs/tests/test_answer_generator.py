@@ -60,7 +60,10 @@ class AnswerGeneratorTests(unittest.TestCase):
             "https://docs.example.com/common-errors/",
         )
         self.assertEqual(len(client.calls), 1)
-        self.assertIn("Use only facts that appear in the provided sources", client.calls[0]["system"])
+        self.assertIn(
+            "Use only facts that appear in the provided sources",
+            client.calls[0]["system"],
+        )
         self.assertIn("[source-1]", client.calls[0]["user"])
 
     def test_deduplicates_citations(self) -> None:
@@ -129,6 +132,32 @@ class AnswerGeneratorTests(unittest.TestCase):
         self.assertEqual(response["citations"], [])
         self.assertEqual(response["sources"], [])
 
+    def test_rejects_followup_offer(self) -> None:
+        client = FakeAnswerClient(
+            "Close the existing session. [source-1]\n\n"
+            "If you want, I can help identify the session ID."
+        )
+        answer_context = {
+            "query": "What should I do?",
+            "contexts": [
+                {
+                    "citation_id": "source-1",
+                    "title": "Common errors",
+                    "heading": "Error: session already open",
+                }
+            ],
+        }
+
+        response = generate_answer(answer_context, model_client=client)
+
+        self.assertEqual(
+            response["answer"],
+            "The SmartTouch documentation does not provide enough cited "
+            "information to answer this question.",
+        )
+        self.assertEqual(response["citations"], [])
+        self.assertEqual(response["sources"], [])
+
     def test_rejects_uncited_answer(self) -> None:
         client = FakeAnswerClient(
             "Restart the SmartTouch agent."
@@ -152,7 +181,7 @@ class AnswerGeneratorTests(unittest.TestCase):
         )
         self.assertEqual(response["citations"], [])
         self.assertEqual(response["sources"], [])
-    
+
     def test_returns_safe_answer_without_context(self) -> None:
         client = FakeAnswerClient("This should not be called.")
         answer_context = {
