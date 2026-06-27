@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from .retrieval_service import get_answer_context, search_documentation
+from .retrieval_service import answer_question
 
 
 def health_response() -> dict[str, Any]:
@@ -24,6 +25,18 @@ def handle_search_request(payload: dict[str, Any]) -> dict[str, Any]:
 
     return search_documentation(query, limit=limit)
 
+def handle_answer_request(payload: dict[str, Any]) -> dict[str, Any]:
+    """Handle a grounded answer request payload."""
+
+    query = _required_query(payload)
+    limit = _limit(payload)
+    answer_model = str(payload.get("answer_model", "gpt-5.4-mini"))
+
+    return answer_question(
+        query,
+        limit=limit,
+        answer_model=answer_model,
+    )
 
 def handle_answer_context_request(payload: dict[str, Any]) -> dict[str, Any]:
     """Handle an answer-context request payload."""

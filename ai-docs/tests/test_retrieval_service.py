@@ -212,5 +212,32 @@ class RetrievalServiceTests(unittest.TestCase):
         )
         self.assertEqual(len(answer_client.calls), 1)
 
+    def test_answer_question_wraps_answer_generation_failures(self) -> None:
+        provider = FakeEmbeddingProvider()
+
+        class FailingAnswerClient:
+            def generate(self, *, system: str, user: str) -> str:
+                raise RuntimeError("model failed")
+
+        def fake_search(query: str, vector: list[float]) -> list[dict]:
+            return [
+                {
+                    "id": "chunk-1",
+                    "heading_path": ["Common errors"],
+                    "content": "Close the existing session.",
+                }
+            ]
+
+        with self.assertRaisesRegex(
+            RetrievalServiceError,
+            "Answer generation service is unavailable",
+        ):
+            answer_question(
+                "A remote diagnostics session is already open",
+                model_client=FailingAnswerClient(),
+                embedding_provider=provider,
+                search_function=fake_search,
+            )
+
 if __name__ == "__main__":
     unittest.main()
