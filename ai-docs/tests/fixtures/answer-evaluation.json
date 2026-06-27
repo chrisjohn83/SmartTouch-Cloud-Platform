@@ -1,0 +1,16 @@
+[
+  {
+    "query": "A remote diagnostics session is already open",
+    "required_citations": ["source-1"],
+    "required_answer_contains": [
+      "close",
+      "stctl remote-access close"
+    ],
+    "forbidden_answer_contains": [
+      "if you want",
+      "i can help",
+      "i can also"
+    ],
+    "allow_fallback": false
+  }
+]
