@@ -18,7 +18,6 @@
     "query": "Why can't stctl authenticate me?",
     "required_citations": [],
     "allowed_citations": ["source-1", "source-2", "source-3"],
-    
     "required_answer_contains": [
       "stctl",
       "login"
