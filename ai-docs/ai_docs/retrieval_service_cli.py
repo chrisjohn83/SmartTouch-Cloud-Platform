@@ -6,6 +6,8 @@ import argparse
 import json
 from typing import Any
 
+from .config import load_config
+
 from .retrieval_service import (
     answer_question,
     get_answer_context,
@@ -14,12 +16,14 @@ from .retrieval_service import (
 
 
 def build_parser() -> argparse.ArgumentParser:
+    config = load_config()
     parser = argparse.ArgumentParser(
         description="Search SmartTouch documentation and print API-style JSON."
     )
     parser.add_argument("--query", required=True)
-    parser.add_argument("--limit", type=int, default=5)
-    parser.add_argument("--model", default="text-embedding-3-small")
+    parser.add_argument("--limit", type=int, default=config.default_retrieval_limit)
+    parser.add_argument("--model", default=config.embedding_model)
+    parser.add_argument("--answer-model", default=config.answer_model)
     parser.add_argument(
         "--format",
         choices=("search", "context", "answer"),
@@ -45,6 +49,7 @@ def run_search(
             args.query,
             limit=args.limit,
             model=args.model,
+            answer_model=args.answer_model,
         )
 
     if args.format == "context":

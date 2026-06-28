@@ -3,6 +3,9 @@ from __future__ import annotations
 import argparse
 import unittest
 
+import os
+from unittest.mock import patch
+
 from ai_docs.retrieval_service_cli import build_parser, run_search
 
 
@@ -82,7 +85,7 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "sources": [{"citation_id": "source-1"}],
         }
 
-        def fake_answer_question(query: str, *, limit: int, model: str) -> dict:
+        def fake_answer_question(query: str, *, limit: int, model: str, answer_model: str,) -> dict:
             self.assertEqual(query, "test")
             self.assertEqual(limit, 3)
             self.assertEqual(model, "gpt-5.4-mini")
@@ -104,6 +107,27 @@ class RetrievalServiceCliTests(unittest.TestCase):
         response = run_search(args, answer_question_fn=fake_answer_question)
 
         self.assertEqual(response, expected)
+
+def test_parser_uses_config_defaults(self) -> None:
+    with patch.dict(
+        os.environ,
+        {
+            "AI_DOCS_DEFAULT_RETRIEVAL_LIMIT": "7",
+            "AI_DOCS_EMBEDDING_MODEL": "configured-embedding",
+            "AI_DOCS_ANSWER_MODEL": "configured-answer",
+        },
+        clear=True,
+    ):
+        args = build_parser().parse_args(
+            [
+                "--query",
+                "device offline",
+            ]
+        )
+
+    self.assertEqual(args.limit, 7)
+    self.assertEqual(args.model, "configured-embedding")
+    self.assertEqual(args.answer_model, "configured-answer")
 
 
 if __name__ == "__main__":

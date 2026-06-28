@@ -7,6 +7,7 @@ from typing import Any, Protocol
 from .answer_context import build_answer_context
 from .answer_generator import AnswerModelClient, generate_answer
 from .openai_answer_client import OpenAIAnswerClient
+from .config import load_config
 
 from .openai_embeddings import OpenAIEmbeddingProvider
 from .postgres_search import (
@@ -33,18 +34,22 @@ def search_documentation(
     query: str,
     *,
     limit: int = 5,
-    model: str = "text-embedding-3-small",
+    model: str | None = None,
     database_url: str | None = None,
     embedding_provider: EmbeddingProvider | None = None,
     search_function: SearchFunction | None = None,
 ) -> dict[str, Any]:
     """Search SmartTouch documentation and return the API response contract."""
 
+    config = load_config()
+    model = model or config.embedding_model
+    database_url = database_url or config.database_url
+
     normalized_query = query.strip()
 
     if not normalized_query:
         raise ValueError("query must not be empty")
-
+    
     if limit < 1:
         raise ValueError("limit must be at least 1")
 
@@ -54,6 +59,8 @@ def search_documentation(
 
         if search_function is None:
             resolved_database_url = database_url or database_url_from_environment()
+            if not resolved_database_url:
+                raise RetrievalServiceError("DATABASE_URL is not configured")
 
             def search_function(
                 search_query: str,
@@ -82,9 +89,13 @@ def get_answer_context(
     database_url: str | None = None,
     embedding_provider: EmbeddingProvider | None = None,
     search_function: SearchFunction | None = None,
-    max_content_chars: int = 1200,
+    max_content_chars: int | None = None,
 ) -> dict[str, Any]:
     """Retrieve SmartTouch docs and build citation-ready answer context."""
+
+    config = load_config()
+    if max_content_chars is None:
+        max_content_chars = config.max_context_chars
 
     search_response = search_documentation(
         query,
@@ -105,7 +116,7 @@ def answer_question(
     query: str,
     *,
     model_client: AnswerModelClient | None = None,
-    answer_model: str = "gpt-5.4-mini",
+    answer_model: str | None = None,
     model: str = "text-embedding-3-small",
     limit: int = 5,
     database_url: str | None = None,
@@ -114,6 +125,9 @@ def answer_question(
     max_content_chars: int = 1200,
 ) -> dict[str, Any]:
     """Retrieve SmartTouch docs and generate a grounded cited answer."""
+
+    config = load_config()
+    answer_model = answer_model or config.answer_model
 
     answer_context = get_answer_context(
         query,

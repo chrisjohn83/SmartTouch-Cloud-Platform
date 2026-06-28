@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import os
 import unittest
 from dataclasses import dataclass
+from unittest.mock import patch
+from ai_docs.config import load_config
 
 from ai_docs.retrieval_service import (
     RetrievalServiceError,
@@ -238,6 +241,35 @@ class RetrievalServiceTests(unittest.TestCase):
                 embedding_provider=provider,
                 search_function=fake_search,
             )
+
+def test_search_documentation_uses_config_defaults(self) -> None:
+    class FakeEmbeddingProvider:
+        def __init__(self) -> None:
+            self.model = None
+
+        def embed(self, texts: list[str]):
+            self.model = "not-used"
+            return [type("Embedding", (), {"vector": [0.1] * 1536})()]
+
+    def fake_search(query_vector, *, database_url, limit):
+        self.assertEqual(database_url, "postgresql://configured")
+        return []
+
+    with patch.dict(
+        os.environ,
+        {
+            "DATABASE_URL": "postgresql://configured",
+            "AI_DOCS_EMBEDDING_MODEL": "configured-embedding-model",
+        },
+        clear=True,
+    ):
+        response = search_documentation(
+            "device offline",
+            embedding_provider=FakeEmbeddingProvider(),
+            search_function=fake_search,
+        )
+
+    self.assertEqual(response["query"], "device offline")
 
 if __name__ == "__main__":
     unittest.main()
