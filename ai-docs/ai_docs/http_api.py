@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from .config import load_config
@@ -20,6 +21,21 @@ def health_response() -> dict[str, Any]:
         "service": "smarttouch-ai-docs",
     }
 
+def diagnostics_response() -> dict[str, Any]:
+    """Return non-secret service diagnostics."""
+
+    config = load_config()
+
+    return {
+        "status": "ok",
+        "service": "smarttouch-ai-docs",
+        "database_configured": bool(config.database_url),
+        "openai_key_configured": bool(os.getenv("OPENAI_API_KEY")),
+        "embedding_model": config.embedding_model,
+        "answer_model": config.answer_model,
+        "default_retrieval_limit": config.default_retrieval_limit,
+        "max_context_chars": config.max_context_chars,
+    }
 
 def handle_search_request(payload: dict[str, Any]) -> dict[str, Any]:
     """Handle a search request payload."""

@@ -3,14 +3,15 @@ from __future__ import annotations
 import unittest
 from unittest.mock import patch
 import os
-from unittest.mock import patch
-
+from typing import Any
 from ai_docs.http_api import (
     handle_answer_context_request,
     handle_answer_request,
     handle_search_request,
     health_response,
+    diagnostics_response,
 )
+from ai_docs.config import load_config
 
 
 class HttpApiTests(unittest.TestCase):
@@ -175,6 +176,17 @@ def test_answer_request_uses_configured_answer_model(self) -> None:
         model="configured-embedding",
         answer_model="configured-answer",
     )
+
+def test_diagnostics_response_hides_secrets(self) -> None:
+    response = diagnostics_response()
+
+    self.assertEqual(response["service"], "smarttouch-ai-docs")
+    self.assertIn("database_configured", response)
+    self.assertIn("openai_key_configured", response)
+    self.assertIn("embedding_model", response)
+    self.assertIn("answer_model", response)
+    self.assertNotIn("database_url", response)
+    self.assertNotIn("openai_api_key", response)
 
 if __name__ == "__main__":
     unittest.main()

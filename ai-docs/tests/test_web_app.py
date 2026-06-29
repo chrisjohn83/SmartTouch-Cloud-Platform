@@ -24,6 +24,17 @@ class WebAppTests(unittest.TestCase):
             },
         )
 
+    def test_diagnostics_endpoint(self) -> None:
+        response = self.client.get("/diagnostics")
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["service"], "smarttouch-ai-docs")
+        self.assertIn("database_configured", body)
+        self.assertIn("openai_key_configured", body)
+        self.assertNotIn("database_url", body)
+        self.assertNotIn("openai_api_key", body)
+
     def test_search_endpoint(self) -> None:
         expected = {
             "query": "device offline",
