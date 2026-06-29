@@ -6,9 +6,9 @@ from ai_docs.answer_generator import generate_answer
 
 
 class FakeAnswerClient:
-    def __init__(self, answer: str) -> None:
-        self.answer = answer
-        self.calls = []
+    def __init__(self, *answers: str) -> None:
+        self.answers = list(answers)
+        self.calls: list[dict[str, str]] = []
 
     def generate(self, *, system: str, user: str) -> str:
         self.calls.append(
@@ -17,8 +17,14 @@ class FakeAnswerClient:
                 "user": user,
             }
         )
-        return self.answer
 
+        if not self.answers:
+            raise AssertionError("FakeAnswerClient has no answers left")
+
+        if len(self.answers) == 1:
+            return self.answers[0]
+
+        return self.answers.pop(0)
 
 class AnswerGeneratorTests(unittest.TestCase):
     def test_generates_answer_with_citations_and_sources(self) -> None:
@@ -65,6 +71,49 @@ class AnswerGeneratorTests(unittest.TestCase):
             client.calls[0]["system"],
         )
         self.assertIn("[source-1]", client.calls[0]["user"])
+
+    def test_retries_when_first_answer_is_uncited(self) -> None:
+        answer_context = {
+            "query": "A remote diagnostics session is already open",
+            "contexts": [
+                {
+                    "citation_id": "source-1",
+                    "title": "Common errors",
+                    "heading": "Error: session already open for protocol diagnostics",
+                    "heading_label": (
+                        "Common errors > 'stctl' errors > "
+                        "Error: session already open for protocol diagnostics"
+                    ),
+                    "source_url": "https://docs.example.com/common-errors/",
+                    "source_path": "developers/onboarding/common-errors.md",
+                    "excerpt": (
+                        "Equivalent to HTTP 409 Conflict. List and close "
+                        "the existing session:\n\n"
+                        "```bash\n"
+                        "stctl remote-access list --device <device_id> --status open\n"
+                        "stctl remote-access close <session_id>\n"
+                        "```"
+                    ),
+                }
+            ],
+        }
+
+        fake_client = FakeAnswerClient(
+            "List the existing open diagnostics session and close it.",
+            (
+                "List the existing open diagnostics session and close it. [source-1]\n\n"
+                "```bash\n"
+                "stctl remote-access list --device <device_id> --status open\n"
+                "stctl remote-access close <session_id>\n"
+                "``` [source-1]"
+            ),
+        )
+
+        response = generate_answer(answer_context, model_client=fake_client)
+
+        self.assertEqual(len(fake_client.calls), 2)
+        self.assertEqual(response["citations"], ["source-1"])
+        self.assertIn("[source-1]", response["answer"])
 
     def test_deduplicates_citations(self) -> None:
         client = FakeAnswerClient(
@@ -200,6 +249,26 @@ class AnswerGeneratorTests(unittest.TestCase):
         self.assertEqual(response["sources"], [])
         self.assertEqual(client.calls, [])
 
+def test_retries_when_first_answer_is_uncited(self) -> None:
+    client = FakeAnswerClient(
+        "List the existing open diagnostics session and close it.",
+        (
+            "List the existing open diagnostics session and close it. [source-1]\n\n"
+            "```bash\n"
+            "stctl remote-access list --device <device_id> --status open\n"
+            "stctl remote-access close <session_id>\n"
+            "``` [source-1]"
+        ),
+    )
+
+    response = generate_answer(
+        self.answer_context,
+        model_client=client,
+    )
+
+    self.assertEqual(len(client.calls), 2)
+    self.assertEqual(response["citations"], ["source-1"])
+    self.assertIn("[source-1]", response["answer"])
 
 if __name__ == "__main__":
     unittest.main()
