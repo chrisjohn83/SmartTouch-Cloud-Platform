@@ -8,6 +8,7 @@ from .answer_context import build_answer_context
 from .answer_generator import AnswerModelClient, generate_answer
 from .openai_answer_client import OpenAIAnswerClient
 from .config import load_config
+from .knowledge_graph_query import expand_query_with_graph
 
 from .openai_embeddings import OpenAIEmbeddingProvider
 from .postgres_search import (
@@ -24,10 +25,23 @@ class EmbeddingProvider(Protocol):
         ...
 
 
-SearchFunction = Callable[
-    [str, list[float]],
-    list[dict[str, Any]],
-]
+SearchFunction = Callable[..., list[dict[str, Any]]]
+
+
+def _search_postgres_from_config(
+    query: str,
+    query_vector: list[float],
+    *,
+    limit: int = 5,
+    database_url: str | None = None,
+) -> list[dict[str, Any]]:
+    resolved_url = database_url_from_environment() if database_url is None else database_url
+    return search_postgres_hybrid(
+        query,
+        query_vector,
+        limit=limit,
+        database_url=resolved_url,
+    )
 
 
 def search_documentation(
@@ -35,51 +49,45 @@ def search_documentation(
     *,
     limit: int = 5,
     model: str | None = None,
+    embedding_provider: Any | None = None,
+    search_function: Any | None = None,
     database_url: str | None = None,
-    embedding_provider: EmbeddingProvider | None = None,
-    search_function: SearchFunction | None = None,
+    knowledge_graph: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Search SmartTouch documentation and return the API response contract."""
-
-    config = load_config()
-    model = model or config.embedding_model
-    database_url = database_url or config.database_url
+    """Search SmartTouch documentation."""
 
     normalized_query = query.strip()
-
     if not normalized_query:
-        raise ValueError("query must not be empty")
-    
+        raise ValueError("query is required")
+
     if limit < 1:
         raise ValueError("limit must be at least 1")
 
+    config = load_config()
+    embedding_model = model or config.embedding_model
+
+    provider = embedding_provider or OpenAIEmbeddingProvider(model=embedding_model)
+    search_fn = search_function or _search_postgres_from_config
+
+    retrieval_query = normalized_query
+    if knowledge_graph is not None:
+        expansion = expand_query_with_graph(normalized_query, knowledge_graph)
+        retrieval_query = expansion["expanded_query"]
+
     try:
-        provider = embedding_provider or OpenAIEmbeddingProvider(model=model)
-        query_vector = provider.embed([normalized_query])[0].vector
-
-        if search_function is None:
-            resolved_database_url = database_url or database_url_from_environment()
-            if not resolved_database_url:
-                raise RetrievalServiceError("DATABASE_URL is not configured")
-
-            def search_function(
-                search_query: str,
-                search_vector: list[float],
-            ) -> list[dict[str, Any]]:
-                return search_postgres_hybrid(
-                    search_query,
-                    search_vector,
-                    database_url=resolved_database_url,
-                    limit=limit,
-                )
-
-        results = search_function(normalized_query, query_vector)
+        query_vector = provider.embed([retrieval_query])[0].vector
+        results = search_fn(
+            retrieval_query,
+            query_vector,
+            limit=limit,
+        )
     except Exception as error:
         raise RetrievalServiceError(
             "Retrieval service is unavailable"
         ) from error
 
     return build_search_response(normalized_query, results)
+
 
 def get_answer_context(
     query: str,
@@ -90,10 +98,10 @@ def get_answer_context(
     embedding_provider: EmbeddingProvider | None = None,
     search_function: SearchFunction | None = None,
     max_content_chars: int | None = None,
+    knowledge_graph: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Retrieve SmartTouch docs and build citation-ready answer context."""
-
     config = load_config()
+
     if max_content_chars is None:
         max_content_chars = config.max_context_chars
 
@@ -104,6 +112,7 @@ def get_answer_context(
         database_url=database_url,
         embedding_provider=embedding_provider,
         search_function=search_function,
+        knowledge_graph=knowledge_graph,
     )
 
     return build_answer_context(
@@ -123,11 +132,14 @@ def answer_question(
     embedding_provider: EmbeddingProvider | None = None,
     search_function: SearchFunction | None = None,
     max_content_chars: int = 1200,
+    knowledge_graph: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Retrieve SmartTouch docs and generate a grounded cited answer."""
-
+    """Answer a question using SmartTouch documentation."""
     config = load_config()
-    answer_model = answer_model or config.answer_model
+    answer_model_name = answer_model or config.answer_model
+
+    if model_client is None:
+        model_client = OpenAIAnswerClient(model=answer_model_name)
 
     answer_context = get_answer_context(
         query,
@@ -137,14 +149,12 @@ def answer_question(
         embedding_provider=embedding_provider,
         search_function=search_function,
         max_content_chars=max_content_chars,
+        knowledge_graph=knowledge_graph,
     )
-
-    client = model_client or OpenAIAnswerClient(model=answer_model)
-
     try:
         return generate_answer(
             answer_context,
-            model_client=client,
+            model_client=model_client,
         )
     except Exception as error:
         raise RetrievalServiceError(
