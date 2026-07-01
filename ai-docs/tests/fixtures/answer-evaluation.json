@@ -70,5 +70,16 @@
       "i can also"
     ],
     "allow_fallback": false
-  }
+  },
+  {
+  "query": "device cannot connect to broker",
+  "required_citations": ["source-1"],
+  "optional_citations": ["source-2", "source-3"],
+  "forbidden_phrases": [
+    "if you want",
+    "i can help",
+    "i can also",
+    "documentation does not provide enough"
+  ]
+}
 ]
