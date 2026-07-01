@@ -67,6 +67,8 @@ nav:
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md
           - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
           - SSD Schema: developers/secrets-config/ssd-schema-reference.md
+  - AI Documentation:
+      - RAG Answering: developers/ai-docs/index.md
   - Platform Engineering:
       - Observability:
           - Overview: developers/observability/index.md
