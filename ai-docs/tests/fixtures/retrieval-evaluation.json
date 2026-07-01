@@ -93,6 +93,15 @@
   "acceptable_sources": ["01-provision-certificate.md"]
 },
 {
+  "query": "agent cannot reach broker",
+  "acceptable_paths": [
+    "Cann't reach the broker"
+  ],
+  "acceptable_sources": [
+    "why-device-not-connecting.md"
+  ]
+},
+{
   "query": "How can I verify that my IoT service deployed successfully?",
    "acceptable_sources": [
     "03-verify-deployment.md",
