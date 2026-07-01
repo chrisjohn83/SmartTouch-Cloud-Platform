@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import os
 import unittest
+from unittest.mock import patch
 
 from ai_docs.retrieval_service_cli import build_parser, run_search
 
@@ -18,6 +20,7 @@ class RetrievalServiceCliTests(unittest.TestCase):
                 "text-embedding-3-small",
                 "--format",
                 "context",
+                "--use-knowledge-graph",
             ]
         )
 
@@ -25,12 +28,14 @@ class RetrievalServiceCliTests(unittest.TestCase):
         self.assertEqual(args.limit, 3)
         self.assertEqual(args.model, "text-embedding-3-small")
         self.assertEqual(args.format, "context")
+        self.assertTrue(args.use_knowledge_graph)
 
     def test_run_search_delegates_to_service(self) -> None:
         args = argparse.Namespace(
             query="device offline",
             limit=3,
             model="text-embedding-3-small",
+            use_knowledge_graph=True,
             format="search",
         )
 
@@ -40,10 +45,17 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "results": [],
         }
 
-        def fake_search(query: str, *, limit: int, model: str) -> dict:
+        def fake_search(
+            query: str,
+            *,
+            limit: int,
+            model: str,
+            use_knowledge_graph: bool,
+        ) -> dict:
             self.assertEqual(query, "device offline")
             self.assertEqual(limit, 3)
             self.assertEqual(model, "text-embedding-3-small")
+            self.assertTrue(use_knowledge_graph)
             return expected
 
         response = run_search(args, search_fn=fake_search)
@@ -55,6 +67,7 @@ class RetrievalServiceCliTests(unittest.TestCase):
             query="device offline",
             limit=3,
             model="text-embedding-3-small",
+            use_knowledge_graph=True,
             format="context",
         )
 
@@ -64,10 +77,17 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "contexts": [],
         }
 
-        def fake_answer_context(query: str, *, limit: int, model: str) -> dict:
+        def fake_answer_context(
+            query: str,
+            *,
+            limit: int,
+            model: str,
+            use_knowledge_graph: bool,
+        ) -> dict:
             self.assertEqual(query, "device offline")
             self.assertEqual(limit, 3)
             self.assertEqual(model, "text-embedding-3-small")
+            self.assertTrue(use_knowledge_graph)
             return expected
 
         response = run_search(args, answer_context_fn=fake_answer_context)
@@ -82,10 +102,19 @@ class RetrievalServiceCliTests(unittest.TestCase):
             "sources": [{"citation_id": "source-1"}],
         }
 
-        def fake_answer_question(query: str, *, limit: int, model: str) -> dict:
+        def fake_answer_question(
+            query: str,
+            *,
+            limit: int,
+            model: str,
+            answer_model: str,
+            use_knowledge_graph: bool,
+        ) -> dict:
             self.assertEqual(query, "test")
             self.assertEqual(limit, 3)
             self.assertEqual(model, "gpt-5.4-mini")
+            self.assertEqual(answer_model, "gpt-5.4-mini")
+            self.assertTrue(use_knowledge_graph)
             return expected
 
         args = build_parser().parse_args(
@@ -96,14 +125,37 @@ class RetrievalServiceCliTests(unittest.TestCase):
                 "3",
                 "--model",
                 "gpt-5.4-mini",
+                "--answer-model",
+                "gpt-5.4-mini",
                 "--format",
                 "answer",
+                "--use-knowledge-graph",
             ]
         )
 
         response = run_search(args, answer_question_fn=fake_answer_question)
 
         self.assertEqual(response, expected)
+    def test_parser_uses_config_defaults(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "AI_DOCS_DEFAULT_RETRIEVAL_LIMIT": "7",
+                "AI_DOCS_EMBEDDING_MODEL": "configured-embedding",
+                "AI_DOCS_ANSWER_MODEL": "configured-answer",
+            },
+            clear=True,
+        ):
+            args = build_parser().parse_args(
+                [
+                    "--query",
+                    "device offline",
+                ]
+            )
+
+        self.assertEqual(args.limit, 7)
+        self.assertEqual(args.model, "configured-embedding")
+        self.assertEqual(args.answer_model, "configured-answer")
 
 
 if __name__ == "__main__":

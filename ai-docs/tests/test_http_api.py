@@ -1,9 +1,9 @@
-from __future__ import annotations
-
+import os
 import unittest
 from unittest.mock import patch
 
 from ai_docs.http_api import (
+    diagnostics_response,
     handle_answer_context_request,
     handle_answer_request,
     handle_search_request,
@@ -36,6 +36,7 @@ class HttpApiTests(unittest.TestCase):
                 {
                     "query": " device offline ",
                     "limit": 3,
+                    "use_knowledge_graph": True,
                 }
             )
 
@@ -43,6 +44,34 @@ class HttpApiTests(unittest.TestCase):
         search_documentation.assert_called_once_with(
             "device offline",
             limit=3,
+            model="text-embedding-3-small",
+            use_knowledge_graph=True,
+        )
+
+    def test_search_request_disables_knowledge_graph_by_default(self) -> None:
+        expected = {
+            "query": "device offline",
+            "result_count": 0,
+            "results": [],
+        }
+
+        with patch(
+            "ai_docs.http_api.search_documentation",
+            return_value=expected,
+        ) as search_documentation:
+            response = handle_search_request(
+                {
+                    "query": "device offline",
+                    "limit": 3,
+                }
+            )
+
+        self.assertEqual(response, expected)
+        search_documentation.assert_called_once_with(
+            "device offline",
+            limit=3,
+            model="text-embedding-3-small",
+            use_knowledge_graph=False,
         )
 
     def test_handle_answer_context_request_delegates_to_service(self) -> None:
@@ -61,6 +90,7 @@ class HttpApiTests(unittest.TestCase):
                     "query": " device offline ",
                     "limit": 3,
                     "max_content_chars": 500,
+                    "use_knowledge_graph": True,
                 }
             )
 
@@ -68,7 +98,9 @@ class HttpApiTests(unittest.TestCase):
         get_answer_context.assert_called_once_with(
             "device offline",
             limit=3,
+            model="text-embedding-3-small",
             max_content_chars=500,
+            use_knowledge_graph=True,
         )
 
     def test_rejects_missing_query(self) -> None:
@@ -101,6 +133,7 @@ class HttpApiTests(unittest.TestCase):
                     "query": " device offline ",
                     "limit": 3,
                     "answer_model": "gpt-5.4-mini",
+                    "use_knowledge_graph": True,
                 }
             )
 
@@ -108,8 +141,87 @@ class HttpApiTests(unittest.TestCase):
         answer_question.assert_called_once_with(
             "device offline",
             limit=3,
+            model="text-embedding-3-small",
             answer_model="gpt-5.4-mini",
+            max_content_chars=1200,
+            use_knowledge_graph=True,
         )
+
+    def test_search_request_uses_config_defaults(self) -> None:
+        expected = {"query": "device offline", "result_count": 0, "results": []}
+
+        with patch.dict(
+            os.environ,
+            {
+                "AI_DOCS_DEFAULT_RETRIEVAL_LIMIT": "7",
+                "AI_DOCS_EMBEDDING_MODEL": "configured-embedding",
+            },
+            clear=True,
+        ):
+            with patch(
+                "ai_docs.http_api.search_documentation",
+                return_value=expected,
+            ) as search_documentation:
+                response = handle_search_request(
+                    {"query": "device offline"}
+                )
+
+        self.assertEqual(response, expected)
+        search_documentation.assert_called_once_with(
+            "device offline",
+            limit=7,
+            model="configured-embedding",
+            use_knowledge_graph=False,
+        )
+
+    def test_answer_request_uses_configured_answer_model(self) -> None:
+        expected = {
+            "query": "device offline",
+            "answer": "Restart the agent [source-1].",
+            "citations": ["source-1"],
+            "sources": [],
+        }
+
+        with patch.dict(
+            os.environ,
+            {
+                "AI_DOCS_DEFAULT_RETRIEVAL_LIMIT": "4",
+                "AI_DOCS_EMBEDDING_MODEL": "configured-embedding",
+                "AI_DOCS_ANSWER_MODEL": "configured-answer",
+            },
+            clear=True,
+        ):
+            with patch(
+                "ai_docs.http_api.answer_question",
+                return_value=expected,
+            ) as answer_question:
+                response = handle_answer_request(
+                    {"query": "device offline"}
+                )
+
+        self.assertEqual(response, expected)
+        answer_question.assert_called_once_with(
+            "device offline",
+            limit=4,
+            model="configured-embedding",
+            answer_model="configured-answer",
+            max_content_chars=1200,
+            use_knowledge_graph=False,
+        )
+
+    def test_diagnostics_response_hides_secrets(self) -> None:
+        response = diagnostics_response()
+
+        self.assertEqual(response["service"], "smarttouch-ai-docs")
+        self.assertIn("database_configured", response)
+        self.assertIn("openai_key_configured", response)
+        self.assertIn("embedding_model", response)
+        self.assertIn("answer_model", response)
+        self.assertIn("knowledge_graph_configured", response)
+        self.assertIn("knowledge_graph_entities_path", response)
+        self.assertIn("knowledge_graph_relationships_path", response)
+        self.assertNotIn("database_url", response)
+        self.assertNotIn("openai_api_key", response)
 
 if __name__ == "__main__":
     unittest.main()

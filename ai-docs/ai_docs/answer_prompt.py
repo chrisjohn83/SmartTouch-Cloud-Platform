@@ -15,7 +15,11 @@ Rules:
 - If the sources do not contain enough information, say: The SmartTouch documentation does not provide enough cited information to answer this question.
 - Preserve command examples exactly, including spaces, placeholders, flags, and line breaks.
 - Put a space before each citation, for example: close the session. [source-1]
-- Keep the answer concise and action-oriented."""
+- Keep the answer concise and action-oriented.
+- Use only these exact citation IDs: the source IDs shown in the context.
+- Every paragraph must end with a valid citation.
+- If you include a command block, cite the sentence before the command block and cite immediately after the command block.
+- Do not cite sources that are not used in the answer."""
 
 
 def build_answer_prompt(answer_context: dict[str, Any]) -> dict[str, str]:

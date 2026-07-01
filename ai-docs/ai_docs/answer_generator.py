@@ -40,45 +40,62 @@ def generate_answer(
     contexts = answer_context.get("contexts") or []
 
     if not contexts:
-        return {
-            "query": query,
-            "answer": INSUFFICIENT_CITED_INFORMATION,
-            "citations": [],
-            "sources": [],
-        }
+        return _insufficient_response(query)
 
     prompt = build_answer_prompt(answer_context)
+
+    def build_response(answer: str) -> dict[str, Any] | None:
+        if _contains_forbidden_phrase(answer):
+            return None
+
+        citations = _extract_citations(answer)
+        sources = _select_sources(contexts, citations)
+
+        if not sources:
+            return None
+
+        return {
+            "query": query,
+            "answer": answer,
+            "citations": [source["citation_id"] for source in sources],
+            "sources": sources,
+        }
+
     answer = model_client.generate(
         system=prompt["system"],
         user=prompt["user"],
     ).strip()
 
-    if _contains_forbidden_phrase(answer):
-        return {
-            "query": query,
-            "answer": INSUFFICIENT_CITED_INFORMATION,
-            "citations": [],
-            "sources": [],
-        }
+    response = build_response(answer)
+    if response is not None:
+        return response
 
-    citations = _extract_citations(answer)
-    sources = _select_sources(contexts, citations)
+    repair_user = (
+        prompt["user"]
+        + "\n\nThe previous answer was rejected because it did not use valid "
+        "citations from the provided sources. Rewrite the answer using only "
+        "the provided source IDs. Every factual sentence must include a valid "
+        "citation. Do not add follow-up offers."
+    )
 
-    if not sources:
-        return {
-            "query": query,
-            "answer": INSUFFICIENT_CITED_INFORMATION,
-            "citations": [],
-            "sources": [],
-        }
+    repaired_answer = model_client.generate(
+        system=prompt["system"],
+        user=repair_user,
+    ).strip()
 
+    response = build_response(repaired_answer)
+    if response is not None:
+        return response
+
+    return _insufficient_response(query)
+
+def _insufficient_response(query: str) -> dict[str, Any]:
     return {
         "query": query,
-        "answer": answer,
-        "citations": citations,
-        "sources": sources,
+        "answer": INSUFFICIENT_CITED_INFORMATION,
+        "citations": [],
+        "sources": [],
     }
-
 
 def _extract_citations(answer: str) -> list[str]:
     seen = set()
@@ -119,3 +136,17 @@ def _select_sources(
         )
 
     return sources
+
+
+def _insufficient_response(query: str) -> dict[str, Any]:
+    """Return a standardized response when insufficient cited information.
+
+    Includes the original query, a helpful answer message, and empty
+    citations/sources lists so callers can rely on the response shape.
+    """
+    return {
+        "query": query,
+        "answer": INSUFFICIENT_CITED_INFORMATION,
+        "citations": [],
+        "sources": [],
+    }
