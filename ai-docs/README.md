@@ -53,20 +53,7 @@ The retrieval service can return grounded answers with citations.
 
 Start the local API:
 
-## Knowledge graph query expansion
-
-The AI docs service can build a lightweight knowledge graph from embedded
-documentation chunks and use it to expand retrieval queries.
-
-### Build the knowledge graph
-
-Run from the `ai-docs` directory:
-python -m ai_docs.build_knowledge_graph `
-  --input build/embedded-chunks.jsonl `
-  --entities-output build/kg-entities.jsonl `
-  --relationships-output build/kg-relationships.jsonl
-
-# SmartTouch AI docs
+## SmartTouch AI docs
 
 Utilities for indexing, searching, and answering questions from SmartTouch documentation.
 
