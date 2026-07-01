@@ -30,6 +30,11 @@ def build_parser() -> argparse.ArgumentParser:
         default="search",
         help="Output the raw search response or citation-ready answer context.",
     )
+    parser.add_argument(
+        "--use-knowledge-graph",
+        action="store_true",
+        help="Expand the query using build/kg-*.jsonl before retrieval.",
+    )
     return parser
 
 def run_search(
@@ -50,6 +55,7 @@ def run_search(
             limit=args.limit,
             model=args.model,
             answer_model=args.answer_model,
+            use_knowledge_graph=args.use_knowledge_graph,
         )
 
     if args.format == "context":
@@ -57,12 +63,14 @@ def run_search(
             args.query,
             limit=args.limit,
             model=args.model,
+            use_knowledge_graph=args.use_knowledge_graph,
         )
 
     return search_fn(
         args.query,
         limit=args.limit,
         model=args.model,
+        use_knowledge_graph=args.use_knowledge_graph,
     )
 
 def main() -> int:
@@ -71,7 +79,6 @@ def main() -> int:
     response = run_search(args)
     print(json.dumps(response, indent=2))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

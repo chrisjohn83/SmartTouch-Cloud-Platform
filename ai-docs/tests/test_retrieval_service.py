@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import os
+import json
+import tempfile
+from pathlib import Path
 import unittest
 from dataclasses import dataclass
 from unittest.mock import patch
@@ -383,6 +386,82 @@ class RetrievalServiceTests(unittest.TestCase):
             )
 
         self.assertEqual(response["query"], "device offline")
+
+    def test_search_documentation_can_load_knowledge_graph_from_store(self) -> None:
+        embedded_texts: list[str] = []
+
+        class FakeEmbeddingProvider:
+            def embed(self, texts: list[str]):
+                embedded_texts.extend(texts)
+
+                class Result:
+                    vector = [0.1, 0.2, 0.3]
+
+                return [Result()]
+
+        def fake_search(
+            query: str,
+            query_vector: list[float],
+            *,
+            limit: int,
+        ) -> list[dict]:
+            return []
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            graph_dir = Path(temp_dir)
+            (graph_dir / "kg-entities.jsonl").write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "id": "concept:device",
+                                "type": "concept",
+                                "name": "device",
+                            }
+                        ),
+                        json.dumps(
+                            {
+                                "id": "concept:broker",
+                                "type": "concept",
+                                "name": "broker",
+                            }
+                        ),
+                        json.dumps(
+                            {
+                                "id": "concept:agent",
+                                "type": "concept",
+                                "name": "agent",
+                            }
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (graph_dir / "kg-relationships.jsonl").write_text(
+                json.dumps(
+                    {
+                        "source_id": "concept:agent",
+                        "target_id": "concept:broker",
+                        "type": "connects_to",
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            search_documentation(
+                "device cannot connect to broker",
+                embedding_provider=FakeEmbeddingProvider(),
+                search_function=fake_search,
+                use_knowledge_graph=True,
+                knowledge_graph_dir=graph_dir,
+            )
+
+        self.assertEqual(
+            embedded_texts,
+            ["device cannot connect to broker agent"],
+        )
 
 if __name__ == "__main__":
     unittest.main()

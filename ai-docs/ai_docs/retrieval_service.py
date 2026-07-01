@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from pathlib import Path
+from .knowledge_graph_store import load_knowledge_graph
 from typing import Any, Protocol
 from .answer_context import build_answer_context
 from .answer_generator import AnswerModelClient, generate_answer
@@ -27,6 +29,7 @@ class EmbeddingProvider(Protocol):
 
 SearchFunction = Callable[..., list[dict[str, Any]]]
 
+DEFAULT_KNOWLEDGE_GRAPH_DIR = Path("build")
 
 def _search_postgres_from_config(
     query: str,
@@ -53,6 +56,8 @@ def search_documentation(
     search_function: Any | None = None,
     database_url: str | None = None,
     knowledge_graph: dict[str, Any] | None = None,
+    use_knowledge_graph: bool = False,
+    knowledge_graph_dir: Path = DEFAULT_KNOWLEDGE_GRAPH_DIR,
 ) -> dict[str, Any]:
     """Search SmartTouch documentation."""
 
@@ -69,9 +74,16 @@ def search_documentation(
     provider = embedding_provider or OpenAIEmbeddingProvider(model=embedding_model)
     search_fn = search_function or _search_postgres_from_config
 
+    resolved_knowledge_graph = knowledge_graph
+    if resolved_knowledge_graph is None and use_knowledge_graph:
+        resolved_knowledge_graph = load_knowledge_graph(knowledge_graph_dir)
+
     retrieval_query = normalized_query
-    if knowledge_graph is not None:
-        expansion = expand_query_with_graph(normalized_query, knowledge_graph)
+    if resolved_knowledge_graph is not None:
+        expansion = expand_query_with_graph(
+            normalized_query,
+            resolved_knowledge_graph,
+        )
         retrieval_query = expansion["expanded_query"]
 
     try:
@@ -95,6 +107,8 @@ def get_answer_context(
     limit: int = 5,
     model: str = "text-embedding-3-small",
     database_url: str | None = None,
+    use_knowledge_graph: bool = False,
+    knowledge_graph_dir: Path = DEFAULT_KNOWLEDGE_GRAPH_DIR,
     embedding_provider: EmbeddingProvider | None = None,
     search_function: SearchFunction | None = None,
     max_content_chars: int | None = None,
@@ -130,6 +144,8 @@ def answer_question(
     limit: int = 5,
     database_url: str | None = None,
     embedding_provider: EmbeddingProvider | None = None,
+    use_knowledge_graph: bool = False,
+    knowledge_graph_dir: Path = DEFAULT_KNOWLEDGE_GRAPH_DIR,
     search_function: SearchFunction | None = None,
     max_content_chars: int = 1200,
     knowledge_graph: dict[str, Any] | None = None,
@@ -149,6 +165,8 @@ def answer_question(
         embedding_provider=embedding_provider,
         search_function=search_function,
         max_content_chars=max_content_chars,
+        use_knowledge_graph=use_knowledge_graph,
+        knowledge_graph_dir=knowledge_graph_dir,
         knowledge_graph=knowledge_graph,
     )
     try:

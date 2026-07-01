@@ -44,11 +44,13 @@ def handle_search_request(payload: dict[str, Any]) -> dict[str, Any]:
     query = _required_query(payload)
     limit = _limit(payload)
     model = str(payload.get("model", config.embedding_model))
+    use_knowledge_graph = _use_knowledge_graph(payload)
 
     return search_documentation(
         query,
         limit=limit,
         model=model,
+        use_knowledge_graph=use_knowledge_graph,
     )
 
 
@@ -61,6 +63,7 @@ def handle_answer_request(payload: dict[str, Any]) -> dict[str, Any]:
     model = str(payload.get("model", config.embedding_model))
     answer_model = str(payload.get("answer_model", config.answer_model))
     max_content_chars = _max_content_chars(payload)
+    use_knowledge_graph = _use_knowledge_graph(payload)
 
     return answer_question(
         query,
@@ -68,6 +71,7 @@ def handle_answer_request(payload: dict[str, Any]) -> dict[str, Any]:
         model=model,
         answer_model=answer_model,
         max_content_chars=max_content_chars,
+        use_knowledge_graph=use_knowledge_graph,
     )
 
 
@@ -79,12 +83,14 @@ def handle_answer_context_request(payload: dict[str, Any]) -> dict[str, Any]:
     limit = _limit(payload)
     model = str(payload.get("model", config.embedding_model))
     max_content_chars = _max_content_chars(payload)
+    use_knowledge_graph = _use_knowledge_graph(payload)
 
     return get_answer_context(
         query,
         limit=limit,
         model=model,
         max_content_chars=max_content_chars,
+        use_knowledge_graph=use_knowledge_graph,
     )
 
 
@@ -128,3 +134,7 @@ def _max_content_chars(payload: dict[str, Any]) -> int:
         raise ValueError("max_content_chars must be at least 1")
 
     return max_content_chars
+
+
+def _use_knowledge_graph(payload: dict[str, Any]) -> bool:
+    return bool(payload.get("use_knowledge_graph", False))

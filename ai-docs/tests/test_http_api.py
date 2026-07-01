@@ -39,14 +39,42 @@ class HttpApiTests(unittest.TestCase):
                 {
                     "query": " device offline ",
                     "limit": 3,
+                    "use_knowledge_graph": True,
                 }
             )
 
-       
+        self.assertEqual(response, expected)
         search_documentation.assert_called_once_with(
             "device offline",
             limit=3,
             model="text-embedding-3-small",
+            use_knowledge_graph=True,
+        )
+
+    def test_search_request_disables_knowledge_graph_by_default(self) -> None:
+        expected = {
+            "query": "device offline",
+            "result_count": 0,
+            "results": [],
+        }
+
+        with patch(
+            "ai_docs.http_api.search_documentation",
+            return_value=expected,
+        ) as search_documentation:
+            response = handle_search_request(
+                {
+                    "query": "device offline",
+                    "limit": 3,
+                }
+            )
+
+        self.assertEqual(response, expected)
+        search_documentation.assert_called_once_with(
+            "device offline",
+            limit=3,
+            model="text-embedding-3-small",
+            use_knowledge_graph=False,
         )
 
     def test_handle_answer_context_request_delegates_to_service(self) -> None:
@@ -65,6 +93,7 @@ class HttpApiTests(unittest.TestCase):
                     "query": " device offline ",
                     "limit": 3,
                     "max_content_chars": 500,
+                    "use_knowledge_graph": True,
                 }
             )
 
@@ -72,8 +101,9 @@ class HttpApiTests(unittest.TestCase):
         get_answer_context.assert_called_once_with(
             "device offline",
             limit=3,
-            model="text-embedding-3-small", 
+            model="text-embedding-3-small",
             max_content_chars=500,
+            use_knowledge_graph=True,
         )
 
     def test_rejects_missing_query(self) -> None:
@@ -106,6 +136,7 @@ class HttpApiTests(unittest.TestCase):
                     "query": " device offline ",
                     "limit": 3,
                     "answer_model": "gpt-5.4-mini",
+                    "use_knowledge_graph": True,
                 }
             )
 
@@ -116,6 +147,7 @@ class HttpApiTests(unittest.TestCase):
             model="text-embedding-3-small",
             answer_model="gpt-5.4-mini",
             max_content_chars=1200,
+            use_knowledge_graph=True,
         )
 
 def test_search_request_uses_config_defaults(self) -> None:
