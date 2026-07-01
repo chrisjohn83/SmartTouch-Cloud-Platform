@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 from .evaluate_retrieval import find_expected_rank
+from .knowledge_graph_query import expand_query_with_graph
+from .knowledge_graph_store import load_knowledge_graph
 
 from .openai_embeddings import OpenAIEmbeddingProvider
 from .postgres_search import (
@@ -81,14 +83,25 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", default="text-embedding-3-small")
     parser.add_argument("--limit", type=int, default=5)
     parser.add_argument("--candidate-limit", type=int, default=50)
+    parser.add_argument(
+        "--use-knowledge-graph",
+        action="store_true",
+        help="Expand queries using build/kg-*.jsonl before retrieval.",
+    )
+    parser.add_argument(
+        "--knowledge-graph-dir",
+        type=Path,
+        default=Path("build"),
+    )
     return parser
 
 
 def evaluate_mode(
     *,
     mode: str,
-    cases: list[dict[str, Any]],
     query_vectors: dict[str, list[float]],
+    retrieval_queries: dict[str, str],
+    cases: list[dict[str, Any]],
     database_url: str,
     limit: int,
     candidate_limit: int,
@@ -99,6 +112,7 @@ def evaluate_mode(
     for case in cases:
         query = case["query"]
         query_vector = query_vectors[query]
+        retrieval_query = retrieval_queries[query]
 
         if mode == "semantic":
             results = search_postgres(
@@ -108,7 +122,7 @@ def evaluate_mode(
             )
         elif mode == "hybrid":
             results = search_postgres_hybrid(
-                query,
+                retrieval_query,
                 query_vector,
                 database_url=database_url,
                 limit=limit,
@@ -174,13 +188,29 @@ def main() -> int:
     cases = load_cases(args.cases)
     provider = OpenAIEmbeddingProvider(model=args.model)
     cache = QueryEmbeddingCache(args.cache)
+    knowledge_graph = None
+    retrieval_queries: dict[str, str] = {}
+
+    if args.use_knowledge_graph:
+        knowledge_graph = load_knowledge_graph(args.knowledge_graph_dir)
+        if knowledge_graph is None:
+            print(f"Knowledge graph files not found: {args.knowledge_graph_dir}")
+            return 2
 
     query_vectors: dict[str, list[float]] = {}
+
     for case in cases:
         query = case["query"]
+        retrieval_query = query
+
+        if knowledge_graph is not None:
+            expansion = expand_query_with_graph(query, knowledge_graph)
+            retrieval_query = expansion["expanded_query"]
+
+        retrieval_queries[query] = retrieval_query
         query_vectors[query] = cache.get_or_embed(
             model=args.model,
-            query=query,
+            query=retrieval_query,
             provider=provider,
         )
 
@@ -189,14 +219,17 @@ def main() -> int:
     semantic_report = evaluate_mode(
         mode="semantic",
         cases=cases,
+        retrieval_queries=retrieval_queries,
         query_vectors=query_vectors,
         database_url=database_url,
         limit=args.limit,
         candidate_limit=args.candidate_limit,
     )
+
     hybrid_report = evaluate_mode(
         mode="hybrid",
         cases=cases,
+        retrieval_queries=retrieval_queries,
         query_vectors=query_vectors,
         database_url=database_url,
         limit=args.limit,
