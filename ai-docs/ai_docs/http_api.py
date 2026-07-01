@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import os
 from typing import Any
-
+from pathlib import Path
+from .knowledge_graph_store import ENTITIES_FILE, RELATIONSHIPS_FILE
 from .config import load_config
 from .retrieval_service import (
     answer_question,
@@ -25,6 +26,9 @@ def diagnostics_response() -> dict[str, Any]:
     """Return non-secret service diagnostics."""
 
     config = load_config()
+    knowledge_graph_dir = Path("build")
+    entities_path = knowledge_graph_dir / ENTITIES_FILE
+    relationships_path = knowledge_graph_dir / RELATIONSHIPS_FILE
 
     return {
         "status": "ok",
@@ -35,6 +39,12 @@ def diagnostics_response() -> dict[str, Any]:
         "answer_model": config.answer_model,
         "default_retrieval_limit": config.default_retrieval_limit,
         "max_context_chars": config.max_context_chars,
+         "knowledge_graph_configured": (
+            entities_path.is_file()
+            and relationships_path.is_file()
+        ),
+        "knowledge_graph_entities_path": str(entities_path),
+        "knowledge_graph_relationships_path": str(relationships_path),
     }
 
 def handle_search_request(payload: dict[str, Any]) -> dict[str, Any]:

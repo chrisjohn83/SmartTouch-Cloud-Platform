@@ -34,6 +34,9 @@ class WebAppTests(unittest.TestCase):
         self.assertIn("openai_key_configured", body)
         self.assertNotIn("database_url", body)
         self.assertNotIn("openai_api_key", body)
+        self.assertIn("knowledge_graph_configured", body)
+        self.assertIn("knowledge_graph_entities_path", body)
+        self.assertIn("knowledge_graph_relationships_path", body)
 
     def test_search_endpoint(self) -> None:
         expected = {
