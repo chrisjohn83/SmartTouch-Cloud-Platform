@@ -171,11 +171,11 @@ class RetrievalServiceTests(unittest.TestCase):
         self.assertEqual(response["query"], "device cannot connect to broker")
         self.assertEqual(
             embedded_texts,
-            ["device cannot connect to broker agent certificate"],
+            ["device cannot connect to broker agent"],
         )
         self.assertEqual(
             search_queries,
-            ["device cannot connect to broker agent certificate"],
+            ["device cannot connect to broker agent"],
         )
 
     def test_rejects_empty_query(self) -> None:
@@ -237,7 +237,7 @@ class RetrievalServiceTests(unittest.TestCase):
             context["contexts"][0]["heading_label"],
             "Common errors > Error: session already open",
         )
-        self.assertEqual(context["contexts"][0]["excerpt"], "List and close the…")
+        self.assertEqual(context["contexts"][0]["excerpt"], "List and close the\u2026")
 
     def test_wraps_dependency_failures(self) -> None:
         class FailingProvider:
