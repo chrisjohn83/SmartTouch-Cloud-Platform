@@ -1,4 +1,4 @@
-# SmartTouch AI documentation ingestion
+# SmartTouch RAG Answering
 
 This component parses MkDocs Markdown, preserves YAML front matter, splits content
 along heading and block boundaries, and emits deterministic JSONL records for a
