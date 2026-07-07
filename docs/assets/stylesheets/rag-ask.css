@@ -1,0 +1,240 @@
+﻿.rag-app {
+  max-width: 980px;
+  margin: 0 auto 3rem;
+}
+
+.rag-hero {
+  margin: 1.25rem 0;
+  padding: 2rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(33, 150, 243, 0.20), transparent 34rem),
+    linear-gradient(135deg, rgba(3, 169, 244, 0.10), rgba(103, 58, 183, 0.10));
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+}
+
+.rag-hero h2 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: clamp(1.65rem, 4vw, 2.45rem);
+  line-height: 1.1;
+}
+
+.rag-hero p:last-child {
+  max-width: 46rem;
+  margin-bottom: 0;
+  color: var(--md-default-fg-color--light);
+}
+
+.rag-eyebrow,
+.rag-card-kicker {
+  margin: 0;
+  color: var(--md-primary-fg-color);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rag-card {
+  margin: 1rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 20px;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.07);
+}
+
+.rag-question-label {
+  display: block;
+  margin: 0.25rem 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+#rag-query {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 8rem;
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 16px;
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  resize: vertical;
+}
+
+#rag-query:focus {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.18);
+  outline: none;
+}
+
+.rag-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.85rem 0 1rem;
+}
+
+.rag-examples button,
+#rag-copy-answer {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-primary-fg-color);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.rag-examples button:hover,
+#rag-copy-answer:hover {
+  border-color: var(--md-primary-fg-color);
+}
+
+.rag-controls,
+.rag-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rag-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--md-default-fg-color--light);
+  font-weight: 600;
+}
+
+#rag-submit {
+  padding: 0.72rem 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+#rag-submit:hover {
+  filter: brightness(1.05);
+}
+
+#rag-submit:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.rag-status {
+  min-height: 1.4rem;
+  margin: 0.85rem 0 0;
+  color: var(--md-default-fg-color--light);
+}
+
+.rag-status[data-state="success"] {
+  color: #067647;
+}
+
+.rag-status[data-state="error"] {
+  color: #b42318;
+}
+
+.rag-hidden {
+  display: none;
+}
+
+.rag-card-header h2 {
+  margin: 0.1rem 0 0;
+}
+
+.rag-answer-text {
+  margin-top: 1rem;
+  line-height: 1.75;
+  font-size: 1.02rem;
+}
+
+.rag-code {
+  margin: 0.85rem 0;
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 14px;
+  background: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  white-space: pre-wrap;
+}
+
+.rag-sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.rag-source {
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 16px;
+  background: var(--md-code-bg-color);
+}
+
+.rag-source h3 {
+  margin: 0.5rem 0 0.35rem;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.rag-source p {
+  margin: 0 0 0.75rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.84rem;
+}
+
+.rag-source-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.78rem;
+}
+
+.rag-citation {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(33, 150, 243, 0.14);
+  color: var(--md-primary-fg-color);
+  font-weight: 800;
+}
+
+.rag-source a {
+  font-weight: 800;
+}
+
+.rag-muted {
+  color: var(--md-default-fg-color--light);
+}
+
+@media (max-width: 640px) {
+  .rag-hero,
+  .rag-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .rag-controls,
+  .rag-card-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #rag-submit,
+  #rag-copy-answer {
+    width: 100%;
+  }
+}

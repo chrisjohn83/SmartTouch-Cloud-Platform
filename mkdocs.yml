@@ -67,6 +67,9 @@ nav:
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md
           - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
           - SSD Schema: developers/secrets-config/ssd-schema-reference.md
+  - AI Documentation:
+      - RAG Answering: developers/ai-docs/index.md
+      - Ask SmartTouch Docs: developers/ai-docs/ask.md
   - Platform Engineering:
       - Observability:
           - Overview: developers/observability/index.md
@@ -99,9 +102,12 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
+extra_css:
+  - assets/stylesheets/rag-ask.css
+
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-
+  - assets/javascripts/rag-ask.js
 copyright: >
   © 2026 SmartTouch Cloud Platform |
   Documentation Prototype by Chris Johnjoseph

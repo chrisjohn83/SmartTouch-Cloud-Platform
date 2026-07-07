@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from .retrieval_service import RetrievalServiceError
 
 from .http_api import (
@@ -19,7 +20,16 @@ app = FastAPI(
     title="SmartTouch AI Docs Retrieval API",
     version="0.1.0",
 )
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1:8001",
+        "https://chrisjohn83.github.io",
+    ],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health() -> dict[str, Any]:
