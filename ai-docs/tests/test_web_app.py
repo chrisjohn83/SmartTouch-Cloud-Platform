@@ -38,6 +38,21 @@ class WebAppTests(unittest.TestCase):
         self.assertIn("knowledge_graph_entities_path", body)
         self.assertIn("knowledge_graph_relationships_path", body)
 
+    def test_cors_allows_github_pages_origin(self) -> None:
+        response = self.client.options(
+            "/answer",
+            headers={
+                "Origin": "https://chrisjohn83.github.io",
+                "Access-Control-Request-Method": "POST",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers["access-control-allow-origin"],
+            "https://chrisjohn83.github.io",
+        )
+
     def test_search_endpoint(self) -> None:
         expected = {
             "query": "device offline",

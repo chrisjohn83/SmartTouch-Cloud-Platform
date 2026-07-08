@@ -1,4 +1,5 @@
-﻿const apiBaseUrl = "http://127.0.0.1:8000";
+const localApiBaseUrl = "http://127.0.0.1:8000";
+const productionApiBaseUrl = "";
 const insufficientInformationMessage =
   "The SmartTouch documentation does not provide enough cited information to answer this question.";
 
@@ -50,11 +51,21 @@ document.addEventListener("DOMContentLoaded", () => {
   submit.addEventListener("click", async () => {
     const query = queryInput.value.trim();
     const useKnowledgeGraph = Boolean(knowledgeGraphToggle?.checked);
+    const apiBaseUrl = resolveApiBaseUrl();
 
     resetResponse({ answerCard, sourcesCard, answer, sources, status });
 
     if (!query) {
       setStatus(status, "Enter a question first.", "error");
+      return;
+    }
+
+    if (!apiBaseUrl) {
+      setStatus(
+        status,
+        "The production SmartTouch RAG API URL is not configured yet. Use the local MkDocs site with the local API, or set productionApiBaseUrl in rag-ask.js.",
+        "error"
+      );
       return;
     }
 
@@ -98,15 +109,31 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+function resolveApiBaseUrl() {
+  const hostname = window.location.hostname;
+  const override = window.SMARTTOUCH_RAG_API_BASE_URL;
+
+  if (override) {
+    return String(override).replace(/\/$/, "");
+  }
+
+  if (hostname === "127.0.0.1" || hostname === "localhost") {
+    return localApiBaseUrl;
+  }
+
+  return productionApiBaseUrl.replace(/\/$/, "");
+}
+
 function friendlyError(error) {
   const message = String(error?.message || error);
 
   if (message.includes("Failed to fetch")) {
-    return "Could not reach the SmartTouch RAG API. Start the local API on http://127.0.0.1:8000 and try again.";
+    return "Could not reach the SmartTouch RAG API. Check that the API is running and CORS allows this site.";
   }
 
   return `Error: ${message}`;
 }
+
 function resetResponse({ answerCard, sourcesCard, answer, sources, status }) {
   lastAnswerText = "";
   answer.innerHTML = "";
@@ -186,4 +213,3 @@ function escapeHtml(value) {
 function escapeAttribute(value) {
   return escapeHtml(value).replaceAll("`", "&#096;");
 }
-
