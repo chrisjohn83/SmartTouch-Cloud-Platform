@@ -1,0 +1,3246 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://chrisjohn83.github.io/SmartTouch-Cloud-Platform/developers/onboarding/first-api-call/">
+      
+      
+        <link rel="prev" href="../authentication/">
+      
+      
+        <link rel="next" href="../common-errors/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>First API Call - SmartTouch Cloud Platform</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/rag-ask.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#first-api-call" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="SmartTouch Cloud Platform" class="md-header__button md-logo" aria-label="SmartTouch Cloud Platform" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SmartTouch Cloud Platform
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              First API Call
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Developer Journey
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../get-started/connect-first-device/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api-reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Build and Integrate
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ai-docs/ask/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Ask SmartTouch
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ai-docs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../observability/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Platform Engineering
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="SmartTouch Cloud Platform" class="md-nav__button md-logo" aria-label="SmartTouch Cloud Platform" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SmartTouch Cloud Platform
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Developer Journey
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Developer Journey
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prerequisites
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Platform Concepts
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    First API Call
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    First API Call
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-journey-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      The journey at a glance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1get-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1—Get credentials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2generate-a-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2—Generate a token
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3find-a-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3—Find a device
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4verify-the-device-is-online" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4—Verify the device is online
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5open-a-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5—Open a session
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-confirm-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — Confirm success
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7close-the-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7—Close the session
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#journey-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Journey complete
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick reference card
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common Errors
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../get-started/connect-first-device/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Connect First Device
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Connect First Device
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/connect-first-device/01-provision-certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provision Certificate
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/connect-first-device/02-install-remote-access-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Install Remote Access Agent
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/connect-first-device/03-open-first-remote-session/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Open First Remote Session
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../get-started/deploy-first-iot-service/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Deploy First IoT Service
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy First IoT Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/deploy-first-iot-service/01-create-service-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Create Service Spec
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/deploy-first-iot-service/02-build-push-image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build and Push Image
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/deploy-first-iot-service/03-verify-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Verify Deployment
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../get-started/set-up-local-development/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Set Up Local Development
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Set Up Local Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/set-up-local-development/01-install-stctl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Install STCTL
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/set-up-local-development/02-configure-kubernetes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configure Kubernetes
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../get-started/set-up-local-development/03-run-service-locally/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Run Service Locally
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Build and Integrate
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Build and Integrate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../api-reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api-reference/device-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Device API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api-reference/deployment-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api-reference/session-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Session API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api-reference/remote-access-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote Access Sessions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api-reference/audit-log-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Audit Logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../playground/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API Playground
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            API Playground
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../playground/device-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Device API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../playground/deployment-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../playground/session-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Session API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../playground/remote-access-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote Access Sessions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../playground/audit-log-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Audit Logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../secrets-config/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Secrets Configuration
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Secrets Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-config/how-to-environment-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Environment Configuration
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-config/how-to-manage-secrets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Manage Secrets
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-config/ssd-schema-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSD Schema
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-docs/ask/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ask SmartTouch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai-docs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    AI Documentation
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            AI Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Platform Engineering
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Platform Engineering
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../observability/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Observability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/how-to-view-logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    View Logs
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/how-to-trace-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    View Traces
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observability/how-to-instrument-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instrumentation
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../deploy-release/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Deploy Release
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy Release
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy-release/how-to-promote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Promote Release
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy-release/how-to-canary-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Canary Deployments
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy-release/how-to-deploy-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploy Service
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy-release/how-to-rollback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rollback Release
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../troubleshooting/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Troubleshooting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/why-deployment-failing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment Failures
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/why-logs-not-appearing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logging Issues
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/why-device-not-connecting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Device Connection Issues
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--published"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-journey-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      The journey at a glance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1get-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1—Get credentials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2generate-a-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2—Generate a token
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3find-a-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3—Find a device
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4verify-the-device-is-online" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4—Verify the device is online
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5open-a-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5—Open a session
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-confirm-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — Confirm success
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7close-the-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7—Close the session
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#journey-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Journey complete
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick reference card
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="first-api-call">First API call<a class="headerlink" href="#first-api-call" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Keyword:</strong> How do I make my first API call to SmartTouch?</p>
+</blockquote>
+<p>This tutorial walks you through the complete journey from authenticated user to successfully opened and closed remote access session. Each step shows both the <code>stctl</code> CLI command and the equivalent REST API call with <code>curl</code>.</p>
+<p><strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<p>Confirm these items are ready:</p>
+<ul>
+<li><code>stctl</code> is installed and <code>stctl version</code> returns output</li>
+<li>You are authenticated — <code>stctl auth status</code> shows <code>Token: valid</code></li>
+<li>A device ID is available (physical device or simulator — see <a href="../prerequisites/">Prerequisites</a>)</li>
+<li>Your bearer token is stored in <code>$TOKEN</code>:</li>
+</ul>
+<p><code>bash
+  TOKEN=$(stctl auth token)
+  echo $TOKEN   # must print a JWT string, not be empty</code></p>
+<p>If any of these are not ready, complete <a href="../authentication/">Authentication</a> first.</p>
+<hr />
+<h2 id="the-journey-at-a-glance">The journey at a glance<a class="headerlink" href="#the-journey-at-a-glance" title="Permanent link">&para;</a></h2>
+<hr />
+<ul>
+<li>Step 1: Get credentials. Done in Authentication.</li>
+<li>Step 2: Generate a token. Confirm <code>$TOKEN</code> is set.</li>
+<li>Step 3: Find a device. Use <code>GET /devices</code>.</li>
+<li>Step 4: Verify the device is online. Use <code>GET /devices/{id}/agent-status</code>.</li>
+<li>Step 5: Open a session. Use <code>POST /remote-access/sessions</code>.</li>
+<li>Step 6: Confirm success. Use <code>GET /remote-access/sessions/{id}</code>.</li>
+<li>Step 7: Close the session. Use <code>DELETE /remote-access/sessions/{id}</code>.</li>
+</ul>
+<hr />
+<hr />
+<h2 id="step-1get-credentials">Step 1—Get credentials<a class="headerlink" href="#step-1get-credentials" title="Permanent link">&para;</a></h2>
+<p><strong>Status: complete.</strong> You completed this in <a href="../authentication/">Authentication</a>. Your credentials are stored in <code>~/.stctl/credentials</code>.</p>
+<p>If you need to re-authenticate:</p>
+<p><code>bash
+stctl auth login</code></p>
+<hr />
+<h2 id="step-2generate-a-token">Step 2—Generate a token<a class="headerlink" href="#step-2generate-a-token" title="Permanent link">&para;</a></h2>
+<p>Refresh your bearer token and store it in <code>$TOKEN</code>. Do this at the start of any new terminal session.</p>
+<p><strong>stctl:</strong></p>
+<p><code>bash
+TOKEN=$(stctl auth token)</code></p>
+<p><strong>Verify:</strong></p>
+<p><code>bash
+stctl auth status</code></p>
+<p>Expected output:</p>
+<p>```text</p>
+<p>User:   alice@example.com</p>
+<p>Token:  valid (expires in 7h 55m)</p>
+<p>Role:   developer
+```</p>
+<p><strong>REST API equivalent:</strong></p>
+<p>There is no <code>/token</code> endpoint — token generation is handled by <code>stctl</code> using your SSO credentials. For non-interactive use, ask your Administrator for a service account token and assign it directly:</p>
+<p><code>bash
+export TOKEN=&lt;service-account-token&gt;</code></p>
+<hr />
+<h2 id="step-3find-a-device">Step 3—Find a device<a class="headerlink" href="#step-3find-a-device" title="Permanent link">&para;</a></h2>
+<p>List the devices registered on the platform to find one you can connect to.</p>
+<p><strong>stctl:</strong></p>
+<p><code>bash
+stctl device list --env dev</code></p>
+<p>Expected output:</p>
+<p>```text
+ID                       DISPLAY NAME              FLEET           AGENT STATUS   LAST SEEN</p>
+<p>onboarding-device-01     Onboarding Device 01      —               online         1m ago</p>
+<p>sensor-001               Temperature Sensor 001   factory-floor   online         4m ago</p>
+<p>sensor-002               Humidity Sensor 002      factory-floor   offline        2h ago
+```</p>
+<p>Choose a device with <code>AGENT STATUS: online</code>. Use its ID in the steps below — this guide uses <code>onboarding-device-01</code>.</p>
+<p><strong>REST API equivalent:</strong></p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/devices?status=online"</code></p>
+<p>Expected response:</p>
+<p><code>json
+{
+  "status": 200,
+  "data": [
+    {
+      "id": "onboarding-device-01",
+      "display_name": "Onboarding Device 01",
+      "fleet": null,
+      "agent_status": "online",
+      "agent_version": "1.4.2",
+      "last_seen_at": "2026-06-08T09:12:00Z"
+    }
+  ],
+  "meta": { "page": 1, "per_page": 50, "total": 1 }
+}</code></p>
+<p><strong>If no devices are listed:</strong> Start the simulator — see <a href="../prerequisites/">Prerequisites</a>.</p>
+<hr />
+<h2 id="step-4verify-the-device-is-online">Step 4—Verify the device is online<a class="headerlink" href="#step-4verify-the-device-is-online" title="Permanent link">&para;</a></h2>
+<p>Before opening a session, confirm the Remote Access Agent on the device is connected and responsive.</p>
+<p><strong>stctl:</strong></p>
+<p><code>bash
+stctl device agent-status onboarding-device-01</code></p>
+<p>Expected output:</p>
+<p><code>text
+Device:        onboarding-device-01
+Agent status:  online
+Connected at:  2026-06-08 09:05:32 UTC
+Broker:        wss://broker.smarttouch.local:8443
+Latency:       12ms</code></p>
+<p><strong>REST API equivalent:</strong></p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/devices/onboarding-device-01/agent-status"</code></p>
+<p>Expected response:</p>
+<p><code>json
+{
+  "status": 200,
+  "data": {
+    "device_id": "onboarding-device-01",
+    "agent_status": "online",
+    "connected_at": "2026-06-08T09:05:32Z",
+    "broker_url": "wss://broker.smarttouch.local:8443",
+    "latency_ms": 12
+  }
+}</code></p>
+<p><strong>If <code>agent_status</code> is <code>offline</code>:</strong> The device agent is not connected. See <a href="../../troubleshooting/why-device-not-connecting/">Why is my device not connecting?</a> before proceeding.</p>
+<hr />
+<h2 id="step-5open-a-session">Step 5—Open a session<a class="headerlink" href="#step-5open-a-session" title="Permanent link">&para;</a></h2>
+<p>Open a <code>diagnostics</code> session to the device. The <code>diagnostics</code> protocol allows read-only inspection and is available to all developers.</p>
+<p><strong>stctl (interactive):</strong></p>
+<p><code>bash
+stctl remote-access open onboarding-device-01 \
+  --protocol diagnostics \
+  --ttl 30m</code></p>
+<p>Expected output:</p>
+<p>```text
+Opening diagnostics session to onboarding-device-01...
+Session ID:   sess-7f3a1b
+Protocol:     diagnostics
+Expires at:   2026-06-08 09:45:00 UTC</p>
+<p>Connected. Type 'exit' to close the session.
+[onboarding-device-01 diagnostics]$
+```</p>
+<p>You are now connected to the device. The <code>[onboarding-device-01 diagnostics]$</code> prompt confirms the session is active.</p>
+<p><strong>stctl (non-interactive, returns session metadata):</strong></p>
+<p><code>bash
+stctl remote-access open onboarding-device-01 \
+  --protocol diagnostics \
+  --ttl 30m \
+  --output json</code></p>
+<p><strong>REST API equivalent:</strong></p>
+<p><code>bash
+curl -s -X POST \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device_id": "onboarding-device-01",
+    "protocol": "diagnostics",
+    "ttl_seconds": 1800
+  }' \
+  "https://api.smarttouch.local/v1/remote-access/sessions"</code></p>
+<p>Expected response:</p>
+<p><code>json
+{
+  "status": 201,
+  "data": {
+    "id": "sess-7f3a1b",
+    "device_id": "onboarding-device-01",
+    "protocol": "diagnostics",
+    "status": "open",
+    "user": "alice@example.com",
+    "opened_at": "2026-06-08T09:15:00Z",
+    "expires_at": "2026-06-08T09:45:00Z",
+    "websocket_url": "wss://broker.smarttouch.local:8443/sessions/sess-7f3a1b",
+    "trace_id": "abc123def456"
+  }
+}</code></p>
+<p>Save the session ID for the next steps:</p>
+<p><code>bash
+SESSION_ID="sess-7f3a1b"</code></p>
+<hr />
+<h2 id="step-6-confirm-success">Step 6 — Confirm success<a class="headerlink" href="#step-6-confirm-success" title="Permanent link">&para;</a></h2>
+<p>Verify the session is open and active.</p>
+<p><strong>stctl:</strong></p>
+<p><code>bash
+stctl remote-access list \
+  --device onboarding-device-01 \
+  --status open</code></p>
+<p>Expected output:</p>
+<p><code>text
+SESSION ID   DEVICE                  PROTOCOL      STATUS   USER                   OPENED
+sess-7f3a1b  onboarding-device-01   diagnostics   open     alice@example.com      2m ago</code></p>
+<p><strong>REST API equivalent:</strong></p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/remote-access/sessions/$SESSION_ID"</code></p>
+<p>Expected response:</p>
+<p><code>json
+{
+  "status": 200,
+  "data": {
+    "id": "sess-7f3a1b",
+    "device_id": "onboarding-device-01",
+    "protocol": "diagnostics",
+    "status": "open",
+    "user": "alice@example.com",
+    "opened_at": "2026-06-08T09:15:00Z",
+    "expires_at": "2026-06-08T09:45:00Z",
+    "closed_at": null,
+    "bytes_sent": 128,
+    "bytes_received": 64,
+    "trace_id": "abc123def456"
+  }
+}</code></p>
+<p><code>"status": "open"</code> and <code>"closed_at": null</code> confirm the session is active.</p>
+<p><strong>Check the audit log</strong> to confirm the session appears in the platform audit trail:</p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/audit/remote-access?device_id=onboarding-device-01"</code></p>
+<p>Expected response includes a <code>session.opened</code> event:</p>
+<p><code>json
+{
+  "status": 200,
+  "data": [
+    {
+      "id": "audit-001",
+      "event": "session.opened",
+      "session_id": "sess-7f3a1b",
+      "device_id": "onboarding-device-01",
+      "protocol": "diagnostics",
+      "user": "alice@example.com",
+      "timestamp": "2026-06-08T09:15:00Z",
+      "trace_id": "abc123def456"
+    }
+  ]
+}</code></p>
+<hr />
+<h2 id="step-7close-the-session">Step 7—Close the session<a class="headerlink" href="#step-7close-the-session" title="Permanent link">&para;</a></h2>
+<p>Close the session when you are finished. Sessions expire automatically after their TTL, but closing them explicitly is best practice — it frees the protocol slot on the device immediately and creates a clean audit record.</p>
+<p><strong>stctl:</strong></p>
+<p><code>bash
+stctl remote-access close sess-7f3a1b</code></p>
+<p>Expected output:</p>
+<p><code>text
+Session sess-7f3a1b closed.</code></p>
+<p><strong>REST API equivalent:</strong></p>
+<p><code>bash
+curl -s -X DELETE \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/remote-access/sessions/$SESSION_ID"</code></p>
+<p>Expected response:</p>
+<p><code>json
+{
+  "status": 200,
+  "data": {
+    "id": "sess-7f3a1b",
+    "status": "closed",
+    "closed_at": "2026-06-08T09:28:44Z"
+  }
+}</code></p>
+<p><strong>Verify the session is closed:</strong></p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/remote-access/sessions/$SESSION_ID"</code></p>
+<p>Expected response shows <code>"status": "closed"</code> and a <code>closed_at</code> timestamp.</p>
+<p><strong>Verify the audit log records the close event:</strong></p>
+<p><code>bash
+curl -s \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/audit/remote-access?device_id=onboarding-device-01"</code></p>
+<p>Expected response now includes a <code>session.closed</code> event:</p>
+<p><code>json
+{
+  "data": [
+    {
+      "event": "session.closed",
+      "session_id": "sess-7f3a1b",
+      "timestamp": "2026-06-08T09:28:44Z"
+    },
+    {
+      "event": "session.opened",
+      "session_id": "sess-7f3a1b",
+      "timestamp": "2026-06-08T09:15:00Z"
+    }
+  ]
+}</code></p>
+<hr />
+<h2 id="journey-complete">Journey complete<a class="headerlink" href="#journey-complete" title="Permanent link">&para;</a></h2>
+<p>You have successfully:</p>
+<ol>
+<li>Authenticated and generated a bearer token</li>
+<li>Listed devices and identified an online device</li>
+<li>Verified the device agent is connected</li>
+<li>Opened a <code>diagnostics</code> session using both <code>stctl</code> and the REST API</li>
+<li>Confirmed the session was active and visible in the audit log</li>
+<li>Closed the session and verified the close event in the audit log</li>
+</ol>
+<hr />
+<h2 id="quick-reference-card">Quick reference card<a class="headerlink" href="#quick-reference-card" title="Permanent link">&para;</a></h2>
+<p>Save these commands for daily use:</p>
+<p>```bash</p>
+<h1 id="refresh-token">Refresh token<a class="headerlink" href="#refresh-token" title="Permanent link">&para;</a></h1>
+<p>TOKEN=$(stctl auth token)</p>
+<h1 id="list-online-devices">List online devices<a class="headerlink" href="#list-online-devices" title="Permanent link">&para;</a></h1>
+<p>stctl device list --status online --env dev</p>
+<h1 id="check-agent-status">Check agent status<a class="headerlink" href="#check-agent-status" title="Permanent link">&para;</a></h1>
+<p>stctl device agent-status <device_id></p>
+<h1 id="open-a-diagnostics-session">Open a diagnostics session<a class="headerlink" href="#open-a-diagnostics-session" title="Permanent link">&para;</a></h1>
+<p>stctl remote-access open <device_id> --protocol diagnostics</p>
+<h1 id="list-open-sessions">List open sessions<a class="headerlink" href="#list-open-sessions" title="Permanent link">&para;</a></h1>
+<p>stctl remote-access list --status open</p>
+<h1 id="close-a-session">Close a session<a class="headerlink" href="#close-a-session" title="Permanent link">&para;</a></h1>
+<p>stctl remote-access close <session_id>
+```</p>
+<p>REST API equivalents:</p>
+<p>```bash</p>
+<h1 id="list-online-devices_1">List online devices<a class="headerlink" href="#list-online-devices_1" title="Permanent link">&para;</a></h1>
+<p>curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/devices?status=online"</p>
+<h1 id="check-agent-status_1">Check agent status<a class="headerlink" href="#check-agent-status_1" title="Permanent link">&para;</a></h1>
+<p>curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/devices/<device_id>/agent-status"</p>
+<h1 id="open-a-session">Open a session<a class="headerlink" href="#open-a-session" title="Permanent link">&para;</a></h1>
+<p>curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"device_id":"<device_id>","protocol":"diagnostics","ttl_seconds":1800}' \
+  "https://api.smarttouch.local/v1/remote-access/sessions"</p>
+<h1 id="get-session-status">Get session status<a class="headerlink" href="#get-session-status" title="Permanent link">&para;</a></h1>
+<p>curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/remote-access/sessions/<session_id>"</p>
+<h1 id="close-a-session_1">Close a session<a class="headerlink" href="#close-a-session_1" title="Permanent link">&para;</a></h1>
+<p>curl -X DELETE -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/remote-access/sessions/<session_id>"</p>
+<h1 id="audit-log">Audit log<a class="headerlink" href="#audit-log" title="Permanent link">&para;</a></h1>
+<p>curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.smarttouch.local/v1/audit/remote-access?device_id=<device_id>"
+```</p>
+<hr />
+<h2 id="if-something-went-wrong">If something went wrong<a class="headerlink" href="#if-something-went-wrong" title="Permanent link">&para;</a></h2>
+<p>See <a href="../common-errors/">Common errors</a> for a reference to every error you may have encountered during this journey.</p>
+<hr />
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>What to do next</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connect a real physical device</td>
+<td><a href="../../get-started/connect-first-device/">Connect a device for remote access</a></td>
+</tr>
+<tr>
+<td>Deploy your first IoT service</td>
+<td><a href="../../deploy-release/how-to-deploy-service/">How do I deploy a service?</a></td>
+</tr>
+</tbody>
+</table>
+<!-- | See all REST API endpoints | [SmartTouch REST API reference](../api-reference/index.md) | -->
+
+<!--| See all stctl commands | [stctl CLI reference](../api-reference/stctl-cli-reference.md) -->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 SmartTouch Cloud Platform | Documentation Prototype by Chris Johnjoseph
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../assets/javascripts/rag-ask.js"></script>
+      
+    
+  </body>
+</html>

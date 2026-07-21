@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf8" />
+  <title>SmartTouch Audit Log API</title>
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="https://cdn.redocly.com/redoc/v2.5.3/bundles/redoc.standalone.js"></script><style data-styled="true" data-styled-version="6.4.2">.kktglN{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
+@media print,screen and (max-width: 75rem){.kktglN{width:100%;padding:40px 40px;}}/*!sc*/
+.kmAAAV{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
+@media print,screen and (max-width: 75rem){.kmAAAV{width:100%;padding:0px 40px;}}/*!sc*/
+data-styled.g5[id="sc-hKVpXn"]{content:"kktglN,kmAAAV,"}/*!sc*/
+.jleRXN{padding:40px 0;}/*!sc*/
+.jleRXN:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.jleRXN>.jleRXN:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width: 75rem){.jleRXN{padding:0;}}/*!sc*/
+.grDwca{padding:40px 0;position:relative;}/*!sc*/
+.grDwca:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.grDwca>.grDwca:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width: 75rem){.grDwca{padding:0;}}/*!sc*/
+.grDwca:not(:last-of-type):after{position:absolute;bottom:0;width:100%;display:block;content:'';border-bottom:1px solid rgba(0, 0, 0, 0.2);}/*!sc*/
+data-styled.g6[id="sc-eCQgVK"]{content:"jleRXN,grDwca,"}/*!sc*/
+.fpMlmc{width:40%;color:#ffffff;background-color:#263238;padding:0 40px;}/*!sc*/
+@media print,screen and (max-width: 75rem){.fpMlmc{width:100%;padding:40px 40px;}}/*!sc*/
+data-styled.g7[id="sc-jSppWd"]{content:"fpMlmc,"}/*!sc*/
+.bdQQyo{background-color:#263238;}/*!sc*/
+data-styled.g8[id="sc-gKkgUA"]{content:"bdQQyo,"}/*!sc*/
+.lhRBUS{display:flex;width:100%;padding:0;}/*!sc*/
+@media print,screen and (max-width: 75rem){.lhRBUS{flex-direction:column;}}/*!sc*/
+data-styled.g9[id="sc-iCECmn"]{content:"lhRBUS,"}/*!sc*/
+.eRMVDe{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#333333;}/*!sc*/
+data-styled.g10[id="sc-fuztkK"]{content:"eRMVDe,"}/*!sc*/
+.MOVBZ{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;margin:0 0 20px;}/*!sc*/
+data-styled.g11[id="sc-qdQOe"]{content:"MOVBZ,"}/*!sc*/
+.iSbGeC{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.27em;line-height:1.6em;color:#333333;}/*!sc*/
+data-styled.g12[id="sc-jrIDTr"]{content:"iSbGeC,"}/*!sc*/
+.iamDfj{color:#ffffff;}/*!sc*/
+data-styled.g13[id="sc-kEbgWM"]{content:"iamDfj,"}/*!sc*/
+.kcvrhp{border-bottom:1px solid rgba(38, 50, 56, 0.3);margin:1em 0 1em 0;color:rgba(38, 50, 56, 0.5);font-weight:normal;text-transform:uppercase;font-size:0.929em;line-height:20px;}/*!sc*/
+data-styled.g14[id="sc-iqkkDd"]{content:"kcvrhp,"}/*!sc*/
+.jmoZom{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.jmoZom:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+h1:hover>.jmoZom::before,h2:hover>.jmoZom::before,.jmoZom:hover::before{visibility:visible;}/*!sc*/
+data-styled.g15[id="sc-crPgjm"]{content:"jmoZom,"}/*!sc*/
+.kdgFPv{height:18px;width:18px;min-width:18px;vertical-align:middle;float:right;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.bEEWJa{height:1.3em;width:1.3em;min-width:1.3em;vertical-align:middle;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.gngmNp{height:1.5em;width:1.5em;min-width:1.5em;vertical-align:middle;float:left;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.gngmNp polygon{fill:#1d8127;}/*!sc*/
+.hJoFRR{height:1.5em;width:1.5em;min-width:1.5em;vertical-align:middle;float:left;transition:transform 0.2s ease-out;transform:rotateZ(-90deg);}/*!sc*/
+.hJoFRR polygon{fill:#d41f1c;}/*!sc*/
+.bQKUih{height:20px;width:20px;min-width:20px;vertical-align:middle;float:right;transition:transform 0.2s ease-out;transform:rotateZ(0);}/*!sc*/
+.bQKUih polygon{fill:white;}/*!sc*/
+data-styled.g16[id="sc-dYjPD"]{content:"kdgFPv,bEEWJa,gngmNp,hJoFRR,bQKUih,"}/*!sc*/
+.jFNAwF{border-left:1px solid #7c7cbb;box-sizing:border-box;position:relative;padding:10px 10px 10px 0;}/*!sc*/
+@media screen and (max-width: 50rem){.jFNAwF{display:block;overflow:hidden;}}/*!sc*/
+tr:first-of-type>.jFNAwF,tr.last>.jFNAwF{border-left-width:0;background-position:top left;background-repeat:no-repeat;background-size:1px 100%;}/*!sc*/
+tr:first-of-type>.jFNAwF{background-image:linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 22px,
+      #7c7cbb 22px,
+      #7c7cbb 100%
+    );}/*!sc*/
+tr.last>.jFNAwF{background-image:linear-gradient(
+      to bottom,
+      #7c7cbb 0%,
+      #7c7cbb 22px,
+      transparent 22px,
+      transparent 100%
+    );}/*!sc*/
+tr.last+tr>.jFNAwF{border-left-color:transparent;}/*!sc*/
+tr.last:first-child>.jFNAwF{background:none;border-left-color:transparent;}/*!sc*/
+data-styled.g19[id="sc-hCcPtG"]{content:"jFNAwF,"}/*!sc*/
+.lcdEEX{vertical-align:top;line-height:20px;white-space:nowrap;font-size:13px;font-family:Courier,monospace;}/*!sc*/
+.lcdEEX.deprecated{text-decoration:line-through;color:#707070;}/*!sc*/
+data-styled.g21[id="sc-fFCZOx"]{content:"lcdEEX,"}/*!sc*/
+.gLpZiQ{border-bottom:1px solid #9fb4be;padding:10px 0;width:75%;box-sizing:border-box;}/*!sc*/
+tr.expanded .gLpZiQ{border-bottom:none;}/*!sc*/
+@media screen and (max-width: 50rem){.gLpZiQ{padding:0 20px;border-bottom:none;border-left:1px solid #7c7cbb;}tr.last>.gLpZiQ{border-left:none;}}/*!sc*/
+data-styled.g22[id="sc-bjLslk"]{content:"gLpZiQ,"}/*!sc*/
+.kkMuqc{color:#7c7cbb;font-family:Courier,monospace;margin-right:10px;}/*!sc*/
+.kkMuqc::before{content:'';display:inline-block;vertical-align:middle;width:10px;height:1px;background:#7c7cbb;}/*!sc*/
+.kkMuqc::after{content:'';display:inline-block;vertical-align:middle;width:1px;background:#7c7cbb;height:7px;}/*!sc*/
+data-styled.g23[id="sc-ieCSdj"]{content:"kkMuqc,"}/*!sc*/
+.bsjUmE{border-collapse:separate;border-radius:3px;font-size:14px;border-spacing:0;width:100%;}/*!sc*/
+.bsjUmE >tr{vertical-align:middle;}/*!sc*/
+@media screen and (max-width: 50rem){.bsjUmE{display:block;}.bsjUmE >tr,.bsjUmE >tbody>tr{display:block;}}/*!sc*/
+@media screen and (max-width: 50rem) and (-ms-high-contrast:none){.bsjUmE td{float:left;width:100%;}}/*!sc*/
+.bsjUmE .sc-dILkzW,.bsjUmE .sc-dILkzW .sc-dILkzW .sc-dILkzW,.bsjUmE .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW{margin:1em;margin-right:0;background:#fafafa;}/*!sc*/
+.bsjUmE .sc-dILkzW .sc-dILkzW,.bsjUmE .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW,.bsjUmE .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW .sc-dILkzW{background:#ffffff;}/*!sc*/
+data-styled.g25[id="sc-hHopjF"]{content:"bsjUmE,"}/*!sc*/
+.kibfTX >ul{list-style:none;padding:0;margin:0;margin:0 -5px;}/*!sc*/
+.kibfTX >ul >li{padding:5px 10px;display:inline-block;background-color:#11171a;border-bottom:1px solid rgba(0, 0, 0, 0.5);cursor:pointer;text-align:center;outline:none;color:#ccc;margin:0 5px 5px 5px;border:1px solid #07090b;border-radius:5px;min-width:60px;font-size:0.9em;font-weight:bold;}/*!sc*/
+.kibfTX >ul >li.react-tabs__tab--selected{color:#333333;background:#ffffff;}/*!sc*/
+.kibfTX >ul >li.react-tabs__tab--selected:focus{outline:auto;}/*!sc*/
+.kibfTX >ul >li:only-child{flex:none;min-width:100px;}/*!sc*/
+.kibfTX >ul >li.tab-success{color:#1d8127;}/*!sc*/
+.kibfTX >ul >li.tab-redirect{color:#ffa500;}/*!sc*/
+.kibfTX >ul >li.tab-info{color:#87ceeb;}/*!sc*/
+.kibfTX >ul >li.tab-error{color:#d41f1c;}/*!sc*/
+.kibfTX >.react-tabs__tab-panel{background:#11171a;}/*!sc*/
+.kibfTX >.react-tabs__tab-panel>div,.kibfTX >.react-tabs__tab-panel>pre{padding:20px;margin:0;}/*!sc*/
+.kibfTX >.react-tabs__tab-panel>div>pre{padding:0;}/*!sc*/
+data-styled.g31[id="sc-cxxQMU"]{content:"kibfTX,"}/*!sc*/
+.fiNpIH code[class*='language-'],.fiNpIH pre[class*='language-']{text-shadow:0 -0.1em 0.2em black;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;}/*!sc*/
+@media print{.fiNpIH code[class*='language-'],.fiNpIH pre[class*='language-']{text-shadow:none;}}/*!sc*/
+.fiNpIH pre[class*='language-']{padding:1em;margin:0.5em 0;overflow:auto;}/*!sc*/
+.fiNpIH .token.comment,.fiNpIH .token.prolog,.fiNpIH .token.doctype,.fiNpIH .token.cdata{color:hsl(30, 20%, 50%);}/*!sc*/
+.fiNpIH .token.punctuation{opacity:0.7;}/*!sc*/
+.fiNpIH .namespace{opacity:0.7;}/*!sc*/
+.fiNpIH .token.property,.fiNpIH .token.tag,.fiNpIH .token.number,.fiNpIH .token.constant,.fiNpIH .token.symbol{color:#4a8bb3;}/*!sc*/
+.fiNpIH .token.boolean{color:#e64441;}/*!sc*/
+.fiNpIH .token.selector,.fiNpIH .token.attr-name,.fiNpIH .token.string,.fiNpIH .token.char,.fiNpIH .token.builtin,.fiNpIH .token.inserted{color:#a0fbaa;}/*!sc*/
+.fiNpIH .token.selector+a,.fiNpIH .token.attr-name+a,.fiNpIH .token.string+a,.fiNpIH .token.char+a,.fiNpIH .token.builtin+a,.fiNpIH .token.inserted+a,.fiNpIH .token.selector+a:visited,.fiNpIH .token.attr-name+a:visited,.fiNpIH .token.string+a:visited,.fiNpIH .token.char+a:visited,.fiNpIH .token.builtin+a:visited,.fiNpIH .token.inserted+a:visited{color:#4ed2ba;text-decoration:underline;}/*!sc*/
+.fiNpIH .token.property.string{color:white;}/*!sc*/
+.fiNpIH .token.operator,.fiNpIH .token.entity,.fiNpIH .token.url,.fiNpIH .token.variable{color:hsl(40, 90%, 60%);}/*!sc*/
+.fiNpIH .token.atrule,.fiNpIH .token.attr-value,.fiNpIH .token.keyword{color:hsl(350, 40%, 70%);}/*!sc*/
+.fiNpIH .token.regex,.fiNpIH .token.important{color:#e90;}/*!sc*/
+.fiNpIH .token.important,.fiNpIH .token.bold{font-weight:bold;}/*!sc*/
+.fiNpIH .token.italic{font-style:italic;}/*!sc*/
+.fiNpIH .token.entity{cursor:help;}/*!sc*/
+.fiNpIH .token.deleted{color:red;}/*!sc*/
+data-styled.g33[id="sc-iJSMbW"]{content:"fiNpIH,"}/*!sc*/
+.dzKJV{opacity:0.7;transition:opacity 0.3s ease;text-align:right;}/*!sc*/
+.dzKJV:focus-within{opacity:1;}/*!sc*/
+.dzKJV >button{background-color:transparent;border:0;color:inherit;padding:2px 10px;font-family:Roboto,sans-serif;font-size:14px;line-height:1.5em;cursor:pointer;outline:0;}/*!sc*/
+.dzKJV >button :hover,.dzKJV >button :focus{background:rgba(255, 255, 255, 0.1);}/*!sc*/
+data-styled.g34[id="sc-giQkEn"]{content:"dzKJV,"}/*!sc*/
+.iOXjCz{position:relative;}/*!sc*/
+data-styled.g38[id="sc-kLEbxe"]{content:"iOXjCz,"}/*!sc*/
+.chhzbL{position:absolute;pointer-events:none;z-index:1;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);right:8px;margin:auto;text-align:center;}/*!sc*/
+.chhzbL polyline{color:white;}/*!sc*/
+data-styled.g39[id="sc-ikBzZv"]{content:"chhzbL,"}/*!sc*/
+.inOnpk{box-sizing:border-box;min-width:100px;outline:none;display:inline-block;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.5);vertical-align:bottom;padding:2px 0px 2px 6px;position:relative;width:auto;background:white;color:#263238;font-family:Montserrat,sans-serif;font-size:0.929em;line-height:1.5em;cursor:pointer;transition:border 0.25s ease,color 0.25s ease,box-shadow 0.25s ease;}/*!sc*/
+.inOnpk label{box-sizing:border-box;min-width:100px;outline:none;display:inline-block;font-family:Montserrat,sans-serif;color:#333333;vertical-align:bottom;width:auto;text-transform:none;padding:0 22px 0 4px;font-size:0.929em;line-height:1.5em;font-family:inherit;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}/*!sc*/
+.inOnpk .dropdown-select{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;border:none;appearance:none;cursor:pointer;color:#333333;line-height:inherit;font-family:inherit;}/*!sc*/
+.inOnpk:hover,.inOnpk:focus-within{border:1px solid #32329f;color:#32329f;box-shadow:0px 0px 0px 1px #32329f;}/*!sc*/
+data-styled.g40[id="sc-jJwPsw"]{content:"inOnpk,"}/*!sc*/
+.ewCFMV{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.ewCFMV p:last-child{margin-bottom:0;}/*!sc*/
+.ewCFMV h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.ewCFMV h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.ewCFMV code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.ewCFMV pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.ewCFMV pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.ewCFMV pre code:before,.ewCFMV pre code:after{content:none;}/*!sc*/
+.ewCFMV blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.ewCFMV img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.ewCFMV ul,.ewCFMV ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.ewCFMV ul ul,.ewCFMV ol ul,.ewCFMV ul ol,.ewCFMV ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.ewCFMV table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.ewCFMV table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.ewCFMV table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.ewCFMV table th,.ewCFMV table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.ewCFMV table th{text-align:left;font-weight:bold;}/*!sc*/
+.ewCFMV .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.ewCFMV .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.ewCFMV h1:hover>.share-link::before,.ewCFMV h2:hover>.share-link::before,.ewCFMV .share-link:hover::before{visibility:visible;}/*!sc*/
+.ewCFMV a{text-decoration:auto;color:#32329f;}/*!sc*/
+.ewCFMV a:visited{color:#32329f;}/*!sc*/
+.ewCFMV a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+.bAoMjv{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.bAoMjv p:last-child{margin-bottom:0;}/*!sc*/
+.bAoMjv p:first-child{margin-top:0;}/*!sc*/
+.bAoMjv p:last-child{margin-bottom:0;}/*!sc*/
+.bAoMjv h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.bAoMjv h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.bAoMjv code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.bAoMjv pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.bAoMjv pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.bAoMjv pre code:before,.bAoMjv pre code:after{content:none;}/*!sc*/
+.bAoMjv blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.bAoMjv img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.bAoMjv ul,.bAoMjv ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.bAoMjv ul ul,.bAoMjv ol ul,.bAoMjv ul ol,.bAoMjv ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.bAoMjv table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.bAoMjv table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.bAoMjv table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.bAoMjv table th,.bAoMjv table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.bAoMjv table th{text-align:left;font-weight:bold;}/*!sc*/
+.bAoMjv .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.bAoMjv .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.bAoMjv h1:hover>.share-link::before,.bAoMjv h2:hover>.share-link::before,.bAoMjv .share-link:hover::before{visibility:visible;}/*!sc*/
+.bAoMjv a{text-decoration:auto;color:#32329f;}/*!sc*/
+.bAoMjv a:visited{color:#32329f;}/*!sc*/
+.bAoMjv a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+.dNfUH{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.dNfUH p:last-child{margin-bottom:0;}/*!sc*/
+.dNfUH p:first-child{margin-top:0;}/*!sc*/
+.dNfUH p:last-child{margin-bottom:0;}/*!sc*/
+.dNfUH p{display:inline-block;}/*!sc*/
+.dNfUH h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.dNfUH h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.dNfUH code{color:#e53935;background-color:rgba(38, 50, 56, 0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38, 50, 56, 0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.dNfUH pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0;border:1px solid rgba(38, 50, 56, 0.1);}/*!sc*/
+.dNfUH pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.dNfUH pre code:before,.dNfUH pre code:after{content:none;}/*!sc*/
+.dNfUH blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.dNfUH img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.dNfUH ul,.dNfUH ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.dNfUH ul ul,.dNfUH ol ul,.dNfUH ul ol,.dNfUH ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.dNfUH table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.dNfUH table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.dNfUH table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.dNfUH table th,.dNfUH table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.dNfUH table th{text-align:left;font-weight:bold;}/*!sc*/
+.dNfUH .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.dNfUH .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.dNfUH h1:hover>.share-link::before,.dNfUH h2:hover>.share-link::before,.dNfUH .share-link:hover::before{visibility:visible;}/*!sc*/
+.dNfUH a{text-decoration:auto;color:#32329f;}/*!sc*/
+.dNfUH a:visited{color:#32329f;}/*!sc*/
+.dNfUH a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g43[id="sc-cBEgGa"]{content:"ewCFMV,bAoMjv,dNfUH,"}/*!sc*/
+.dDDioG{display:inline;}/*!sc*/
+data-styled.g44[id="sc-ciCrSJ"]{content:"dDDioG,"}/*!sc*/
+.feYhXE{position:relative;}/*!sc*/
+data-styled.g45[id="sc-jcgtOs"]{content:"feYhXE,"}/*!sc*/
+.hHzuQA:hover>.sc-giQkEn{opacity:1;}/*!sc*/
+data-styled.g50[id="sc-cTZdpT"]{content:"hHzuQA,"}/*!sc*/
+.jgTAJz{font-family:Courier,monospace;font-size:13px;white-space:pre;contain:content;overflow-x:auto;}/*!sc*/
+.jgTAJz .redoc-json code>.collapser{display:none;pointer-events:none;}/*!sc*/
+.jgTAJz .callback-function{color:gray;}/*!sc*/
+.jgTAJz .collapser:after{content:'-';cursor:pointer;}/*!sc*/
+.jgTAJz .collapsed>.collapser:after{content:'+';cursor:pointer;}/*!sc*/
+.jgTAJz .ellipsis:after{content:' … ';}/*!sc*/
+.jgTAJz .collapsible{margin-left:2em;}/*!sc*/
+.jgTAJz .hoverable{padding-top:1px;padding-bottom:1px;padding-left:2px;padding-right:2px;border-radius:2px;}/*!sc*/
+.jgTAJz .hovered{background-color:rgba(235, 238, 249, 1);}/*!sc*/
+.jgTAJz .collapser{background-color:transparent;border:0;color:#fff;font-family:Courier,monospace;font-size:13px;padding-right:6px;padding-left:6px;padding-top:0;padding-bottom:0;display:flex;align-items:center;justify-content:center;width:15px;height:15px;position:absolute;top:4px;left:-1.5em;cursor:default;user-select:none;-webkit-user-select:none;padding:2px;}/*!sc*/
+.jgTAJz .collapser:focus{outline-color:#fff;outline-style:dotted;outline-width:1px;}/*!sc*/
+.jgTAJz ul{list-style-type:none;padding:0px;margin:0px 0px 0px 26px;}/*!sc*/
+.jgTAJz li{position:relative;display:block;}/*!sc*/
+.jgTAJz .hoverable{display:inline-block;}/*!sc*/
+.jgTAJz .selected{outline-style:solid;outline-width:1px;outline-style:dotted;}/*!sc*/
+.jgTAJz .collapsed>.collapsible{display:none;}/*!sc*/
+.jgTAJz .ellipsis{display:none;}/*!sc*/
+.jgTAJz .collapsed>.ellipsis{display:inherit;}/*!sc*/
+data-styled.g51[id="sc-jNDflC"]{content:"jgTAJz,"}/*!sc*/
+.kgKexQ{padding:0.9em;background-color:rgba(38,50,56,0.4);margin:0 0 10px 0;display:block;font-family:Montserrat,sans-serif;font-size:0.929em;line-height:1.5em;}/*!sc*/
+data-styled.g52[id="sc-dPqFhK"]{content:"kgKexQ,"}/*!sc*/
+.BuCyN{font-family:Montserrat,sans-serif;font-size:12px;position:absolute;z-index:1;top:-11px;left:12px;font-weight:600;color:rgba(255,255,255,0.7);}/*!sc*/
+data-styled.g53[id="sc-bBzIOb"]{content:"BuCyN,"}/*!sc*/
+.bMFMGt{position:relative;}/*!sc*/
+data-styled.g54[id="sc-cNSlRw"]{content:"bMFMGt,"}/*!sc*/
+.iOLOBz{margin:0 0 10px 0;display:block;background-color:rgba(38,50,56,0.4);border:none;padding:0.9em 1.6em 0.9em 0.9em;box-shadow:none;}/*!sc*/
+.iOLOBz label{color:#ffffff;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-size:1em;text-transform:none;border:none;}/*!sc*/
+.iOLOBz:hover,.iOLOBz:focus-within{border:none;box-shadow:none;background-color:rgba(38,50,56,0.7);}/*!sc*/
+data-styled.g55[id="sc-AbpxN"]{content:"iOLOBz,"}/*!sc*/
+.jUCYlq{margin-top:15px;}/*!sc*/
+data-styled.g57[id="sc-hUheUT"]{content:"jUCYlq,"}/*!sc*/
+.jMRTsl{vertical-align:middle;font-size:13px;line-height:20px;}/*!sc*/
+data-styled.g59[id="sc-gSILEF"]{content:"jMRTsl,"}/*!sc*/
+.NncTE{color:rgba(102,102,102,0.9);}/*!sc*/
+data-styled.g60[id="sc-lbpDNm"]{content:"NncTE,"}/*!sc*/
+.kUjPnZ{color:#666;}/*!sc*/
+data-styled.g61[id="sc-iNyHtD"]{content:"kUjPnZ,"}/*!sc*/
+.dHYagA{color:#d41f1c;font-size:0.9em;font-weight:normal;margin-left:20px;line-height:1;}/*!sc*/
+data-styled.g63[id="sc-eIYgEQ"]{content:"dHYagA,"}/*!sc*/
+.OXDYs{border-radius:2px;word-break:break-word;background-color:rgba(51,51,51,0.05);color:rgba(51,51,51,0.9);padding:0 5px;border:1px solid rgba(51,51,51,0.1);font-family:Courier,monospace;}/*!sc*/
+.sc-lbFCLI+.sc-lbFCLI{margin-left:0;}/*!sc*/
+data-styled.g67[id="sc-lbFCLI"]{content:"OXDYs,"}/*!sc*/
+.enoyBT{border-radius:2px;background-color:rgba(104,104,207,0.05);color:rgba(50,50,159,0.9);margin:0 5px;padding:0 5px;border:1px solid rgba(50,50,159,0.1);}/*!sc*/
+.sc-cljLBy+.sc-cljLBy{margin-left:0;}/*!sc*/
+data-styled.g69[id="sc-cljLBy"]{content:"enoyBT,"}/*!sc*/
+.hzxDQO:after{content:' and ';font-weight:normal;}/*!sc*/
+.hzxDQO:last-child:after{content:none;}/*!sc*/
+.hzxDQO a{text-decoration:auto;color:#32329f;}/*!sc*/
+.hzxDQO a:visited{color:#32329f;}/*!sc*/
+.hzxDQO a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g82[id="sc-hPfayn"]{content:"hzxDQO,"}/*!sc*/
+.dVYuXz{white-space:nowrap;}/*!sc*/
+.dVYuXz:after{content:' or ';white-space:pre;}/*!sc*/
+.dVYuXz:last-child:after,.dVYuXz:only-child:after{content:none;}/*!sc*/
+.dVYuXz a{text-decoration:auto;color:#32329f;}/*!sc*/
+.dVYuXz a:visited{color:#32329f;}/*!sc*/
+.dVYuXz a:hover{color:#6868cf;text-decoration:auto;}/*!sc*/
+data-styled.g83[id="sc-dtnsVa"]{content:"dVYuXz,"}/*!sc*/
+.jdqJPb{flex:1 1 auto;cursor:pointer;}/*!sc*/
+data-styled.g84[id="sc-dalEhJ"]{content:"jdqJPb,"}/*!sc*/
+.cVAkzL{width:75%;text-overflow:ellipsis;border-radius:4px;overflow:hidden;}/*!sc*/
+@media screen and (max-width: 50rem){.cVAkzL{margin-top:10px;}}/*!sc*/
+data-styled.g85[id="sc-jTPGds"]{content:"cVAkzL,"}/*!sc*/
+.kEkHzF{display:inline-block;margin:0;}/*!sc*/
+data-styled.g86[id="sc-jQQpTv"]{content:"kEkHzF,"}/*!sc*/
+.kGZLat{width:100%;display:flex;margin:1em 0;flex-direction:row;}/*!sc*/
+@media screen and (max-width: 50rem){.kGZLat{flex-direction:column;}}/*!sc*/
+data-styled.g87[id="sc-fuYIqi"]{content:"kGZLat,"}/*!sc*/
+.cBgvIi{margin-top:0;margin-bottom:0.5em;}/*!sc*/
+data-styled.g93[id="sc-ctiVdb"]{content:"cBgvIi,"}/*!sc*/
+.ldPigm::before{content:'|';display:inline-block;opacity:0.5;width:15px;text-align:center;}/*!sc*/
+.ldPigm:last-child::after{display:none;}/*!sc*/
+data-styled.g95[id="sc-brKBMN"]{content:"ldPigm,"}/*!sc*/
+.iVyheB{overflow:hidden;}/*!sc*/
+data-styled.g96[id="sc-gILgRS"]{content:"iVyheB,"}/*!sc*/
+.juJQo{display:flex;flex-wrap:wrap;margin-left:-15px;}/*!sc*/
+data-styled.g97[id="sc-euUkyj"]{content:"juJQo,"}/*!sc*/
+.jjsIAS{width:9ex;display:inline-block;height:13px;line-height:13px;background-color:#333;border-radius:3px;background-repeat:no-repeat;background-position:6px 4px;font-size:7px;font-family:Verdana,sans-serif;color:white;text-transform:uppercase;text-align:center;font-weight:bold;vertical-align:middle;margin-right:6px;margin-top:2px;}/*!sc*/
+.jjsIAS.get{background-color:#2F8132;}/*!sc*/
+.jjsIAS.post{background-color:#186FAF;}/*!sc*/
+.jjsIAS.put{background-color:#95507c;}/*!sc*/
+.jjsIAS.options{background-color:#947014;}/*!sc*/
+.jjsIAS.patch{background-color:#bf581d;}/*!sc*/
+.jjsIAS.delete{background-color:#cc3333;}/*!sc*/
+.jjsIAS.basic{background-color:#707070;}/*!sc*/
+.jjsIAS.link{background-color:#07818F;}/*!sc*/
+.jjsIAS.head{background-color:#A23DAD;}/*!sc*/
+.jjsIAS.hook{background-color:#32329f;}/*!sc*/
+.jjsIAS.schema{background-color:#707070;}/*!sc*/
+data-styled.g101[id="sc-XpSrr"]{content:"jjsIAS,"}/*!sc*/
+.dqIuaF{margin:0;padding:0;}/*!sc*/
+.dqIuaF:first-child{padding-bottom:32px;}/*!sc*/
+.sc-ilnrqe .sc-ilnrqe{font-size:0.929em;}/*!sc*/
+.gTfiRs{margin:0;padding:0;display:none;}/*!sc*/
+.gTfiRs:first-child{padding-bottom:32px;}/*!sc*/
+.sc-ilnrqe .sc-ilnrqe{font-size:0.929em;}/*!sc*/
+data-styled.g102[id="sc-ilnrqe"]{content:"dqIuaF,gTfiRs,"}/*!sc*/
+.cQETmj{list-style:none inside none;overflow:hidden;text-overflow:ellipsis;padding:0;}/*!sc*/
+data-styled.g103[id="sc-uMZhz"]{content:"cQETmj,"}/*!sc*/
+.buxoPL{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;font-size:0.929em;text-transform:none;background-color:#fafafa;}/*!sc*/
+.buxoPL:hover{color:#32329f;background-color:#e1e1e1;}/*!sc*/
+.buxoPL .sc-dYjPD{height:1.5em;width:1.5em;}/*!sc*/
+.buxoPL .sc-dYjPD polygon{fill:#333333;}/*!sc*/
+.cGOuox{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:flex;justify-content:space-between;font-family:Montserrat,sans-serif;background-color:#fafafa;}/*!sc*/
+.cGOuox:hover{color:#32329f;background-color:#ededed;}/*!sc*/
+.cGOuox .sc-dYjPD{height:1.5em;width:1.5em;}/*!sc*/
+.cGOuox .sc-dYjPD polygon{fill:#333333;}/*!sc*/
+data-styled.g104[id="sc-bitxrY"]{content:"buxoPL,cGOuox,"}/*!sc*/
+.ehBKwY{display:inline-block;vertical-align:middle;width:calc(100% - 38px);overflow:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g105[id="sc-eHoOIp"]{content:"ehBKwY,"}/*!sc*/
+.gtBLyN{font-size:0.8em;margin-top:10px;text-align:center;position:fixed;width:260px;bottom:0;background:#fafafa;}/*!sc*/
+.gtBLyN a,.gtBLyN a:visited,.gtBLyN a:hover{color:#333333!important;padding:5px 0;border-top:1px solid #e1e1e1;text-decoration:none;display:flex;align-items:center;justify-content:center;}/*!sc*/
+.gtBLyN img{width:15px;margin-right:5px;}/*!sc*/
+@media screen and (max-width: 50rem){.gtBLyN{width:100%;}}/*!sc*/
+data-styled.g106[id="sc-hAkAFK"]{content:"gtBLyN,"}/*!sc*/
+.fYxpnv{cursor:pointer;position:relative;margin-bottom:5px;}/*!sc*/
+data-styled.g112[id="sc-fXwuWv"]{content:"fYxpnv,"}/*!sc*/
+.dsIRaZ{font-family:Courier,monospace;margin-left:10px;flex:1;overflow-x:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g113[id="sc-FpjRO"]{content:"dsIRaZ,"}/*!sc*/
+.jzaJhV{outline:0;color:inherit;width:100%;text-align:left;cursor:pointer;padding:10px 30px 10px 20px;border-radius:4px 4px 0 0;background-color:#11171a;display:flex;white-space:nowrap;align-items:center;border:1px solid transparent;border-bottom:0;transition:border-color 0.25s ease;}/*!sc*/
+.jzaJhV ..sc-FpjRO{color:#ffffff;}/*!sc*/
+.jzaJhV:focus{box-shadow:inset 0 2px 2px rgba(0, 0, 0, 0.45),0 2px 0 rgba(128, 128, 128, 0.25);}/*!sc*/
+data-styled.g114[id="sc-jWMFtl"]{content:"jzaJhV,"}/*!sc*/
+.hlSrtW{font-size:0.929em;line-height:20px;background-color:#2F8132;color:#ffffff;padding:3px 10px;text-transform:uppercase;font-family:Montserrat,sans-serif;margin:0;}/*!sc*/
+data-styled.g115[id="sc-eEFuoE"]{content:"hlSrtW,"}/*!sc*/
+.tUxhh{position:absolute;width:100%;z-index:100;background:#fafafa;color:#263238;box-sizing:border-box;box-shadow:0 0 6px rgba(0, 0, 0, 0.33);overflow:hidden;border-bottom-left-radius:4px;border-bottom-right-radius:4px;transition:all 0.25s ease;visibility:hidden;transform:translateY(-50%) scaleY(0);}/*!sc*/
+data-styled.g116[id="sc-fmtEmb"]{content:"tUxhh,"}/*!sc*/
+.bAnPPh{padding:10px;}/*!sc*/
+data-styled.g117[id="sc-ljIcGq"]{content:"bAnPPh,"}/*!sc*/
+.PEJyb{padding:5px;border:1px solid #ccc;background:#fff;word-break:break-all;color:#32329f;}/*!sc*/
+.PEJyb >span{color:#333333;}/*!sc*/
+data-styled.g118[id="sc-jlJOIR"]{content:"PEJyb,"}/*!sc*/
+.iSTZHA{display:block;border:0;width:100%;text-align:left;padding:10px;border-radius:2px;margin-bottom:4px;line-height:1.5em;cursor:pointer;color:#1d8127;background-color:rgba(29,129,39,0.07);}/*!sc*/
+.iSTZHA:focus{outline:auto #1d8127;}/*!sc*/
+.cKkXxa{display:block;border:0;width:100%;text-align:left;padding:10px;border-radius:2px;margin-bottom:4px;line-height:1.5em;cursor:pointer;color:#d41f1c;background-color:rgba(212,31,28,0.07);}/*!sc*/
+.cKkXxa:focus{outline:auto #d41f1c;}/*!sc*/
+data-styled.g121[id="sc-cbuLjy"]{content:"iSTZHA,cKkXxa,"}/*!sc*/
+.cqDULz{vertical-align:top;}/*!sc*/
+data-styled.g124[id="sc-fXmTIC"]{content:"cqDULz,"}/*!sc*/
+.hgNHCh{font-size:1.3em;padding:0.2em 0;margin:3em 0 1.1em;color:#333333;font-weight:normal;}/*!sc*/
+data-styled.g125[id="sc-fINhYD"]{content:"hgNHCh,"}/*!sc*/
+.ktZmcf{margin-bottom:30px;}/*!sc*/
+data-styled.g130[id="sc-iFUzrA"]{content:"ktZmcf,"}/*!sc*/
+.kjuNaM{user-select:none;width:20px;height:20px;align-self:center;display:flex;flex-direction:column;color:#32329f;}/*!sc*/
+data-styled.g131[id="sc-iruNHB"]{content:"kjuNaM,"}/*!sc*/
+.cczbHe{width:260px;background-color:#fafafa;overflow:hidden;display:flex;flex-direction:column;backface-visibility:hidden;height:100vh;position:sticky;position:-webkit-sticky;top:0;}/*!sc*/
+@media screen and (max-width: 50rem){.cczbHe{position:fixed;z-index:20;width:100%;background:#fafafa;display:none;}}/*!sc*/
+@media print{.cczbHe{display:none;}}/*!sc*/
+data-styled.g132[id="sc-eVYbGh"]{content:"cczbHe,"}/*!sc*/
+.ddPveE{outline:none;user-select:none;background-color:#f2f2f2;color:#32329f;display:none;cursor:pointer;position:fixed;right:20px;z-index:100;border-radius:50%;box-shadow:0 0 20px rgba(0, 0, 0, 0.3);bottom:44px;width:60px;height:60px;padding:0 20px;}/*!sc*/
+@media screen and (max-width: 50rem){.ddPveE{display:flex;}}/*!sc*/
+.ddPveE svg{color:#0065FB;}/*!sc*/
+@media print{.ddPveE{display:none;}}/*!sc*/
+data-styled.g133[id="sc-kTmAaw"]{content:"ddPveE,"}/*!sc*/
+.jetsmW{font-family:Roboto,sans-serif;font-size:14px;font-weight:400;line-height:1.5em;color:#333333;display:flex;position:relative;text-align:left;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeSpeed!important;tap-highlight-color:rgba(0, 0, 0, 0);text-size-adjust:100%;}/*!sc*/
+.jetsmW *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(255, 255, 255, 0);}/*!sc*/
+data-styled.g134[id="sc-dwkskT"]{content:"jetsmW,"}/*!sc*/
+.ldXCvc{z-index:1;position:relative;overflow:hidden;width:calc(100% - 260px);contain:layout;}/*!sc*/
+@media print,screen and (max-width: 50rem){.ldXCvc{width:100%;}}/*!sc*/
+data-styled.g135[id="sc-jtyQFi"]{content:"ldXCvc,"}/*!sc*/
+.bjzTxL{background:#263238;position:absolute;top:0;bottom:0;right:0;width:calc((100% - 260px) * 0.4);}/*!sc*/
+@media print,screen and (max-width: 75rem){.bjzTxL{display:none;}}/*!sc*/
+data-styled.g136[id="sc-ekVkVN"]{content:"bjzTxL,"}/*!sc*/
+.uMSfb{padding:5px 0;}/*!sc*/
+data-styled.g137[id="sc-kijJqc"]{content:"uMSfb,"}/*!sc*/
+.fTcICO{width:calc(100% - 40px);box-sizing:border-box;margin:0 20px;padding:5px 10px 5px 20px;border:0;border-bottom:1px solid #e1e1e1;font-family:Roboto,sans-serif;font-weight:bold;font-size:13px;color:#333333;background-color:transparent;outline:none;}/*!sc*/
+data-styled.g138[id="sc-cLhBAz"]{content:"fTcICO,"}/*!sc*/
+.kAmnlO{position:absolute;left:20px;height:1.8em;width:0.9em;}/*!sc*/
+.kAmnlO path{fill:#333333;}/*!sc*/
+data-styled.g139[id="sc-iIvZUO"]{content:"kAmnlO,"}/*!sc*/
+</style>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+</head>
+
+<body>
+  
+      <div id="redoc"><div class="sc-dwkskT jetsmW redoc-wrap"><div class="sc-eVYbGh cczbHe menu-content" style="top:0px;height:calc(100vh - 0px)"><div role="search" class="sc-kijJqc uMSfb"><svg class="sc-iIvZUO kAmnlO search-icon" version="1.1" viewBox="0 0 1000 1000" x="0px" xmlns="http://www.w3.org/2000/svg" y="0px"><path d="M968.2,849.4L667.3,549c83.9-136.5,66.7-317.4-51.7-435.6C477.1-25,252.5-25,113.9,113.4c-138.5,138.3-138.5,362.6,0,501C219.2,730.1,413.2,743,547.6,666.5l301.9,301.4c43.6,43.6,76.9,14.9,104.2-12.4C981,928.3,1011.8,893,968.2,849.4z M524.5,522c-88.9,88.7-233,88.7-321.8,0c-88.9-88.7-88.9-232.6,0-321.3c88.9-88.7,233-88.7,321.8,0C613.4,289.4,613.4,433.3,524.5,522z"></path></svg><input placeholder="Search..." aria-label="Search" type="text" class="sc-cLhBAz fTcICO search-input" value=""/></div><div class="sc-kLEbxe iOXjCz scrollbar-container undefined"><ul role="menu" class="sc-ilnrqe dqIuaF"><li tabindex="0" depth="1" data-item-id="section/Access-control" role="menuitem" aria-label="Access control" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Access control" class="sc-eHoOIp ehBKwY">Access control</span></label></li><li tabindex="0" depth="1" data-item-id="section/Immutability" role="menuitem" aria-label="Immutability" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Immutability" class="sc-eHoOIp ehBKwY">Immutability</span></label></li><li tabindex="0" depth="1" data-item-id="section/Retention" role="menuitem" aria-label="Retention" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Retention" class="sc-eHoOIp ehBKwY">Retention</span></label></li><li tabindex="0" depth="1" data-item-id="section/Authentication" role="menuitem" aria-label="Authentication" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Authentication" class="sc-eHoOIp ehBKwY">Authentication</span></label></li><li tabindex="0" depth="1" data-item-id="section/Base-URL" role="menuitem" aria-label="Base URL" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Base URL" class="sc-eHoOIp ehBKwY">Base URL</span></label></li><li tabindex="0" depth="1" data-item-id="section/Related-APIs" role="menuitem" aria-label="Related APIs" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Related APIs" class="sc-eHoOIp ehBKwY">Related APIs</span></label></li><li tabindex="0" depth="1" data-item-id="tag/Audit-Log" role="menuitem" aria-label="Audit Log" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY buxoPL -depth1"><span width="calc(100% - 38px)" title="Audit Log" class="sc-eHoOIp ehBKwY">Audit Log</span><svg class="sc-dYjPD kdgFPv" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></label><ul class="sc-ilnrqe gTfiRs"><li tabindex="0" depth="2" data-item-id="tag/Audit-Log/operation/listAuditEntries" role="menuitem" aria-label="List audit log entries" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY cGOuox -depth2"><span type="get" class="sc-XpSrr jjsIAS operation-type get">get</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eHoOIp ehBKwY">List audit log entries</span></label></li><li tabindex="0" depth="2" data-item-id="tag/Audit-Log/operation/getAuditEntry" role="menuitem" aria-label="Get an audit log entry" aria-expanded="false" class="sc-uMZhz cQETmj"><label class="sc-bitxrY cGOuox -depth2"><span type="get" class="sc-XpSrr jjsIAS operation-type get">get</span><span tabindex="0" width="calc(100% - 38px)" class="sc-eHoOIp ehBKwY">Get an audit log entry</span></label></li></ul></li></ul><div class="sc-hAkAFK gtBLyN"><a target="_blank" rel="noopener noreferrer" href="https://redocly.com/redoc/">API docs by Redocly</a></div></div></div><div class="sc-kTmAaw ddPveE"><div class="sc-iruNHB kjuNaM"><svg class="" style="transform:translate(2px, -4px) rotate(180deg);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg><svg class="" style="transform:translate(2px, 4px);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg></div></div><div class="sc-jtyQFi ldXCvc api-content"><div class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN api-info"><h1 class="sc-fuztkK sc-ctiVdb eRMVDe cBgvIi">SmartTouch Audit Log API<!-- --> <span>(<!-- -->1.0.0<!-- -->)</span></h1><p>Download OpenAPI specification<!-- -->:</p><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV"><div class="sc-gILgRS iVyheB"><div class="sc-euUkyj juJQo"> <span class="sc-brKBMN ldPigm">URL: <a href="https://docs.smarttouch.io">https://docs.smarttouch.io</a></span> <span class="sc-brKBMN ldPigm">License:<!-- --> <a>Proprietary</a></span> </div></div></div><div data-role="redoc-summary" html="" class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV"></div><div data-role="redoc-description" html="&lt;p&gt;Query the immutable audit log for remote access events on the SmartTouch Cloud Platform.&lt;/p&gt;
+&lt;p&gt;Every remote access session open, close, and expiry is recorded as an audit entry.
+Entries include the user identity, device, protocol, source IP, timestamp, and a
+distributed trace ID for correlation with logs and traces.&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV"><p>Query the immutable audit log for remote access events on the SmartTouch Cloud Platform.</p>
+<p>Every remote access session open, close, and expiry is recorded as an audit entry.
+Entries include the user identity, device, protocol, source IP, timestamp, and a
+distributed trace ID for correlation with logs and traces.</p>
+</div></div></div></div><div id="section/Access-control" data-section-id="section/Access-control" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Access-control" aria-label="section/Access-control"></a>Access control</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;p&gt;Reading the audit log requires either the &lt;code&gt;administrator&lt;/code&gt; role or the &lt;code&gt;audit:read&lt;/code&gt;
+permission granted by an Administrator.&lt;/p&gt;
+"><p>Reading the audit log requires either the <code>administrator</code> role or the <code>audit:read</code>
+permission granted by an Administrator.</p>
+</div></div></div><div id="section/Immutability" data-section-id="section/Immutability" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Immutability" aria-label="section/Immutability"></a>Immutability</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;p&gt;Audit entries cannot be created, modified, or deleted through the API.
+The audit log is append-only and tamper-evident.&lt;/p&gt;
+"><p>Audit entries cannot be created, modified, or deleted through the API.
+The audit log is append-only and tamper-evident.</p>
+</div></div></div><div id="section/Retention" data-section-id="section/Retention" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Retention" aria-label="section/Retention"></a>Retention</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;p&gt;Entries are retained for 90 days by default. Administrators can configure longer
+retention in platform settings.&lt;/p&gt;
+"><p>Entries are retained for 90 days by default. Administrators can configure longer
+retention in platform settings.</p>
+</div></div></div><div id="section/Authentication" data-section-id="section/Authentication" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Authentication" aria-label="section/Authentication"></a>Authentication</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;p&gt;All endpoints require a bearer token obtained via &lt;code&gt;stctl auth token&lt;/code&gt;.&lt;/p&gt;
+"><p>All endpoints require a bearer token obtained via <code>stctl auth token</code>.</p>
+</div></div></div><div id="section/Base-URL" data-section-id="section/Base-URL" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Base-URL" aria-label="section/Base-URL"></a>Base URL</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;pre&gt;&lt;code&gt;https&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;api&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;your&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;platform&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;domain&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;v1
+&lt;/code&gt;&lt;/pre&gt;
+"><pre><code>https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>api<span class="token punctuation">.</span><span class="token operator">&lt;</span>your<span class="token operator">-</span>platform<span class="token operator">-</span>domain<span class="token operator">></span><span class="token operator">/</span>v1
+</code></pre>
+</div></div></div><div id="section/Related-APIs" data-section-id="section/Related-APIs" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-jrIDTr iSbGeC"><a class="sc-crPgjm jmoZom" href="#section/Related-APIs" aria-label="section/Related-APIs"></a>Related APIs</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;./session-api.yaml&quot;&gt;Session API&lt;/a&gt; — open and close sessions that generate audit events&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;./device-api.yaml&quot;&gt;Device API&lt;/a&gt; — filter audit events by device&lt;/li&gt;
+&lt;/ul&gt;
+"><ul>
+<li><a href="./session-api.yaml">Session API</a> — open and close sessions that generate audit events</li>
+<li><a href="./device-api.yaml">Device API</a> — filter audit events by device</li>
+</ul>
+</div></div></div><div id="tag/Audit-Log" data-section-id="tag/Audit-Log" class="sc-eCQgVK jleRXN"><div class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-qdQOe MOVBZ"><a class="sc-crPgjm jmoZom" href="#tag/Audit-Log" aria-label="tag/Audit-Log"></a>Audit Log</h2></div></div><div class="sc-hKVpXn kmAAAV"><div class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV redoc-markdown " html="&lt;p&gt;Query remote access audit events (read-only)&lt;/p&gt;
+"><p>Query remote access audit events (read-only)</p>
+</div></div></div><div id="tag/Audit-Log/operation/listAuditEntries" data-section-id="tag/Audit-Log/operation/listAuditEntries" class="sc-eCQgVK grDwca"><div data-section-id="operation/listAuditEntries" id="operation/listAuditEntries" class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-qdQOe MOVBZ"><a class="sc-crPgjm jmoZom" href="#tag/Audit-Log/operation/listAuditEntries" aria-label="tag/Audit-Log/operation/listAuditEntries"></a>List audit log entries<!-- --> </h2><div class="sc-iFUzrA ktZmcf"><div html="&lt;p&gt;Returns audit log entries for remote access events in reverse chronological order
+(most recent first).&lt;/p&gt;
+&lt;p&gt;Use query parameters to narrow results by device, user, event type, or time range.
+All filter parameters are optional and combinable.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Rate limit:&lt;/strong&gt; 60 requests per minute.&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV"><p>Returns audit log entries for remote access events in reverse chronological order
+(most recent first).</p>
+<p>Use query parameters to narrow results by device, user, event type, or time range.
+All filter parameters are optional and combinable.</p>
+<p><strong>Rate limit:</strong> 60 requests per minute.</p>
+</div></div><div class="sc-fuYIqi kGZLat"><div class="sc-dalEhJ jdqJPb"><h5 class="sc-iqkkDd sc-jQQpTv kcvrhp kEkHzF">Authorizations:</h5><svg class="sc-dYjPD bEEWJa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTPGds cVAkzL"><span class="sc-dtnsVa dVYuXz"><span class="sc-hPfayn hzxDQO"><i>bearerAuth</i></span></span></div></div><div><h5 class="sc-iqkkDd kcvrhp">query<!-- --> Parameters</h5><table class="sc-hHopjF bsjUmE"><tbody><tr class=""><td kind="field" title="device_id" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">device_id</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">device_id=sensor-001</span></div><div><div html="&lt;p&gt;Filter by device ID&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Filter by device ID</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="user" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">user</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ"> <!-- -->&lt;<!-- -->email<!-- -->&gt;<!-- --> </span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">user=alice@example.com</span></div><div><div html="&lt;p&gt;Filter by user email address&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Filter by user email address</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="event" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">event</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span></div><div><span class="sc-gSILEF jMRTsl"> <!-- -->Enum<!-- -->:</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;session.opened&quot;</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;session.closed&quot;</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;session.expired&quot;</span> </div> <div><div html="&lt;p&gt;Filter by event type&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Filter by event type</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="protocol" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">protocol</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span></div><div><span class="sc-gSILEF jMRTsl"> <!-- -->Enum<!-- -->:</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;shell&quot;</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;diagnostics&quot;</span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">&quot;file-transfer&quot;</span> </div> <div><div html="&lt;p&gt;Filter by session protocol&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Filter by session protocol</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="since" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">since</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ"> <!-- -->&lt;<!-- -->date-time<!-- -->&gt;<!-- --> </span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">since=2026-06-08T00:00:00Z</span></div><div><div html="&lt;p&gt;Return entries with timestamps after this ISO 8601 value (inclusive)&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Return entries with timestamps after this ISO 8601 value (inclusive)</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="until" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">until</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ"> <!-- -->&lt;<!-- -->date-time<!-- -->&gt;<!-- --> </span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">until=2026-06-09T00:00:00Z</span></div><div><div html="&lt;p&gt;Return entries with timestamps before this ISO 8601 value (exclusive)&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Return entries with timestamps before this ISO 8601 value (exclusive)</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="session_id" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">session_id</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">session_id=sess-9c4d2e</span></div><div><div html="&lt;p&gt;Filter by session ID to retrieve all events for a single session&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Filter by session ID to retrieve all events for a single session</p>
+</div></div></div></td></tr><tr class=""><td kind="field" title="page" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">page</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">integer</span><span> <span class="sc-gSILEF sc-cljLBy jMRTsl enoyBT"> <!-- -->&gt;= 1<!-- --> </span></span></div><div><span class="sc-gSILEF jMRTsl"> <!-- -->Default:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">1</span></div> <div><div html="" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"></div></div></div></td></tr><tr class="last "><td kind="field" title="per_page" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">per_page</span></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">integer</span><span> <span class="sc-gSILEF sc-cljLBy jMRTsl enoyBT"> <!-- -->[ 1 .. 500 ]<!-- --> </span></span></div><div><span class="sc-gSILEF jMRTsl"> <!-- -->Default:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">100</span></div> <div><div html="" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"></div></div></div></td></tr></tbody></table></div><div><h3 class="sc-fINhYD hgNHCh">Responses</h3><div><button class="sc-cbuLjy iSTZHA"><svg class="sc-dYjPD gngmNp" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">200<!-- --> </strong><div html="&lt;p&gt;List of audit log entries&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>List of audit log entries</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">401<!-- --> </strong><div html="&lt;p&gt;Token is missing, invalid, or expired&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Token is missing, invalid, or expired</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">403<!-- --> </strong><div html="&lt;p&gt;Insufficient permissions — administrator role or audit:read permission required&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Insufficient permissions — administrator role or audit:read permission required</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">429<!-- --> </strong><div html="&lt;p&gt;Rate limit exceeded — 60 requests per minute&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Rate limit exceeded — 60 requests per minute</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">500<!-- --> </strong><div html="&lt;p&gt;Internal platform error&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Internal platform error</p>
+</div></button></div></div></div><div class="sc-jSppWd sc-gKkgUA fpMlmc bdQQyo"><div class="sc-fXwuWv fYxpnv"><button class="sc-jWMFtl jzaJhV"><span type="get" class="sc-eEFuoE hlSrtW http-verb get">get</span><span class="sc-FpjRO dsIRaZ">/audit/remote-access</span><svg class="sc-dYjPD bQKUih" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fmtEmb tUxhh"><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Local development environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Local development environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.smarttouch.local/v1</span>/audit/remote-access</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Dev environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Dev environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.dev.smarttouch.example.com/v1</span>/audit/remote-access</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Staging environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Staging environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.staging.smarttouch.example.com/v1</span>/audit/remote-access</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Production environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Production environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.smarttouch.example.com/v1</span>/audit/remote-access</div></div></div></div></div><div><h3 class="sc-kEbgWM iamDfj"> <!-- -->Response samples<!-- --> </h3><div class="sc-cxxQMU kibfTX" data-rttabs="true"><ul class="react-tabs__tab-list" role="tablist"><li class="tab-success react-tabs__tab--selected" role="tab" id="tab_R_jirq_0" aria-selected="true" aria-disabled="false" aria-controls="panel_R_jirq_0" tabindex="0" data-rttab="true">200</li><li class="tab-error" role="tab" id="tab_R_jirq_1" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jirq_1" data-rttab="true">401</li><li class="tab-error" role="tab" id="tab_R_jirq_2" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jirq_2" data-rttab="true">403</li><li class="tab-error" role="tab" id="tab_R_jirq_3" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jirq_3" data-rttab="true">429</li><li class="tab-error" role="tab" id="tab_R_jirq_4" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jirq_4" data-rttab="true">500</li></ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role="tabpanel" id="panel_R_jirq_0" aria-labelledby="tab_R_jirq_0"><div><div class="sc-cNSlRw bMFMGt"><span class="sc-bBzIOb BuCyN">Content type</span><div class="sc-dPqFhK kgKexQ">application/json</div></div><div class="sc-hUheUT jUCYlq"><div class="sc-cNSlRw bMFMGt"><span class="sc-bBzIOb BuCyN">Example</span><div class="sc-jJwPsw sc-AbpxN inOnpk iOLOBz"><svg class="sc-ikBzZv chhzbL" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg><select class="dropdown-select"><option value="Full session lifecycle for sensor-001" selected="">Full session lifecycle for sensor-001</option><option value="Expired session event">Expired session event</option></select><label>Full session lifecycle for sensor-001</label></div></div><div><div class="sc-cTZdpT hHzuQA"><div class="sc-giQkEn dzKJV"><button><div class="sc-jcgtOs feYhXE">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div tabindex="0" class="sc-iJSMbW fiNpIH sc-jNDflC jgTAJz"><div class="redoc-json"><code><button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"status"</span>: <span class="token number">200</span><span class="token punctuation">,</span></div></li><li><div class="hoverable "><span class="property token string">"data"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">[</span><span class="ellipsis"></span><ul class="array collapsible"><li><div class="hoverable collapsed"><button class="collapser" aria-label="expand"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"id"</span>: <span class="token string">&quot;audit-002&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"event"</span>: <span class="token string">&quot;session.closed&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"session_id"</span>: <span class="token string">&quot;sess-9c4d2e&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"device_id"</span>: <span class="token string">&quot;sensor-001&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"protocol"</span>: <span class="token string">&quot;diagnostics&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"user"</span>: <span class="token string">&quot;alice@example.com&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"source_ip"</span>: <span class="token string">&quot;10.0.1.42&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"timestamp"</span>: <span class="token string">&quot;2026-06-08T09:18:44Z&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"trace_id"</span>: <span class="token string">&quot;xyz789abc012&quot;</span></div></li></ul><span class="token punctuation">}</span>,</div></li><li><div class="hoverable collapsed"><button class="collapser" aria-label="expand"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"id"</span>: <span class="token string">&quot;audit-001&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"event"</span>: <span class="token string">&quot;session.opened&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"session_id"</span>: <span class="token string">&quot;sess-9c4d2e&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"device_id"</span>: <span class="token string">&quot;sensor-001&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"protocol"</span>: <span class="token string">&quot;diagnostics&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"user"</span>: <span class="token string">&quot;alice@example.com&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"source_ip"</span>: <span class="token string">&quot;10.0.1.42&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"timestamp"</span>: <span class="token string">&quot;2026-06-08T09:05:00Z&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"trace_id"</span>: <span class="token string">&quot;xyz789abc012&quot;</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">]</span><span class="token punctuation">,</span></div></li><li><div class="hoverable "><span class="property token string">"meta"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"page"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"per_page"</span>: <span class="token number">100</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"total"</span>: <span class="token number">2</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jirq_1" aria-labelledby="tab_R_jirq_1"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jirq_2" aria-labelledby="tab_R_jirq_2"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jirq_3" aria-labelledby="tab_R_jirq_3"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jirq_4" aria-labelledby="tab_R_jirq_4"></div></div></div></div></div></div><div id="tag/Audit-Log/operation/getAuditEntry" data-section-id="tag/Audit-Log/operation/getAuditEntry" class="sc-eCQgVK grDwca"><div data-section-id="operation/getAuditEntry" id="operation/getAuditEntry" class="sc-iCECmn lhRBUS"><div class="sc-hKVpXn kktglN"><h2 class="sc-qdQOe MOVBZ"><a class="sc-crPgjm jmoZom" href="#tag/Audit-Log/operation/getAuditEntry" aria-label="tag/Audit-Log/operation/getAuditEntry"></a>Get an audit log entry<!-- --> </h2><div class="sc-iFUzrA ktZmcf"><div html="&lt;p&gt;Returns a single audit log entry by its ID.&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH ewCFMV"><p>Returns a single audit log entry by its ID.</p>
+</div></div><div class="sc-fuYIqi kGZLat"><div class="sc-dalEhJ jdqJPb"><h5 class="sc-iqkkDd sc-jQQpTv kcvrhp kEkHzF">Authorizations:</h5><svg class="sc-dYjPD bEEWJa" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-jTPGds cVAkzL"><span class="sc-dtnsVa dVYuXz"><span class="sc-hPfayn hzxDQO"><i>bearerAuth</i></span></span></div></div><div><h5 class="sc-iqkkDd kcvrhp">path<!-- --> Parameters</h5><table class="sc-hHopjF bsjUmE"><tbody><tr class="last "><td kind="field" title="entryId" class="sc-hCcPtG sc-fFCZOx jFNAwF lcdEEX"><span class="sc-ieCSdj kkMuqc"></span><span class="property-name">entryId</span><div class="sc-gSILEF sc-eIYgEQ jMRTsl dHYagA">required</div></td><td class="sc-bjLslk gLpZiQ"><div><div><span class="sc-gSILEF sc-lbpDNm jMRTsl NncTE"></span><span class="sc-gSILEF sc-iNyHtD jMRTsl kUjPnZ">string</span></div> <div><span class="sc-gSILEF jMRTsl"> <!-- -->Example:<!-- --> </span> <span class="sc-gSILEF sc-lbFCLI jMRTsl OXDYs">audit-001</span></div><div><div html="&lt;p&gt;Unique audit log entry ID&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Unique audit log entry ID</p>
+</div></div></div></td></tr></tbody></table></div><div><h3 class="sc-fINhYD hgNHCh">Responses</h3><div><button class="sc-cbuLjy iSTZHA"><svg class="sc-dYjPD gngmNp" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">200<!-- --> </strong><div html="&lt;p&gt;Audit log entry&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Audit log entry</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">401<!-- --> </strong><div html="&lt;p&gt;Token is missing, invalid, or expired&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Token is missing, invalid, or expired</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">403<!-- --> </strong><div html="&lt;p&gt;Insufficient permissions — administrator role or audit:read permission required&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Insufficient permissions — administrator role or audit:read permission required</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">404<!-- --> </strong><div html="&lt;p&gt;Audit entry not found&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Audit entry not found</p>
+</div></button></div><div><button class="sc-cbuLjy cKkXxa"><svg class="sc-dYjPD hJoFRR" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-fXmTIC cqDULz">500<!-- --> </strong><div html="&lt;p&gt;Internal platform error&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa sc-ciCrSJ fiNpIH dNfUH dDDioG"><p>Internal platform error</p>
+</div></button></div></div></div><div class="sc-jSppWd sc-gKkgUA fpMlmc bdQQyo"><div class="sc-fXwuWv fYxpnv"><button class="sc-jWMFtl jzaJhV"><span type="get" class="sc-eEFuoE hlSrtW http-verb get">get</span><span class="sc-FpjRO dsIRaZ">/audit/remote-access/{entryId}</span><svg class="sc-dYjPD bQKUih" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-fmtEmb tUxhh"><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Local development environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Local development environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.smarttouch.local/v1</span>/audit/remote-access/{entryId}</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Dev environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Dev environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.dev.smarttouch.example.com/v1</span>/audit/remote-access/{entryId}</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Staging environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Staging environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.staging.smarttouch.example.com/v1</span>/audit/remote-access/{entryId}</div></div></div><div class="sc-ljIcGq bAnPPh"><div html="&lt;p&gt;Production environment&lt;/p&gt;
+" class="sc-iJSMbW sc-cBEgGa fiNpIH bAoMjv"><p>Production environment</p>
+</div><div tabindex="0" role="button"><div class="sc-jlJOIR PEJyb"><span>https://api.smarttouch.example.com/v1</span>/audit/remote-access/{entryId}</div></div></div></div></div><div><h3 class="sc-kEbgWM iamDfj"> <!-- -->Response samples<!-- --> </h3><div class="sc-cxxQMU kibfTX" data-rttabs="true"><ul class="react-tabs__tab-list" role="tablist"><li class="tab-success react-tabs__tab--selected" role="tab" id="tab_R_jjbq_0" aria-selected="true" aria-disabled="false" aria-controls="panel_R_jjbq_0" tabindex="0" data-rttab="true">200</li><li class="tab-error" role="tab" id="tab_R_jjbq_1" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jjbq_1" data-rttab="true">401</li><li class="tab-error" role="tab" id="tab_R_jjbq_2" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jjbq_2" data-rttab="true">403</li><li class="tab-error" role="tab" id="tab_R_jjbq_3" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jjbq_3" data-rttab="true">404</li><li class="tab-error" role="tab" id="tab_R_jjbq_4" aria-selected="false" aria-disabled="false" aria-controls="panel_R_jjbq_4" data-rttab="true">500</li></ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role="tabpanel" id="panel_R_jjbq_0" aria-labelledby="tab_R_jjbq_0"><div><div class="sc-cNSlRw bMFMGt"><span class="sc-bBzIOb BuCyN">Content type</span><div class="sc-dPqFhK kgKexQ">application/json</div></div><div class="sc-hUheUT jUCYlq"><div class="sc-cTZdpT hHzuQA"><div class="sc-giQkEn dzKJV"><button><div class="sc-jcgtOs feYhXE">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div tabindex="0" class="sc-iJSMbW fiNpIH sc-jNDflC jgTAJz"><div class="redoc-json"><code><button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"status"</span>: <span class="token number">200</span><span class="token punctuation">,</span></div></li><li><div class="hoverable "><span class="property token string">"data"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"id"</span>: <span class="token string">&quot;audit-001&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"event"</span>: <span class="token string">&quot;session.opened&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"session_id"</span>: <span class="token string">&quot;sess-9c4d2e&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"device_id"</span>: <span class="token string">&quot;sensor-001&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"protocol"</span>: <span class="token string">&quot;diagnostics&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"user"</span>: <span class="token string">&quot;alice@example.com&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"source_ip"</span>: <span class="token string">&quot;10.0.1.42&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"timestamp"</span>: <span class="token string">&quot;2026-06-08T09:05:00Z&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"trace_id"</span>: <span class="token string">&quot;xyz789abc012&quot;</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jjbq_1" aria-labelledby="tab_R_jjbq_1"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jjbq_2" aria-labelledby="tab_R_jjbq_2"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jjbq_3" aria-labelledby="tab_R_jjbq_3"></div><div class="react-tabs__tab-panel" role="tabpanel" id="panel_R_jjbq_4" aria-labelledby="tab_R_jjbq_4"></div></div></div></div></div></div></div><div class="sc-ekVkVN bjzTxL"></div></div></div>
+      <script>
+      const __redoc_state = {"menu":{"activeItemIdx":-1},"spec":{"data":{"openapi":"3.0.3","info":{"title":"SmartTouch Audit Log API","description":"Query the immutable audit log for remote access events on the SmartTouch Cloud Platform.\n\nEvery remote access session open, close, and expiry is recorded as an audit entry.\nEntries include the user identity, device, protocol, source IP, timestamp, and a\ndistributed trace ID for correlation with logs and traces.\n\n## Access control\nReading the audit log requires either the `administrator` role or the `audit:read`\npermission granted by an Administrator.\n\n## Immutability\nAudit entries cannot be created, modified, or deleted through the API.\nThe audit log is append-only and tamper-evident.\n\n## Retention\nEntries are retained for 90 days by default. Administrators can configure longer\nretention in platform settings.\n\n## Authentication\nAll endpoints require a bearer token obtained via `stctl auth token`.\n\n## Base URL\n```\nhttps://api.<your-platform-domain>/v1\n```\n\n## Related APIs\n- [Session API](./session-api.yaml) — open and close sessions that generate audit events\n- [Device API](./device-api.yaml) — filter audit events by device\n","version":"1.0.0","contact":{"name":"SmartTouch Developer Experience","url":"https://docs.smarttouch.io"},"license":{"name":"Proprietary"}},"servers":[{"url":"https://api.smarttouch.local/v1","description":"Local development environment"},{"url":"https://api.dev.smarttouch.example.com/v1","description":"Dev environment"},{"url":"https://api.staging.smarttouch.example.com/v1","description":"Staging environment"},{"url":"https://api.smarttouch.example.com/v1","description":"Production environment"}],"security":[{"bearerAuth":[]}],"tags":[{"name":"Audit Log","description":"Query remote access audit events (read-only)"}],"paths":{"/audit/remote-access":{"get":{"operationId":"listAuditEntries","summary":"List audit log entries","description":"Returns audit log entries for remote access events in reverse chronological order\n(most recent first).\n\nUse query parameters to narrow results by device, user, event type, or time range.\nAll filter parameters are optional and combinable.\n\n**Rate limit:** 60 requests per minute.\n","tags":["Audit Log"],"parameters":[{"name":"device_id","in":"query","required":false,"description":"Filter by device ID","schema":{"type":"string","example":"sensor-001"}},{"name":"user","in":"query","required":false,"description":"Filter by user email address","schema":{"type":"string","format":"email","example":"alice@example.com"}},{"name":"event","in":"query","required":false,"description":"Filter by event type","schema":{"type":"string","enum":["session.opened","session.closed","session.expired"]}},{"name":"protocol","in":"query","required":false,"description":"Filter by session protocol","schema":{"type":"string","enum":["shell","diagnostics","file-transfer"]}},{"name":"since","in":"query","required":false,"description":"Return entries with timestamps after this ISO 8601 value (inclusive)","schema":{"type":"string","format":"date-time","example":"2026-06-08T00:00:00Z"}},{"name":"until","in":"query","required":false,"description":"Return entries with timestamps before this ISO 8601 value (exclusive)","schema":{"type":"string","format":"date-time","example":"2026-06-09T00:00:00Z"}},{"name":"session_id","in":"query","required":false,"description":"Filter by session ID to retrieve all events for a single session","schema":{"type":"string","example":"sess-9c4d2e"}},{"name":"page","in":"query","required":false,"schema":{"type":"integer","minimum":1,"default":1}},{"name":"per_page","in":"query","required":false,"schema":{"type":"integer","minimum":1,"maximum":500,"default":100}}],"responses":{"200":{"description":"List of audit log entries","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuditEntryListResponse"},"examples":{"session_lifecycle":{"summary":"Full session lifecycle for sensor-001","value":{"status":200,"data":[{"id":"audit-002","event":"session.closed","session_id":"sess-9c4d2e","device_id":"sensor-001","protocol":"diagnostics","user":"alice@example.com","source_ip":"10.0.1.42","timestamp":"2026-06-08T09:18:44Z","trace_id":"xyz789abc012"},{"id":"audit-001","event":"session.opened","session_id":"sess-9c4d2e","device_id":"sensor-001","protocol":"diagnostics","user":"alice@example.com","source_ip":"10.0.1.42","timestamp":"2026-06-08T09:05:00Z","trace_id":"xyz789abc012"}],"meta":{"page":1,"per_page":100,"total":2}}},"expired_session":{"summary":"Expired session event","value":{"status":200,"data":[{"id":"audit-003","event":"session.expired","session_id":"sess-8b1e4c","device_id":"sensor-002","protocol":"shell","user":"bob@example.com","source_ip":"10.0.1.55","timestamp":"2026-06-08T11:00:00Z","trace_id":"def456ghi789"}],"meta":{"page":1,"per_page":100,"total":1}}}}}}},"401":{"$ref":"#/components/responses/Unauthorized"},"403":{"$ref":"#/components/responses/Forbidden"},"429":{"$ref":"#/components/responses/RateLimited"},"500":{"$ref":"#/components/responses/InternalError"}}}},"/audit/remote-access/{entryId}":{"parameters":[{"name":"entryId","in":"path","required":true,"description":"Unique audit log entry ID","schema":{"type":"string","example":"audit-001"}}],"get":{"operationId":"getAuditEntry","summary":"Get an audit log entry","description":"Returns a single audit log entry by its ID.","tags":["Audit Log"],"responses":{"200":{"description":"Audit log entry","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuditEntryResponse"},"example":{"status":200,"data":{"id":"audit-001","event":"session.opened","session_id":"sess-9c4d2e","device_id":"sensor-001","protocol":"diagnostics","user":"alice@example.com","source_ip":"10.0.1.42","timestamp":"2026-06-08T09:05:00Z","trace_id":"xyz789abc012"}}}}},"401":{"$ref":"#/components/responses/Unauthorized"},"403":{"$ref":"#/components/responses/Forbidden"},"404":{"$ref":"#/components/responses/NotFound"},"500":{"$ref":"#/components/responses/InternalError"}}}}},"components":{"securitySchemes":{"bearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT","description":"Obtain a token with `stctl auth token`.\nRequires `administrator` role or `audit:read` permission.\n"}},"schemas":{"AuditEntry":{"type":"object","required":["id","event","session_id","device_id","protocol","user","timestamp"],"properties":{"id":{"type":"string","description":"Unique audit entry identifier","example":"audit-001"},"event":{"type":"string","enum":["session.opened","session.closed","session.expired"],"description":"The audit event type:\n- `session.opened` — a session was successfully opened\n- `session.closed` — a session was explicitly closed by a user or the API\n- `session.expired` — a session closed automatically because its TTL elapsed\n"},"session_id":{"type":"string","description":"ID of the session this event relates to","example":"sess-9c4d2e"},"device_id":{"type":"string","description":"ID of the device the session was connected to","example":"sensor-001"},"protocol":{"type":"string","enum":["shell","diagnostics","file-transfer"],"description":"Session protocol used"},"user":{"type":"string","description":"Email address of the user who opened the session","example":"alice@example.com"},"source_ip":{"type":"string","description":"IP address of the client that opened the session","example":"10.0.1.42"},"timestamp":{"type":"string","format":"date-time","description":"ISO 8601 timestamp of the event","example":"2026-06-08T09:05:00Z"},"trace_id":{"type":"string","description":"Distributed trace ID. Use with Jaeger or Grafana to correlate logs and spans.","example":"xyz789abc012"}}},"PaginationMeta":{"type":"object","properties":{"page":{"type":"integer","example":1},"per_page":{"type":"integer","example":100},"total":{"type":"integer","description":"Total number of matching entries","example":42}}},"AuditEntryListResponse":{"type":"object","properties":{"status":{"type":"integer","example":200},"data":{"type":"array","items":{"$ref":"#/components/schemas/AuditEntry"},"description":"Entries in reverse chronological order (most recent first)"},"meta":{"$ref":"#/components/schemas/PaginationMeta"}}},"AuditEntryResponse":{"type":"object","properties":{"status":{"type":"integer","example":200},"data":{"$ref":"#/components/schemas/AuditEntry"}}},"Error":{"type":"object","required":["error","message","status"],"properties":{"error":{"type":"string","example":"forbidden"},"message":{"type":"string","example":"Reading the audit log requires the administrator role or the audit:read permission."},"status":{"type":"integer","example":403}}}},"responses":{"Unauthorized":{"description":"Token is missing, invalid, or expired","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":"unauthorized","message":"Bearer token is missing or has expired.","status":401}}}},"Forbidden":{"description":"Insufficient permissions — administrator role or audit:read permission required","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":"forbidden","message":"Reading the audit log requires the administrator role or the audit:read permission.","status":403}}}},"NotFound":{"description":"Audit entry not found","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":"not_found","message":"Audit entry not found.","status":404}}}},"RateLimited":{"description":"Rate limit exceeded — 60 requests per minute","headers":{"Retry-After":{"schema":{"type":"integer"}}},"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":"rate_limited","message":"Too many requests. Retry after 15 seconds.","status":429}}}},"InternalError":{"description":"Internal platform error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"},"example":{"error":"internal_error","message":"An internal error occurred. Request ID: req-abc123.","status":500}}}}}}}},"searchIndex":{"store":["section/Access-control","section/Immutability","section/Retention","section/Authentication","section/Base-URL","section/Related-APIs","tag/Audit-Log","tag/Audit-Log/operation/listAuditEntries","tag/Audit-Log/operation/getAuditEntry"],"index":{"version":"2.3.9","fields":["title","description"],"fieldVectors":[["title/0",[0,1.05,1,1.897]],["description/0",[2,2.043,3,0.055,4,0.31,5,1.493,6,2.004,7,2.043,8,2.043,9,2.043,10,2.043]],["title/1",[11,2.385]],["description/1",[3,0.072,4,0.299,12,0.448,13,1.971,14,1.971,15,1.971,16,1.971,17,1.44,18,1.971,19,1.971]],["title/2",[20,1.743]],["description/2",[6,1.44,12,0.448,20,1.44,21,1.971,22,1.971,23,1.971,24,1.971,25,1.971,26,1.971,27,1.971,28,1.971]],["title/3",[29,2.385]],["description/3",[5,1.549,30,2.12,31,2.12,32,2.812,33,2.12,34,2.12,35,2.12,36,2.12]],["title/4",[37,1.897,38,1.897]],["description/4",[39,2.418,40,2.741]],["title/5",[17,1.386,41,1.897]],["description/5",[3,0.062,39,2.164,42,2.295,43,1.582,44,1.582,45,1.582,46,1.582,47,1.27,48,1.677,49,1.582,50,1.156]],["title/6",[3,0.051,4,0.288]],["description/6",[0,1.323,3,0.065,47,1.323,51,1.747,52,1.747,53,2.391]],["title/7",[3,0.036,4,0.204,12,0.306,54,1.346]],["description/7",[0,0.604,3,0.029,4,0.165,12,0.248,47,0.957,48,0.797,50,0.797,51,0.797,52,0.797,55,0.797,56,1.091,57,1.091,58,1.091,59,1.091,60,1.091,61,1.091,62,1.729,63,1.091,64,1.091,65,1.091,66,1.091,67,1.091,68,1.091,69,1.091,70,1.091,71,1.091,72,1.091,73,1.091,74,1.091,75,1.091,76,1.091,77,1.091]],["title/8",[3,0.043,4,0.239,12,0.358]],["description/8",[3,0.062,4,0.348,12,0.521,55,1.676,78,2.293,79,2.293,80,2.293]]],"invertedIndex":[["",{"_index":39,"title":{},"description":{"4":{},"5":{}}}],["60",{"_index":73,"title":{},"description":{"7":{}}}],["90",{"_index":22,"title":{},"description":{"2":{}}}],["access",{"_index":0,"title":{"0":{}},"description":{"6":{},"7":{}}}],["administr",{"_index":6,"title":{},"description":{"0":{},"2":{}}}],["api",{"_index":17,"title":{"5":{}},"description":{"1":{}}}],["api](./device-api.yaml",{"_index":49,"title":{},"description":{"5":{}}}],["api](./session-api.yaml",{"_index":43,"title":{},"description":{"5":{}}}],["append-onli",{"_index":18,"title":{},"description":{"1":{}}}],["audit",{"_index":3,"title":{"6":{},"7":{},"8":{}},"description":{"0":{},"1":{},"5":{},"6":{},"7":{},"8":{}}}],["audit/remote-access",{"_index":77,"title":{},"description":{"7":{}}}],["audit/remote-access/{entryid",{"_index":80,"title":{},"description":{"8":{}}}],["audit:read",{"_index":8,"title":{},"description":{"0":{}}}],["auth",{"_index":36,"title":{},"description":{"3":{}}}],["authent",{"_index":29,"title":{"3":{}},"description":{}}],["base",{"_index":37,"title":{"4":{}},"description":{}}],["bearer",{"_index":31,"title":{},"description":{"3":{}}}],["chronolog",{"_index":57,"title":{},"description":{"7":{}}}],["close",{"_index":45,"title":{},"description":{"5":{}}}],["combin",{"_index":70,"title":{},"description":{"7":{}}}],["configur",{"_index":25,"title":{},"description":{"2":{}}}],["control",{"_index":1,"title":{"0":{}},"description":{}}],["creat",{"_index":13,"title":{},"description":{"1":{}}}],["day",{"_index":23,"title":{},"description":{"2":{}}}],["default",{"_index":24,"title":{},"description":{"2":{}}}],["delet",{"_index":15,"title":{},"description":{"1":{}}}],["devic",{"_index":48,"title":{},"description":{"5":{},"7":{}}}],["endpoint",{"_index":30,"title":{},"description":{"3":{}}}],["entri",{"_index":12,"title":{"7":{},"8":{}},"description":{"1":{},"2":{},"7":{},"8":{}}}],["event",{"_index":47,"title":{},"description":{"5":{},"6":{},"7":{}}}],["filter",{"_index":50,"title":{},"description":{"5":{},"7":{}}}],["first",{"_index":60,"title":{},"description":{"7":{}}}],["gener",{"_index":46,"title":{},"description":{"5":{}}}],["grant",{"_index":10,"title":{},"description":{"0":{}}}],["https://api.<your-platform-domain>/v1",{"_index":40,"title":{},"description":{"4":{}}}],["id",{"_index":79,"title":{},"description":{"8":{}}}],["immut",{"_index":11,"title":{"1":{}},"description":{}}],["limit",{"_index":72,"title":{},"description":{"7":{}}}],["list",{"_index":54,"title":{"7":{}},"description":{}}],["log",{"_index":4,"title":{"6":{},"7":{},"8":{}},"description":{"0":{},"1":{},"7":{},"8":{}}}],["longer",{"_index":26,"title":{},"description":{"2":{}}}],["minut",{"_index":76,"title":{},"description":{"7":{}}}],["modifi",{"_index":14,"title":{},"description":{"1":{}}}],["narrow",{"_index":63,"title":{},"description":{"7":{}}}],["obtain",{"_index":33,"title":{},"description":{"3":{}}}],["open",{"_index":44,"title":{},"description":{"5":{}}}],["option",{"_index":69,"title":{},"description":{"7":{}}}],["order",{"_index":58,"title":{},"description":{"7":{}}}],["paramet",{"_index":62,"title":{},"description":{"7":{}}}],["per",{"_index":75,"title":{},"description":{"7":{}}}],["permiss",{"_index":9,"title":{},"description":{"0":{}}}],["platform",{"_index":27,"title":{},"description":{"2":{}}}],["queri",{"_index":51,"title":{},"description":{"6":{},"7":{}}}],["rang",{"_index":68,"title":{},"description":{"7":{}}}],["rate",{"_index":71,"title":{},"description":{"7":{}}}],["read",{"_index":2,"title":{},"description":{"0":{}}}],["read-onli",{"_index":53,"title":{},"description":{"6":{}}}],["recent",{"_index":59,"title":{},"description":{"7":{}}}],["relat",{"_index":41,"title":{"5":{}},"description":{}}],["remot",{"_index":52,"title":{},"description":{"6":{},"7":{}}}],["request",{"_index":74,"title":{},"description":{"7":{}}}],["requir",{"_index":5,"title":{},"description":{"0":{},"3":{}}}],["result",{"_index":64,"title":{},"description":{"7":{}}}],["retain",{"_index":21,"title":{},"description":{"2":{}}}],["retent",{"_index":20,"title":{"2":{}},"description":{"2":{}}}],["return",{"_index":55,"title":{},"description":{"7":{},"8":{}}}],["revers",{"_index":56,"title":{},"description":{"7":{}}}],["role",{"_index":7,"title":{},"description":{"0":{}}}],["session",{"_index":42,"title":{},"description":{"5":{}}}],["set",{"_index":28,"title":{},"description":{"2":{}}}],["singl",{"_index":78,"title":{},"description":{"8":{}}}],["stctl",{"_index":35,"title":{},"description":{"3":{}}}],["tamper-evid",{"_index":19,"title":{},"description":{"1":{}}}],["through",{"_index":16,"title":{},"description":{"1":{}}}],["time",{"_index":67,"title":{},"description":{"7":{}}}],["token",{"_index":32,"title":{},"description":{"3":{}}}],["type",{"_index":66,"title":{},"description":{"7":{}}}],["url",{"_index":38,"title":{"4":{}},"description":{}}],["us",{"_index":61,"title":{},"description":{"7":{}}}],["user",{"_index":65,"title":{},"description":{"7":{}}}],["via",{"_index":34,"title":{},"description":{"3":{}}}]],"pipeline":[]}},"options":{}};
+
+      var container = document.getElementById('redoc');
+      Redoc.hydrate(__redoc_state, container);
+
+      </script>
+</body>
+
+</html>
