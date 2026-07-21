@@ -1,4 +1,4 @@
-﻿site_name: SmartTouch Cloud Platform
+site_name: SmartTouch Cloud Platform
 site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
 
 plugins:
@@ -7,6 +7,7 @@ plugins:
 theme:
   name: material
   features:
+    - navigation.tabs
     - navigation.sections
     - navigation.indexes
 
@@ -67,9 +68,9 @@ nav:
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md
           - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
           - SSD Schema: developers/secrets-config/ssd-schema-reference.md
+  - Ask SmartTouch: developers/ai-docs/ask.md
   - AI Documentation:
       - RAG Answering: developers/ai-docs/index.md
-      - Ask SmartTouch Docs: developers/ai-docs/ask.md
   - Platform Engineering:
       - Observability:
           - Overview: developers/observability/index.md

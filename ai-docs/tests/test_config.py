@@ -47,6 +47,26 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(config.default_retrieval_limit, 3)
         self.assertEqual(config.max_context_chars, 900)
 
+    def test_loads_cors_origin_overrides(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "AI_DOCS_CORS_ORIGINS": (
+                    "https://docs.example.com, http://localhost:8001"
+                ),
+            },
+            clear=True,
+        ):
+            config = load_config()
+
+        self.assertEqual(
+            config.cors_origins,
+            (
+                "https://docs.example.com",
+                "http://localhost:8001",
+            ),
+        )
+
     def test_rejects_invalid_integer(self) -> None:
         with patch.dict(
             os.environ,
