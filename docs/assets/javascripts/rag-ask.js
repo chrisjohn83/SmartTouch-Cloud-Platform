@@ -34,6 +34,10 @@ function initializeSmartTouchChat() {
       <div class="st-chat-suggestions" aria-label="Example questions">
         <button type="button" data-st-query="Agent cannot reach the broker">Broker connection</button>
         <button type="button" data-st-query="How do I roll back a failed release?">Rollback a release</button>
+        <button type="button" data-st-query="How do I register a new device?">Register a device</button>
+        <button type="button" data-st-query="How do I check whether a device agent is online?">Check agent status</button>
+        <button type="button" data-st-query="How do I open a remote shell session?">Open remote session</button>
+        <button type="button" data-st-query="How do I configure application secrets?">Manage secrets</button>
       </div>
       <form class="st-chat-form">
         <label class="st-chat-visually-hidden" for="st-chat-query">Ask a documentation question</label>
