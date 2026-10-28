@@ -1,5 +1,5 @@
 const localApiBaseUrl = "http://127.0.0.1:8000";
-const productionApiBaseUrl = "";
+const productionApiBaseUrl = "https://smarttouch-rag.onrender.com";
 const chatRootId = "smarttouch-chat";
 const insufficientInformationMessage =
   "The SmartTouch documentation does not provide enough cited information to answer this question.";
