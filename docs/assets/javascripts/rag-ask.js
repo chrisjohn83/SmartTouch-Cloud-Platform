@@ -38,6 +38,12 @@ function initializeSmartTouchChat() {
         <button type="button" data-st-query="How do I check whether a device agent is online?">Check agent status</button>
         <button type="button" data-st-query="How do I open a remote shell session?">Open remote session</button>
         <button type="button" data-st-query="How do I configure application secrets?">Manage secrets</button>
+        <button type="button" data-st-query="How do I get started as a SmartTouch developer?">Start developer journey</button>
+        <button type="button" data-st-query="What do I need before I can use SmartTouch?">Check prerequisites</button>
+        <button type="button" data-st-query="What are the key concepts in SmartTouch?">Learn platform concepts</button>
+        <button type="button" data-st-query="How do I authenticate with SmartTouch?">Authenticate with SmartTouch</button>
+        <button type="button" data-st-query="How do I make my first API call to SmartTouch?">Make first API call</button>
+        <button type="button" data-st-query="What errors will I encounter during SmartTouch developer onboarding?">Troubleshoot onboarding</button>
       </div>
       <form class="st-chat-form">
         <label class="st-chat-visually-hidden" for="st-chat-query">Ask a documentation question</label>
