@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: SmartTouch API
+  version: 1.0.0
+tags:
+  - name: Devices
+  - name: Deployments
+  - name: Sessions
+  - name: Audit Logs
+  - name: Remote Access
