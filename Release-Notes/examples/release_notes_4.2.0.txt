@@ -1,0 +1,38 @@
+Release Notes - Version 4.2.0
+Release Date: October 30, 2026
+Product: Acme Platform
+Purpose
+This document summarizes the key updates in the current software release, including new features, bug fixes, and any known issues. These notes help stakeholders and users understand the improvements and outstanding issues impacting the system.
+New Features
+
+* Webhook support for third-party integrations: Receive real-time order and user events in your own systems via webhooks.
+
+* Export dashboard as PDF: Users can download any dashboard as a PDF report to share with stakeholders.
+
+* Add caching layer for API responses: Frequently requested API responses are now cached, so repeat requests return faster.
+
+* Add dark mode toggle to settings: Users can switch the app to a dark theme from Settings.
+
+* Faster search for large catalogs: Search results now load up to 50% faster on large catalogs.
+
+* Refactor authentication flow to use JWT tokens: Sign-in sessions now use signed tokens, so users stay signed in across devices more reliably.
+
+* Add better error messages for validation failures: Validation errors now name the field that failed and explain how to correct it.
+
+* Optimize image loading on product list: Product images on the list page load progressively, so the list appears sooner on slow connections.
+
+Bug Fixes
+
+* Fix memory leak in parser: Parser streams are now closed after each chunk, so memory stays flat on long-running jobs.
+
+* Fix session timeout on Safari: Session refresh now works on Safari, so users are no longer signed out after a few minutes.
+
+* Email validation rejects valid international addresses: Email fields now accept valid international addresses.
+
+* Resolve crash when opening order history offline: Order history now opens offline and shows the last synced orders instead of crashing.
+
+Known Issues
+
+* Webhook retries can deliver the same event twice: If a receiving endpoint times out, an event may be delivered twice. Workaround: de-duplicate events using the event id header.
+
+* Bulk CSV import times out above 50,000 rows: Imports larger than 50,000 rows may time out and must be restarted. Workaround: split the file into batches of up to 50,000 rows.

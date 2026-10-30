@@ -1,0 +1,100 @@
+# Release notes pipeline configuration.
+# Secrets come from environment variables only — never put tokens in this file.
+
+product: Acme Platform
+
+sources:
+  github:
+    enabled: true
+    repo: acme/platform            # owner/repo
+    base: main                     # only PRs merged into this branch
+    token_env: GITHUB_TOKEN        # fine-grained token: Pull requests (read), Contents (read)
+    fetch_files: true              # needed for path-based exclusions
+    known_issue_label: known-issue # open issues with this label → Known Issues (remove to disable)
+    # api_url: https://ghe.example.com/api/v3   # GitHub Enterprise Server
+  jira:
+    enabled: true
+    base_url: https://acme.atlassian.net
+    project: PLAT
+    # fix_version: "4.2.0"         # preferred when you version releases in Jira
+    # jql: 'project = PLAT AND fixVersion = "4.2.0" AND labels != internal'   # full override
+    release_note_field: customfield_10050   # optional curated "Release Note" field
+    # Open issues listed under Known Issues. {project} and {version} are filled in.
+    # e.g. add: OR (affectedVersion = "{version}" AND issuetype = Bug AND statusCategory != Done)
+    known_issues_jql: 'project = {project} AND statusCategory != Done AND labels = known-issue ORDER BY priority DESC'
+
+    email_env: JIRA_EMAIL
+    token_env: JIRA_API_TOKEN
+  bitbucket:
+    enabled: true
+    workspace: acme
+    repo: mobile-app
+    branch: main
+    access_token_env: BITBUCKET_ACCESS_TOKEN  # or BITBUCKET_EMAIL + BITBUCKET_API_TOKEN
+    fetch_files: true
+
+# The standard release notes template (docxtemplater-style tags).
+template:
+  file: templates/release_notes.tmpl
+  date_format: "%B %d, %Y"         # how {releaseDate} is written, e.g. October 30, 2026
+  # template loop → classification categories that feed it, in order.
+  # A category missing here is not published (it is listed in the quality report).
+  sections:
+    newFeatures: [New Features, Enhancements]
+    bugFixes: [Bug Fixes]
+    knownIssues: [Known Issues]
+
+llm:
+  model: claude-sonnet-5-5
+  batch_size: 40
+  max_tokens: 8000
+
+# Classification categories (what the model decides). Order matters: positions 1-4
+# map to the decision rules (new → improves → corrects → docs). Template sections
+# are mapped from these in `template.sections` above. Keep to ≤6 categories.
+categories:
+  - name: New Features
+    definition: Wholly new capabilities users could not use before.
+    examples: ["Add user authentication system", "Create new dashboard view", "Introduce webhook support", "Add caching layer for API responses"]
+    not_examples: ['"Improve existing search" → Enhancements', '"Update authentication flow" → Enhancements', '"Add better error messages" → Enhancements']
+    keywords: [add, new, create, introduce, implement]
+  - name: Enhancements
+    definition: Improvements to existing features or functionality.
+    examples: ["Improve search performance by 50%", "Update API response format", "Optimize database queries", "Refactor authentication flow to use JWT tokens"]
+    not_examples: ['"Add search feature" → New Features', '"Fix search bug" → Bug Fixes']
+    keywords: [improve, update, enhance, optimize, increase, better, refactor]
+  - name: Bug Fixes
+    definition: Corrections to existing functionality that was not working as intended.
+    examples: ["Fix memory leak in parser", "Resolve login timeout issue", "Correct validation logic error"]
+    not_examples: ['"Improve validation performance" → Enhancements', '"Add validation to new field" → part of a New Feature']
+    keywords: [fix, bug, resolve, issue, correct, repair, hotfix, patch]
+  - name: Documentation
+    definition: Updates to user-facing documentation, guides, or API docs.
+    examples: ["Update API documentation", "Fix typo in README", "Add usage examples to guide"]
+    not_examples: ['"Update test documentation" → exclude (internal)']
+    keywords: [docs, documentation, readme, guide, typo]
+
+# Deterministic exclusions (v4 prompt "Exclusions", enforced in code).
+rules:
+  keywords: [wip, work in progress, temp, temporary, test only, test coverage, internal,
+             internal only, for team, do not publish, do not merge]
+  prefixes: ["merge pull request", "merge branch", "merge remote", "chore:", "chore(", "ci:", "ci(",
+             "build:", "build(", "test:", "test(", "tests:", "style:", "style(", "revert",
+             "bump ", "update dependencies", "release:"]
+  only_paths: ["/tests/*", "*/tests/*", "/test/*", "*/test/*", "*/__tests__/*", "/internal/*",
+               "/scripts/*", "/.github/*", "/.ci/*", "/.circleci/*", "bitbucket-pipelines.yml",
+               "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "Gemfile.lock",
+               "poetry.lock", "Cargo.lock", "go.sum", "*.test.js", "*.spec.ts", "*_test.go", "test_*.py"]
+  bot_authors: ["dependabot[bot]", "renovate[bot]", "github-actions[bot]", "Renovate Bot", "Dependabot"]
+  skip_labels: [internal, no-release-notes, skip-changelog, chore, dependencies]
+  force_include_labels: [release-note]      # override every rule above
+  skip_issue_types: [Sub-task, Subtask, Spike, Test]
+
+quality:
+  min_confidence: 0.6
+  second_opinion_min_conf: 0.75
+  max_summary_words: 30          # description length
+  max_title_words: 10
+  max_exclusion_rate: 0.7
+  min_eval_accuracy: 0.85        # docs target: 85-90% after refinement
+  banned_terms: [refactor, endpoint, repo, PR, merge, codebase, util, stack trace, null pointer]

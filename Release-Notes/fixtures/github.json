@@ -1,0 +1,255 @@
+{
+ "total_count": 14,
+ "items": [
+  {
+   "number": 101,
+   "title": "feat: Add webhook support for integrations",
+   "body": "Customers can subscribe to order and user events and receive them as HTTPS webhooks.\nImplements PLAT-210",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/101",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/webhooks/dispatcher.py",
+    "src/webhooks/api.py"
+   ]
+  },
+  {
+   "number": 102,
+   "title": "PLAT-215 Improve search performance by 50%",
+   "body": "Search results now load up to 50% faster on large catalogs.\nPart of PLAT-215",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/102",
+   "labels": [
+    {
+     "name": "performance"
+    }
+   ],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/search/index.py"
+   ]
+  },
+  {
+   "number": 103,
+   "title": "Fix memory leak in parser",
+   "body": "Parser streams are now closed after each chunk, so memory stays flat on long-running jobs.\nFixes PLAT-220",
+   "user": {
+    "login": "bob"
+   },
+   "html_url": "https://github.com/acme/platform/pull/103",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/parser/stream.py"
+   ]
+  },
+  {
+   "number": 104,
+   "title": "chore: bump eslint to 9.12",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/104",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "package.json"
+   ]
+  },
+  {
+   "number": 105,
+   "title": "Bump lodash from 4.17.20 to 4.17.21",
+   "body": "",
+   "user": {
+    "login": "dependabot[bot]"
+   },
+   "html_url": "https://github.com/acme/platform/pull/105",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "package.json",
+    "package-lock.json"
+   ]
+  },
+  {
+   "number": 106,
+   "title": "WIP: new billing page",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/106",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/billing/page.tsx"
+   ]
+  },
+  {
+   "number": 107,
+   "title": "Add integration tests for checkout",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/107",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "tests/checkout/test_flow.py",
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "number": 108,
+   "title": "Update API documentation with new endpoints",
+   "body": "Adds reference pages and examples for the new webhook events.",
+   "user": {
+    "login": "carol"
+   },
+   "html_url": "https://github.com/acme/platform/pull/108",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "docs/api/webhooks.md",
+    "docs/api/index.md"
+   ]
+  },
+  {
+   "number": 109,
+   "title": "Refactor authentication flow to use JWT tokens",
+   "body": "Sign-in sessions now use signed tokens, so users stay signed in across devices more reliably.",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/109",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/auth/session.py",
+    "src/auth/tokens.py"
+   ]
+  },
+  {
+   "number": 110,
+   "title": "Add better error messages for validation failures",
+   "body": "Validation errors now name the field that failed and explain how to correct it.",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/110",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/validation/errors.py"
+   ]
+  },
+  {
+   "number": 111,
+   "title": "ci: cache pip dependencies in workflow",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/111",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    ".github/workflows/ci.yml"
+   ]
+  },
+  {
+   "number": 112,
+   "title": "Add caching layer for API responses",
+   "body": "Frequently requested API responses are now cached, so repeat requests return faster.",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/112",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/api/cache.py",
+    "src/api/middleware.py"
+   ]
+  },
+  {
+   "number": 113,
+   "title": "Update package-lock.json",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/113",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "package-lock.json"
+   ]
+  },
+  {
+   "number": 114,
+   "title": "Merge branch 'release/4.1' into main",
+   "body": "",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/pull/114",
+   "labels": [],
+   "pull_request": {
+    "merged_at": "2026-10-15T10:00:00Z"
+   },
+   "_files": [
+    "src/version.py"
+   ]
+  }
+ ],
+ "known_issues": [
+  {
+   "number": 77,
+   "title": "Webhook retries can deliver the same event twice",
+   "body": "If a receiving endpoint times out, an event may be delivered twice. Workaround: de-duplicate events using the event id header.",
+   "user": {
+    "login": "alice"
+   },
+   "html_url": "https://github.com/acme/platform/issues/77",
+   "labels": [
+    {
+     "name": "known-issue"
+    }
+   ]
+  }
+ ]
+}

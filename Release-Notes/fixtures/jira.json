@@ -1,0 +1,329 @@
+{
+ "issues": [
+  {
+   "key": "PLAT-210",
+   "fields": {
+    "summary": "Webhook support for third-party integrations",
+    "issuetype": {
+     "name": "Story"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Let customers subscribe to order and user events via HTTPS webhooks."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000",
+    "customfield_10050": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Receive real-time order and user events in your own systems via webhooks."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "key": "PLAT-215",
+   "fields": {
+    "summary": "Faster search for large catalogs",
+    "issuetype": {
+     "name": "Improvement"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Search is slow for catalogs over 100k products."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-220",
+   "fields": {
+    "summary": "Parser memory grows unbounded on long-running jobs",
+    "issuetype": {
+     "name": "Bug"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Memory usage climbs until the worker is killed."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-225",
+   "fields": {
+    "summary": "Login session times out after 5 minutes on Safari",
+    "issuetype": {
+     "name": "Bug"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Safari users are logged out early because the refresh cookie is rejected."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-230",
+   "fields": {
+    "summary": "Rotate staging DB credentials",
+    "issuetype": {
+     "name": "Task"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Quarterly rotation."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [
+     "internal"
+    ],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-231",
+   "fields": {
+    "summary": "Export dashboard as PDF",
+    "issuetype": {
+     "name": "Story"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Users can download any dashboard as a PDF report to share with stakeholders."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-232",
+   "fields": {
+    "summary": "Write unit tests for PDF export",
+    "issuetype": {
+     "name": "Sub-task"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Coverage for exporter."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000"
+   }
+  },
+  {
+   "key": "PLAT-233",
+   "fields": {
+    "summary": "Email validation rejects valid international addresses",
+    "issuetype": {
+     "name": "Bug"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Addresses with non-ASCII domains fail validation."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [],
+    "assignee": {
+     "displayName": "Dev Team"
+    },
+    "resolutiondate": "2026-10-20T12:00:00.000+0000",
+    "customfield_10050": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Email fields now accept valid international addresses."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "known_issues": [
+  {
+   "key": "PLAT-240",
+   "fields": {
+    "summary": "Bulk CSV import times out above 50,000 rows",
+    "issuetype": {
+     "name": "Bug"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Imports larger than 50,000 rows may time out and must be restarted. Workaround: split the file into batches of up to 50,000 rows."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [
+     "known-issue"
+    ],
+    "assignee": null,
+    "resolutiondate": null
+   }
+  },
+  {
+   "key": "PLAT-241",
+   "fields": {
+    "summary": "Internal: flaky staging deploy",
+    "issuetype": {
+     "name": "Bug"
+    },
+    "description": {
+     "type": "doc",
+     "version": 1,
+     "content": [
+      {
+       "type": "paragraph",
+       "content": [
+        {
+         "type": "text",
+         "text": "Staging deploy fails intermittently."
+        }
+       ]
+      }
+     ]
+    },
+    "labels": [
+     "known-issue",
+     "internal"
+    ],
+    "assignee": null,
+    "resolutiondate": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,181 @@
+{
+  "versionNumber": "4.2.0",
+  "releaseDate": "October 30, 2026",
+  "productName": "Acme Platform",
+  "newFeatures": [
+    {
+      "title": "Webhook support for third-party integrations",
+      "description": "Receive real-time order and user events in your own systems via webhooks.",
+      "category": "New Features",
+      "sources": [
+        {
+          "ref": "PLAT-210",
+          "url": "https://acme.atlassian.net/browse/PLAT-210"
+        },
+        {
+          "ref": "#101",
+          "url": "https://github.com/acme/platform/pull/101"
+        }
+      ]
+    },
+    {
+      "title": "Export dashboard as PDF",
+      "description": "Users can download any dashboard as a PDF report to share with stakeholders.",
+      "category": "New Features",
+      "sources": [
+        {
+          "ref": "PLAT-231",
+          "url": "https://acme.atlassian.net/browse/PLAT-231"
+        }
+      ]
+    },
+    {
+      "title": "Add caching layer for API responses",
+      "description": "Frequently requested API responses are now cached, so repeat requests return faster.",
+      "category": "New Features",
+      "sources": [
+        {
+          "ref": "#112",
+          "url": "https://github.com/acme/platform/pull/112"
+        }
+      ]
+    },
+    {
+      "title": "Add dark mode toggle to settings",
+      "description": "Users can switch the app to a dark theme from Settings.",
+      "category": "New Features",
+      "sources": [
+        {
+          "ref": "#42",
+          "url": "https://bitbucket.org/acme/mobile-app/pull-requests/42"
+        }
+      ]
+    },
+    {
+      "title": "Faster search for large catalogs",
+      "description": "Search results now load up to 50% faster on large catalogs.",
+      "category": "Enhancements",
+      "sources": [
+        {
+          "ref": "PLAT-215",
+          "url": "https://acme.atlassian.net/browse/PLAT-215"
+        },
+        {
+          "ref": "#102",
+          "url": "https://github.com/acme/platform/pull/102"
+        }
+      ]
+    },
+    {
+      "title": "Refactor authentication flow to use JWT tokens",
+      "description": "Sign-in sessions now use signed tokens, so users stay signed in across devices more reliably.",
+      "category": "Enhancements",
+      "sources": [
+        {
+          "ref": "#109",
+          "url": "https://github.com/acme/platform/pull/109"
+        }
+      ]
+    },
+    {
+      "title": "Add better error messages for validation failures",
+      "description": "Validation errors now name the field that failed and explain how to correct it.",
+      "category": "Enhancements",
+      "sources": [
+        {
+          "ref": "#110",
+          "url": "https://github.com/acme/platform/pull/110"
+        }
+      ]
+    },
+    {
+      "title": "Optimize image loading on product list",
+      "description": "Product images on the list page load progressively, so the list appears sooner on slow connections.",
+      "category": "Enhancements",
+      "sources": [
+        {
+          "ref": "#43",
+          "url": "https://bitbucket.org/acme/mobile-app/pull-requests/43"
+        }
+      ]
+    }
+  ],
+  "bugFixes": [
+    {
+      "title": "Fix memory leak in parser",
+      "description": "Parser streams are now closed after each chunk, so memory stays flat on long-running jobs.",
+      "category": "Bug Fixes",
+      "sources": [
+        {
+          "ref": "PLAT-220",
+          "url": "https://acme.atlassian.net/browse/PLAT-220"
+        },
+        {
+          "ref": "#103",
+          "url": "https://github.com/acme/platform/pull/103"
+        }
+      ]
+    },
+    {
+      "title": "Fix session timeout on Safari",
+      "description": "Session refresh now works on Safari, so users are no longer signed out after a few minutes.",
+      "category": "Bug Fixes",
+      "sources": [
+        {
+          "ref": "PLAT-225",
+          "url": "https://acme.atlassian.net/browse/PLAT-225"
+        },
+        {
+          "ref": "#41",
+          "url": "https://bitbucket.org/acme/mobile-app/pull-requests/41"
+        }
+      ]
+    },
+    {
+      "title": "Email validation rejects valid international addresses",
+      "description": "Email fields now accept valid international addresses.",
+      "category": "Bug Fixes",
+      "sources": [
+        {
+          "ref": "PLAT-233",
+          "url": "https://acme.atlassian.net/browse/PLAT-233"
+        }
+      ]
+    },
+    {
+      "title": "Resolve crash when opening order history offline",
+      "description": "Order history now opens offline and shows the last synced orders instead of crashing.",
+      "category": "Bug Fixes",
+      "sources": [
+        {
+          "ref": "#47",
+          "url": "https://bitbucket.org/acme/mobile-app/pull-requests/47"
+        }
+      ]
+    }
+  ],
+  "knownIssues": [
+    {
+      "title": "Webhook retries can deliver the same event twice",
+      "description": "If a receiving endpoint times out, an event may be delivered twice. Workaround: de-duplicate events using the event id header.",
+      "category": "Known Issues",
+      "sources": [
+        {
+          "ref": "issue#77",
+          "url": "https://github.com/acme/platform/issues/77"
+        }
+      ]
+    },
+    {
+      "title": "Bulk CSV import times out above 50,000 rows",
+      "description": "Imports larger than 50,000 rows may time out and must be restarted. Workaround: split the file into batches of up to 50,000 rows.",
+      "category": "Known Issues",
+      "sources": [
+        {
+          "ref": "PLAT-240",
+          "url": "https://acme.atlassian.net/browse/PLAT-240"
+        }
+      ]
+    }
+  ]
+}
