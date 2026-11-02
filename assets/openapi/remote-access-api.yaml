@@ -1,0 +1,747 @@
+openapi: 3.0.3
+
+info:
+  title: SmartTouch Remote Access API
+  description: |
+    Configure and monitor the SmartTouch Remote Access Service.
+
+    This API covers the operational surface of the Remote Access Service itself:
+    broker health, protocol configuration, and agent registration policy.
+    For session lifecycle operations, see the [Session API](./session-api.yaml).
+    For device agent status, see the [Device API](./device-api.yaml).
+
+    ## What this API covers
+
+    | Resource                     | Description                                              |
+    |------------------------------|----------------------------------------------------------|
+    | `/remote-access/health`      | Broker health and active connection count                |
+    | `/remote-access/config`      | Service-level protocol and TTL configuration             |
+    | `/remote-access/protocols`   | Enabled session protocols and their role requirements    |
+    | `/remote-access/broker`      | Broker connection metrics and node status                |
+    | `/remote-access/agents`      | All connected agent instances across devices             |
+
+    ## Role requirements
+
+    | Operation                    | Minimum role       |
+    |------------------------------|--------------------|
+    | Read health and metrics      | developer          |
+    | Read configuration           | developer          |
+    | Update configuration         | platform-engineer  |
+    | View all agents              | platform-engineer  |
+    | Disconnect an agent          | administrator      |
+
+    ## Authentication
+    All endpoints require a bearer token obtained via `stctl auth token`.
+
+    ## Base URL
+    ```
+    https://api.<your-platform-domain>/v1
+    ```
+
+    ## Related APIs
+    - [Session API](./session-api.yaml) — open and close remote access sessions
+    - [Device API](./device-api.yaml) — device registry and per-device agent status
+    - [Audit Log API](./audit-log-api.yaml) — session event history
+    - [Deployment API](./deployment-api.yaml) — deploy and update the Remote Access Service
+  version: "1.0.0"
+  contact:
+    name: SmartTouch Developer Experience
+    url: https://docs.smarttouch.io
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.smarttouch.local/v1
+    description: Local development environment
+  - url: https://api.dev.smarttouch.example.com/v1
+    description: Dev environment
+  - url: https://api.staging.smarttouch.example.com/v1
+    description: Staging environment
+  - url: https://api.smarttouch.example.com/v1
+    description: Production environment
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Health
+    description: Remote Access Service and broker health
+  - name: Configuration
+    description: Service-level configuration for protocols, TTLs, and session limits
+  - name: Protocols
+    description: Session protocol definitions and role requirements
+  - name: Broker
+    description: Broker node status and connection metrics
+  - name: Agents
+    description: Connected Remote Access Agent instances
+
+paths:
+
+  /remote-access/health:
+    get:
+      operationId: getRemoteAccessHealth
+      summary: Get Remote Access Service health
+      description: |
+        Returns the health status of the Remote Access Service and its session broker.
+        Use this endpoint to confirm the service is operational before opening sessions.
+      tags: [Health]
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: 200
+                data:
+                  service: remote-access-service
+                  health: healthy
+                  broker:
+                    status: online
+                    nodes: 3
+                    active_connections: 142
+                  checked_at: "2026-06-08T09:00:00Z"
+        '503':
+          description: Service is degraded or unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: 503
+                data:
+                  service: remote-access-service
+                  health: degraded
+                  broker:
+                    status: degraded
+                    nodes: 1
+                    active_connections: 14
+                  checked_at: "2026-06-08T09:00:00Z"
+
+  /remote-access/config:
+    get:
+      operationId: getRemoteAccessConfig
+      summary: Get Remote Access Service configuration
+      description: Returns the active service-level configuration for the Remote Access Service.
+      tags: [Configuration]
+      responses:
+        '200':
+          description: Active configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteAccessConfigResponse'
+              example:
+                status: 200
+                data:
+                  broker_url: "wss://broker.smarttouch.local:8443"
+                  default_ttl_seconds: 3600
+                  max_ttl_seconds: 28800
+                  max_sessions_per_device: 3
+                  allowed_protocols:
+                    - diagnostics
+                    - shell
+                    - file-transfer
+                  agent_heartbeat_interval_seconds: 30
+                  agent_reconnect_backoff_seconds: 10
+                  last_updated_at: "2026-06-07T12:00:00Z"
+                  last_updated_by: platform-engineer@example.com
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    patch:
+      operationId: updateRemoteAccessConfig
+      summary: Update Remote Access Service configuration
+      description: |
+        Update one or more service-level configuration values. Only the fields
+        included in the request body are changed.
+
+        Changes take effect within 30 seconds. Active sessions are not interrupted.
+
+        Requires the `platform-engineer` role.
+      tags: [Configuration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoteAccessConfigUpdateRequest'
+            examples:
+              reduce_ttl:
+                summary: Reduce the default session TTL to 30 minutes
+                value:
+                  default_ttl_seconds: 1800
+              increase_session_limit:
+                summary: Allow up to 5 concurrent sessions per device
+                value:
+                  max_sessions_per_device: 5
+              restrict_protocols:
+                summary: Disable file-transfer protocol platform-wide
+                value:
+                  allowed_protocols:
+                    - diagnostics
+                    - shell
+      responses:
+        '200':
+          description: Configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteAccessConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /remote-access/protocols:
+    get:
+      operationId: listProtocols
+      summary: List session protocols
+      description: |
+        Returns the full list of session protocols supported by the platform,
+        including each protocol's description, required role, and enabled state.
+      tags: [Protocols]
+      responses:
+        '200':
+          description: Protocol definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolListResponse'
+              example:
+                status: 200
+                data:
+                  - name: diagnostics
+                    description: Read-only diagnostic commands on the device
+                    required_role: developer
+                    enabled: true
+                    max_concurrent_per_device: 1
+                  - name: shell
+                    description: Full interactive shell on the device
+                    required_role: platform-engineer
+                    enabled: true
+                    max_concurrent_per_device: 1
+                  - name: file-transfer
+                    description: Upload and download files to and from the device
+                    required_role: administrator
+                    enabled: true
+                    max_concurrent_per_device: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /remote-access/broker:
+    get:
+      operationId: getBrokerStatus
+      summary: Get broker status
+      description: |
+        Returns connection metrics and node-level status for the session broker.
+        Use this endpoint to diagnose broker capacity or connectivity issues.
+        Requires the `platform-engineer` role.
+      tags: [Broker]
+      responses:
+        '200':
+          description: Broker status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrokerStatusResponse'
+              example:
+                status: 200
+                data:
+                  status: online
+                  nodes:
+                    - id: broker-node-01
+                      status: online
+                      active_connections: 52
+                      address: "wss://broker-01.smarttouch.local:8443"
+                    - id: broker-node-02
+                      status: online
+                      active_connections: 47
+                      address: "wss://broker-02.smarttouch.local:8443"
+                    - id: broker-node-03
+                      status: online
+                      active_connections: 43
+                      address: "wss://broker-03.smarttouch.local:8443"
+                  total_active_connections: 142
+                  total_sessions_opened_today: 1024
+                  checked_at: "2026-06-08T09:00:00Z"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /remote-access/agents:
+    get:
+      operationId: listConnectedAgents
+      summary: List connected agents
+      description: |
+        Returns all Remote Access Agent instances currently connected to the broker.
+        Each entry maps to a device. Use this endpoint to audit which devices are online.
+        Requires the `platform-engineer` role.
+      tags: [Agents]
+      parameters:
+        - name: broker_node
+          in: query
+          required: false
+          description: Filter agents connected to a specific broker node
+          schema:
+            type: string
+            example: broker-node-01
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            maximum: 500
+      responses:
+        '200':
+          description: Connected agents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentListResponse'
+              example:
+                status: 200
+                data:
+                  - device_id: sensor-001
+                    agent_version: 1.4.2
+                    connected_at: "2026-06-08T08:55:32Z"
+                    broker_node: broker-node-01
+                    latency_ms: 12
+                  - device_id: sensor-002
+                    agent_version: 1.4.1
+                    connected_at: "2026-06-08T07:30:00Z"
+                    broker_node: broker-node-02
+                    latency_ms: 18
+                meta:
+                  page: 1
+                  per_page: 100
+                  total: 2
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /remote-access/agents/{deviceId}:
+    parameters:
+      - name: deviceId
+        in: path
+        required: true
+        description: Device ID of the connected agent
+        schema:
+          type: string
+          example: sensor-001
+
+    delete:
+      operationId: disconnectAgent
+      summary: Disconnect an agent
+      description: |
+        Forcibly disconnects the Remote Access Agent for a device from the broker.
+        All open sessions to this device are closed immediately.
+
+        The agent will attempt to reconnect according to its backoff policy.
+        Use this endpoint to force a reconnect cycle when an agent appears stuck.
+
+        Requires the `administrator` role.
+      tags: [Agents]
+      responses:
+        '200':
+          description: Agent disconnected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectAgentResponse'
+              example:
+                status: 200
+                data:
+                  device_id: sensor-001
+                  disconnected_at: "2026-06-08T09:30:00Z"
+                  sessions_closed: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: No connected agent found for this device
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: not_found
+                message: No connected agent found for device sensor-001.
+                status: 404
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Obtain a token with `stctl auth token`.
+        Pass it as `Authorization: Bearer <token>`.
+        Tokens expire after 8 hours.
+
+  schemas:
+
+    BrokerHealth:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [online, degraded, offline]
+        nodes:
+          type: integer
+          description: Number of broker nodes currently active
+          example: 3
+        active_connections:
+          type: integer
+          description: Total active agent WebSocket connections across all nodes
+          example: 142
+
+    HealthData:
+      type: object
+      properties:
+        service:
+          type: string
+          example: remote-access-service
+        health:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        broker:
+          $ref: '#/components/schemas/BrokerHealth'
+        checked_at:
+          type: string
+          format: date-time
+
+    RemoteAccessConfig:
+      type: object
+      properties:
+        broker_url:
+          type: string
+          description: WebSocket URL of the session broker
+          example: "wss://broker.smarttouch.local:8443"
+        default_ttl_seconds:
+          type: integer
+          description: Default session time-to-live when not specified by the caller
+          example: 3600
+        max_ttl_seconds:
+          type: integer
+          description: Maximum session TTL a caller may request
+          example: 28800
+        max_sessions_per_device:
+          type: integer
+          description: Maximum concurrent sessions allowed per device
+          example: 3
+        allowed_protocols:
+          type: array
+          items:
+            type: string
+            enum: [diagnostics, shell, file-transfer]
+          description: Protocols enabled platform-wide
+        agent_heartbeat_interval_seconds:
+          type: integer
+          description: How often agents send heartbeat pings to the broker
+          example: 30
+        agent_reconnect_backoff_seconds:
+          type: integer
+          description: Initial reconnect delay when an agent loses connection
+          example: 10
+        last_updated_at:
+          type: string
+          format: date-time
+        last_updated_by:
+          type: string
+          example: platform-engineer@example.com
+
+    RemoteAccessConfigUpdateRequest:
+      type: object
+      description: All fields are optional. Only provided fields are updated.
+      properties:
+        default_ttl_seconds:
+          type: integer
+          minimum: 60
+          maximum: 28800
+          example: 1800
+        max_ttl_seconds:
+          type: integer
+          minimum: 60
+          maximum: 28800
+          example: 14400
+        max_sessions_per_device:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 5
+        allowed_protocols:
+          type: array
+          items:
+            type: string
+            enum: [diagnostics, shell, file-transfer]
+          minItems: 1
+        agent_heartbeat_interval_seconds:
+          type: integer
+          minimum: 10
+          maximum: 300
+          example: 30
+        agent_reconnect_backoff_seconds:
+          type: integer
+          minimum: 1
+          maximum: 60
+          example: 10
+
+    Protocol:
+      type: object
+      properties:
+        name:
+          type: string
+          enum: [diagnostics, shell, file-transfer]
+        description:
+          type: string
+          example: Read-only diagnostic commands on the device
+        required_role:
+          type: string
+          enum: [developer, platform-engineer, administrator]
+        enabled:
+          type: boolean
+        max_concurrent_per_device:
+          type: integer
+          example: 1
+
+    BrokerNode:
+      type: object
+      properties:
+        id:
+          type: string
+          example: broker-node-01
+        status:
+          type: string
+          enum: [online, degraded, offline]
+        active_connections:
+          type: integer
+          example: 52
+        address:
+          type: string
+          example: "wss://broker-01.smarttouch.local:8443"
+
+    BrokerStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [online, degraded, offline]
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BrokerNode'
+        total_active_connections:
+          type: integer
+          example: 142
+        total_sessions_opened_today:
+          type: integer
+          example: 1024
+        checked_at:
+          type: string
+          format: date-time
+
+    ConnectedAgent:
+      type: object
+      properties:
+        device_id:
+          type: string
+          example: sensor-001
+        agent_version:
+          type: string
+          example: "1.4.2"
+        connected_at:
+          type: string
+          format: date-time
+        broker_node:
+          type: string
+          example: broker-node-01
+        latency_ms:
+          type: integer
+          example: 12
+
+    DisconnectResult:
+      type: object
+      properties:
+        device_id:
+          type: string
+          example: sensor-001
+        disconnected_at:
+          type: string
+          format: date-time
+        sessions_closed:
+          type: integer
+          description: Number of open sessions that were closed as a result of the disconnect
+          example: 1
+
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+
+    Error:
+      type: object
+      required: [error, message, status]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        data:
+          $ref: '#/components/schemas/HealthData'
+
+    RemoteAccessConfigResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/RemoteAccessConfig'
+
+    ProtocolListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Protocol'
+
+    BrokerStatusResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/BrokerStatus'
+
+    AgentListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectedAgent'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    DisconnectAgentResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          $ref: '#/components/schemas/DisconnectResult'
+
+  responses:
+
+    Unauthorized:
+      description: Token is missing, invalid, or expired
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: unauthorized
+            message: Bearer token is missing or has expired.
+            status: 401
+
+    Forbidden:
+      description: Insufficient role for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: forbidden
+            message: This operation requires the platform-engineer role.
+            status: 403
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: not_found
+            message: Resource not found.
+            status: 404
+
+    BadRequest:
+      description: Invalid request body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InternalError:
+      description: Internal platform error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: internal_error
+            message: 'An internal error occurred. Request ID: req-abc123.'
+            status: 500

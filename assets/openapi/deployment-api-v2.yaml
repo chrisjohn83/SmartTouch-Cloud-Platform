@@ -1,0 +1,674 @@
+openapi: 3.1.0
+info:
+  title: SmartTouch Deployment API v2
+  description: Deploy services, manage revisions, roll back releases, and control canaries.
+  license:
+    name: Proprietary
+    url: https://docs.smarttouch.io/legal/license
+  version: 2.0.0
+paths:
+  /v2/services:
+    get:
+      tags:
+      - Deployment API v2
+      summary: List deployed services
+      operationId: list_services_v2_services_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: environment
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/Environment'
+          - type: 'null'
+          title: Environment
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ServiceStatus'
+          - type: 'null'
+          title: Status
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cursor
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Deployment API v2
+      summary: Deploy a service
+      operationId: deploy_service_v2_services_post
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceDeploymentRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/services/{service_name}:
+    get:
+      tags:
+      - Deployment API v2
+      summary: Get service status
+      operationId: get_service_v2_services__service_name__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Deployment API v2
+      summary: Remove a service
+      operationId: remove_service_v2_services__service_name__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/services/{service_name}/revisions:
+    get:
+      tags:
+      - Deployment API v2
+      summary: List service revisions
+      operationId: list_revisions_v2_services__service_name__revisions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cursor
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevisionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/services/{service_name}/rollback:
+    post:
+      tags:
+      - Deployment API v2
+      summary: Roll back a service
+      operationId: rollback_service_v2_services__service_name__rollback_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RollbackRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/services/{service_name}/canary:
+    get:
+      tags:
+      - Deployment API v2
+      summary: Get canary configuration
+      operationId: get_canary_v2_services__service_name__canary_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanaryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Deployment API v2
+      summary: Configure canary traffic
+      operationId: set_canary_v2_services__service_name__canary_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CanaryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanaryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Deployment API v2
+      summary: Cancel a canary
+      operationId: cancel_canary_v2_services__service_name__canary_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/services/{service_name}/canary/promote:
+    post:
+      tags:
+      - Deployment API v2
+      summary: Promote a canary
+      operationId: promote_canary_v2_services__service_name__canary_promote_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service Name
+      - name: environment
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CanaryRequest:
+      properties:
+        image:
+          type: string
+          maxLength: 300
+          minLength: 3
+          title: Image
+        weight:
+          type: integer
+          maximum: 99.0
+          minimum: 1.0
+          title: Weight
+      additionalProperties: false
+      type: object
+      required:
+      - image
+      - weight
+      title: CanaryRequest
+    CanaryResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/CanaryState'
+      type: object
+      required:
+      - data
+      title: CanaryResponse
+    CanaryState:
+      properties:
+        service_name:
+          type: string
+          title: Service Name
+        environment:
+          $ref: '#/components/schemas/Environment'
+        stable_image:
+          type: string
+          title: Stable Image
+        canary_image:
+          type: string
+          title: Canary Image
+        canary_weight:
+          type: integer
+          title: Canary Weight
+        stable_weight:
+          type: integer
+          title: Stable Weight
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - service_name
+      - environment
+      - stable_image
+      - canary_image
+      - canary_weight
+      - stable_weight
+      - updated_at
+      title: CanaryState
+    CursorMeta:
+      properties:
+        limit:
+          type: integer
+          title: Limit
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - limit
+      title: CursorMeta
+    Environment:
+      type: string
+      enum:
+      - dev
+      - staging
+      - prod
+      title: Environment
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ReplicaStatus:
+      properties:
+        desired:
+          type: integer
+          title: Desired
+        ready:
+          type: integer
+          title: Ready
+      type: object
+      required:
+      - desired
+      - ready
+      title: ReplicaStatus
+    Revision:
+      properties:
+        id:
+          type: string
+          title: Id
+        image:
+          type: string
+          title: Image
+        replicas:
+          type: integer
+          title: Replicas
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - id
+      - image
+      - replicas
+      - created_at
+      - status
+      title: Revision
+    RevisionListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Revision'
+          type: array
+          title: Data
+        meta:
+          $ref: '#/components/schemas/CursorMeta'
+      type: object
+      required:
+      - data
+      - meta
+      title: RevisionListResponse
+    RollbackRequest:
+      properties:
+        revision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Revision
+          description: Revision to restore; defaults to the previous revision.
+      additionalProperties: false
+      type: object
+      title: RollbackRequest
+    Service:
+      properties:
+        name:
+          type: string
+          title: Name
+        environment:
+          $ref: '#/components/schemas/Environment'
+        status:
+          type: string
+          title: Status
+        image:
+          type: string
+          title: Image
+        replicas:
+          $ref: '#/components/schemas/ReplicaStatus'
+        current_revision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Revision
+        previous_revision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous Revision
+        last_deployed_at:
+          type: string
+          format: date-time
+          title: Last Deployed At
+        configuration:
+          additionalProperties:
+            type: string
+          type: object
+          title: Configuration
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: false
+      type: object
+      required:
+      - name
+      - environment
+      - status
+      - image
+      - replicas
+      - last_deployed_at
+      title: Service
+    ServiceDeploymentRequest:
+      properties:
+        name:
+          type: string
+          pattern: ^[a-z][a-z0-9-]{2,62}$
+          title: Name
+        environment:
+          $ref: '#/components/schemas/Environment'
+        image:
+          type: string
+          maxLength: 300
+          minLength: 3
+          title: Image
+        replicas:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Replicas
+          default: 1
+        configuration:
+          additionalProperties:
+            type: string
+          type: object
+          title: Configuration
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: false
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - environment
+      - image
+      title: ServiceDeploymentRequest
+    ServiceListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Service'
+          type: array
+          title: Data
+        meta:
+          $ref: '#/components/schemas/CursorMeta'
+      type: object
+      required:
+      - data
+      - meta
+      title: ServiceListResponse
+    ServiceResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/Service'
+      type: object
+      required:
+      - data
+      title: ServiceResponse
+    ServiceStatus:
+      type: string
+      enum:
+      - healthy
+      - degraded
+      - failed
+      - deploying
+      title: ServiceStatus
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+servers:
+- url: http://127.0.0.1:8090
+  description: Local reference service
+- url: https://api.smarttouch.io
+  description: Production placeholder
