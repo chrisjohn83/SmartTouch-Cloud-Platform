@@ -13,23 +13,24 @@ sys.path.insert(0, str(SERVICE_ROOT))
 from app.main import app  # noqa: E402
 
 
-OUTPUTS = (
-    REPOSITORY_ROOT / "docs" / "openapi",
-    REPOSITORY_ROOT / "docs" / "assets" / "openapi",
-)
+SOURCE_OUTPUT = REPOSITORY_ROOT / "docs" / "openapi" / "v2"
+ASSET_OUTPUT = REPOSITORY_ROOT / "docs" / "assets" / "openapi"
 
 APIS = {
-    "device-api-v2.yaml": {
+    "device-api.yaml": {
+        "asset_filename": "device-api-v2.yaml",
         "title": "SmartTouch Device API v2",
         "description": "Register, list, inspect, update, and deregister SmartTouch devices.",
         "path_prefix": "/v2/devices",
     },
-    "deployment-api-v2.yaml": {
+    "deployment-api.yaml": {
+        "asset_filename": "deployment-api-v2.yaml",
         "title": "SmartTouch Deployment API v2",
         "description": "Deploy services, manage revisions, roll back releases, and control canaries.",
         "path_prefix": "/v2/services",
     },
-    "audit-log-api-v2.yaml": {
+    "audit-log-api.yaml": {
+        "asset_filename": "audit-log-api-v2.yaml",
         "title": "SmartTouch Audit Log API v2",
         "description": "Query immutable SmartTouch device and deployment audit events.",
         "path_prefix": "/v2/audit/events",
@@ -66,7 +67,7 @@ def remove_unused_schemas(spec: dict) -> None:
     }
 
 
-def build_spec(title: str, description: str, path_prefix: str) -> dict:
+def build_spec(title: str, description: str, path_prefix: str, asset_filename: str) -> dict:
     combined = app.openapi()
     spec = deepcopy(combined)
     spec["info"] = {
@@ -92,15 +93,17 @@ def build_spec(title: str, description: str, path_prefix: str) -> dict:
 
 def main() -> None:
     for filename, settings in APIS.items():
+        asset_filename = settings["asset_filename"]
         content = yaml.safe_dump(
             build_spec(**settings),
             sort_keys=False,
             allow_unicode=True,
             width=110,
         )
-        for output_directory in OUTPUTS:
-            output_directory.mkdir(parents=True, exist_ok=True)
-            (output_directory / filename).write_text(content, encoding="utf-8", newline="\n")
+        SOURCE_OUTPUT.mkdir(parents=True, exist_ok=True)
+        ASSET_OUTPUT.mkdir(parents=True, exist_ok=True)
+        (SOURCE_OUTPUT / filename).write_text(content, encoding="utf-8", newline="\n")
+        (ASSET_OUTPUT / asset_filename).write_text(content, encoding="utf-8", newline="\n")
         print(f"Exported {filename}")
 
 

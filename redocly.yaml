@@ -1,20 +1,20 @@
 apis:
   audit-log:
-    root: docs/openapi/audit-log-api.yaml
+    root: docs/openapi/v1/audit-log-api.yaml
   audit-log-v2:
-    root: docs/openapi/audit-log-api-v2.yaml
+    root: docs/openapi/v2/audit-log-api.yaml
   deployment:
-    root: docs/openapi/deployment-api.yaml
+    root: docs/openapi/v1/deployment-api.yaml
   deployment-v2:
-    root: docs/openapi/deployment-api-v2.yaml
+    root: docs/openapi/v2/deployment-api.yaml
   device:
-    root: docs/openapi/device-api.yaml
+    root: docs/openapi/v1/device-api.yaml
   device-v2:
-    root: docs/openapi/device-api-v2.yaml
+    root: docs/openapi/v2/device-api.yaml
   remote-access:
-    root: docs/openapi/remote-access-api.yaml
+    root: docs/openapi/v1/remote-access-api.yaml
   session:
-    root: docs/openapi/session-api.yaml
+    root: docs/openapi/v1/session-api.yaml
 
 extends:
   - recommended

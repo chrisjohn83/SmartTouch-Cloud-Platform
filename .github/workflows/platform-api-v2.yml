@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "services/platform-api-v2/**"
-      - "docs/openapi/*-api-v2.yaml"
+      - "docs/openapi/v2/*.yaml"
       - "docs/assets/openapi/*-api-v2.yaml"
       - "docs/api-reference/*-api-v2.md"
       - "docs/playground/*-api-v2.md"
@@ -15,7 +15,7 @@ on:
     branches: [main]
     paths:
       - "services/platform-api-v2/**"
-      - "docs/openapi/*-api-v2.yaml"
+      - "docs/openapi/v2/*.yaml"
       - "docs/assets/openapi/*-api-v2.yaml"
       - "redocly.yaml"
 
