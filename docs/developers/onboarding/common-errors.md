@@ -19,7 +19,6 @@ tags: [onboarding, errors, troubleshooting, api, authentication, remote-access, 
 related:
   - docs/developers/onboarding/first-api-call.md
   - docs/developers/onboarding/authentication.md
-  - docs/developers/troubleshooting/why-device-not-connecting.md
   - docs/developers/api-reference/rest-api.md
 ai-retrieval-questions:
   - "What does 401 unauthorized mean in SmartTouch?"
@@ -263,7 +262,7 @@ curl -s -X DELETE \
 
 5. Retry opening the session once `agent_status` returns `online`.
 
-For detailed device connection troubleshooting, see [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md).
+If the device remains offline, repeat the certificate and agent checks above before retrying the session.
 
 ---
 
@@ -414,5 +413,4 @@ cat /tmp/response.json
 
 - [First API call](./first-api-call.md)
 - [Authentication](./authentication.md)
-- [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md)
 - [SmartTouch REST API reference—Error codes](../api-reference/Device-api.md)

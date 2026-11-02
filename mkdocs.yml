@@ -4,6 +4,12 @@ site_url: https://chrisjohn83.github.io/SmartTouch-Cloud-Platform
 plugins:
   - search
 
+exclude_docs: |
+  developers/observability/**
+  developers/deploy-release/**
+  developers/troubleshooting/**
+  developers/platform-engineering/**
+
 theme:
   name: material
   features:
@@ -25,13 +31,6 @@ theme:
 
 nav:
   - Home: index.md
-  - Developer Journey:
-      - Overview: developers/onboarding/index.md
-      - Prerequisites: developers/onboarding/prerequisites.md
-      - Platform Concepts: developers/onboarding/platform-concepts.md
-      - Authentication: developers/onboarding/authentication.md
-      - First API Call: developers/onboarding/first-api-call.md
-      - Common Errors: developers/onboarding/common-errors.md
   - Getting Started:
       - Connect First Device:
           - Overview: developers/get-started/connect-first-device/index.md
@@ -48,55 +47,44 @@ nav:
           - Install STCTL: developers/get-started/set-up-local-development/01-install-stctl.md
           - Configure Kubernetes: developers/get-started/set-up-local-development/02-configure-kubernetes.md
           - Run Service Locally: developers/get-started/set-up-local-development/03-run-service-locally.md
-  - Build and Integrate:
-      - API Reference:
-          - Overview: api-reference/index.md
-          - Device API:
-              - V1: api-reference/device-api.md
-              - V2: api-reference/device-api-v2.md
-          - Deployment API:
-              - V1: api-reference/deployment-api.md
-              - V2: api-reference/deployment-api-v2.md
-          - Session API: api-reference/session-api.md
-          - Remote Access Sessions: api-reference/remote-access-api.md
-          - Audit Log API:
-              - V1: api-reference/audit-log-api.md
-              - V2: api-reference/audit-log-api-v2.md
-      - API Playground:
-          - Overview: playground/index.md
-          - Device API:
-              - V1: playground/device-api.md
-              - V2: playground/device-api-v2.md
-          - Deployment API:
-              - V1: playground/deployment-api.md
-              - V2: playground/deployment-api-v2.md
-          - Session API: playground/session-api.md
-          - Remote Access Sessions: playground/remote-access-api.md
-          - Audit Log API:
-              - V1: playground/audit-log-api.md
-              - V2: playground/audit-log-api-v2.md
+  - Developer Journey:
+      - Overview: developers/onboarding/index.md
+      - Prerequisites: developers/onboarding/prerequisites.md
+      - Platform Concepts: developers/onboarding/platform-concepts.md
+      - Authentication: developers/onboarding/authentication.md
+      - First API Call: developers/onboarding/first-api-call.md
+      - Common Errors: developers/onboarding/common-errors.md
       - Secrets Configuration:
           - Overview: developers/secrets-config/index.md
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md
           - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
           - SSD Schema: developers/secrets-config/ssd-schema-reference.md
-  - Platform Engineering:
-      - Observability:
-          - Overview: developers/observability/index.md
-          - View Logs: developers/observability/how-to-view-logs.md
-          - View Traces: developers/observability/how-to-trace-request.md
-          - Instrumentation: developers/observability/how-to-instrument-service.md
-      - Deploy Release:
-          - Overview: developers/deploy-release/index.md
-          - Promote Release: developers/deploy-release/how-to-promote.md
-          - Canary Deployments: developers/deploy-release/how-to-canary-deployment.md
-          - Deploy Service: developers/deploy-release/how-to-deploy-service.md
-          - Rollback Release: developers/deploy-release/how-to-rollback.md
-      - Troubleshooting:
-          - Overview: developers/troubleshooting/index.md
-          - Deployment Failures: developers/troubleshooting/why-deployment-failing.md
-          - Logging Issues: developers/troubleshooting/why-logs-not-appearing.md
-          - Device Connection Issues: developers/troubleshooting/why-device-not-connecting.md
+  - API Reference:
+      - Overview: api-reference/index.md
+      - Device API:
+          - V1: api-reference/device-api.md
+          - V2: api-reference/device-api-v2.md
+      - Deployment API:
+          - V1: api-reference/deployment-api.md
+          - V2: api-reference/deployment-api-v2.md
+      - Session API: api-reference/session-api.md
+      - Remote Access Sessions: api-reference/remote-access-api.md
+      - Audit Log API:
+          - V1: api-reference/audit-log-api.md
+          - V2: api-reference/audit-log-api-v2.md
+  - API Playground:
+      - Overview: playground/index.md
+      - Device API:
+          - V1: playground/device-api.md
+          - V2: playground/device-api-v2.md
+      - Deployment API:
+          - V1: playground/deployment-api.md
+          - V2: playground/deployment-api-v2.md
+      - Session API: playground/session-api.md
+      - Remote Access Sessions: playground/remote-access-api.md
+      - Audit Log API:
+          - V1: playground/audit-log-api.md
+          - V2: playground/audit-log-api-v2.md
 
 markdown_extensions:
   - admonition
