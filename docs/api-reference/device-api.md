@@ -1,4 +1,4 @@
-# Device API
+# Device API v1
 
 <iframe
   src="/SmartTouch-Cloud-Platform/assets/apis/device-api.html"

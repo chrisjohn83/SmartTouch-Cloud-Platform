@@ -1,4 +1,4 @@
-# Audit Log API
+# Audit Log API v1
 
 <iframe
   src="/SmartTouch-Cloud-Platform/assets/apis/audit-log-api.html"

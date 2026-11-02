@@ -1,4 +1,4 @@
-# Device API
+# Audit Log API v1 Playground
 
 <iframe
   src="../assets/apis/audit-log-api.html"

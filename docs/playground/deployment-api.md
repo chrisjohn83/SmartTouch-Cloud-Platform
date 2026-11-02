@@ -1,4 +1,4 @@
-# Device API Playground
+# Deployment API v1 Playground
 
 <!-- Execute Device API requests directly from the browser -->
 
