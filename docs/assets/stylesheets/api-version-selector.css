@@ -1,0 +1,47 @@
+.st-api-version-selector {
+  align-items: center;
+  background: color-mix(in srgb, var(--md-primary-fg-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--md-primary-fg-color) 28%, transparent);
+  border-radius: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0 0 1.2rem;
+  padding: 0.7rem 0.85rem;
+}
+
+.st-api-version-selector label {
+  font-weight: 700;
+}
+
+.st-api-version-selector select {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.3rem;
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
+  min-width: 9.5rem;
+  padding: 0.4rem 2rem 0.4rem 0.55rem;
+}
+
+.st-api-version-selector select:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.st-api-version-context {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+}
+
+@media screen and (max-width: 44.9844em) {
+  .st-api-version-selector {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .st-api-version-selector select {
+    width: 100%;
+  }
+}

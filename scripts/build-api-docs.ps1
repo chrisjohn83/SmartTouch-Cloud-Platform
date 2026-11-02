@@ -11,7 +11,7 @@ foreach ($api in $apis)
     Write-Host "Building $api..."
 
     npx @redocly/cli build-docs `
-        "docs/openapi/$api.yaml" `
+        "docs/openapi/v1/$api.yaml" `
         -o "site/apis/$api.html"
 
     if ($LASTEXITCODE -ne 0)

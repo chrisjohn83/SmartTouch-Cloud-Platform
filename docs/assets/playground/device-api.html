@@ -3,17 +3,20 @@
 <head>
 <meta charset="utf-8">
 <title>SmartTouch Device API Playground</title>
+<style>body { margin: 0; }</style>
 </head>
 
 <body>
 
-<scalar-api-reference
-spec-url="/SmartTouch-Cloud-Platform/assets/openapi/device-api.yaml">
-</scalar-api-reference>
+<div id="app"></div>
 
-<script
-type="module"
-src="https://cdn.jsdelivr.net/npm/@scalar/api-reference">
+<script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+<script src="../javascripts/scalar-playground.js"></script>
+<script>
+  SmartTouchPlayground.create(
+    '#app',
+    '/SmartTouch-Cloud-Platform/assets/openapi/device-api.yaml'
+  );
 </script>
 
 </body>
