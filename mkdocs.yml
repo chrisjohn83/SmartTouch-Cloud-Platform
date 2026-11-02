@@ -52,17 +52,23 @@ nav:
       - API Reference:
           - Overview: api-reference/index.md
           - Device API: api-reference/device-api.md
+          - Device API v2: api-reference/device-api-v2.md
           - Deployment API: api-reference/deployment-api.md
+          - Deployment API v2: api-reference/deployment-api-v2.md
           - Session API: api-reference/session-api.md
           - Remote Access Sessions: api-reference/remote-access-api.md
           - Audit Logs: api-reference/audit-log-api.md
+          - Audit Log API v2: api-reference/audit-log-api-v2.md
       - API Playground:
           - Overview: playground/index.md
           - Device API: playground/device-api.md
+          - Device API v2: playground/device-api-v2.md
           - Deployment API: playground/deployment-api.md
+          - Deployment API v2: playground/deployment-api-v2.md
           - Session API: playground/session-api.md
           - Remote Access Sessions: playground/remote-access-api.md
           - Audit Logs: playground/audit-log-api.md
+          - Audit Log API v2: playground/audit-log-api-v2.md
       - Secrets Configuration:
           - Overview: developers/secrets-config/index.md
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md

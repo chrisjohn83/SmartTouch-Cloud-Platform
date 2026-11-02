@@ -1,10 +1,16 @@
 apis:
   audit-log:
     root: docs/openapi/audit-log-api.yaml
+  audit-log-v2:
+    root: docs/openapi/audit-log-api-v2.yaml
   deployment:
     root: docs/openapi/deployment-api.yaml
+  deployment-v2:
+    root: docs/openapi/deployment-api-v2.yaml
   device:
     root: docs/openapi/device-api.yaml
+  device-v2:
+    root: docs/openapi/device-api-v2.yaml
   remote-access:
     root: docs/openapi/remote-access-api.yaml
   session:
@@ -18,4 +24,3 @@ rules:
   no-server-example.com: warn
   operation-4xx-response: warn
   no-unused-components: warn
-  
