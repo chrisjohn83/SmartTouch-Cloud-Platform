@@ -21,13 +21,13 @@ Start here if you are building applications, integrating devices, calling SmartT
 
 Follow this path:
 
-1. Review the [Developer Onboarding](developers/onboarding/index.md)
-2. Confirm the [Prerequisites](developers/onboarding/prerequisites.md)
-3. Learn the [Platform Concepts](developers/onboarding/platform-concepts.md)
-4. Configure [Authentication](developers/onboarding/authentication.md)
-5. Make your [First API Call](developers/onboarding/first-api-call.md)
-6. Connect your [First Device](developers/get-started/connect-first-device/index.md)
-7. Deploy your [First IoT Service](developers/get-started/deploy-first-iot-service/index.md)
+1. Review the [Developer Journey](developers/windows-onboarding/index.md)
+2. Confirm the [Prerequisites](developers/windows-onboarding/prerequisites.md)
+3. Learn the [Platform Concepts](developers/windows-onboarding/platform-concepts.md)
+4. Configure [Authentication](developers/windows-onboarding/authentication.md)
+5. Make your [First API Call](developers/windows-onboarding/first-api-call.md)
+6. Test the [Device API](developers/get-started/windows-device-api/index.md)
+7. Test the [Deployment API](developers/get-started/windows-deployment-api/index.md)
 
 After onboarding, use the [API Reference](api-reference/index.md) and [API Playground](playground/index.md) to explore endpoints, validate requests, and test integrations.
 
@@ -42,12 +42,12 @@ Developers can use SmartTouch to:
 - Configure secrets for applications and services
 - Resolve common onboarding and integration issues
 
-If you are setting up your environment, begin with [Set Up Local Development](developers/get-started/set-up-local-development/index.md).
+If you are setting up your environment, begin with [Set Up Local Development](developers/get-started/windows-local-development/index.md).
 
 ## Where To Go Next
 
-New to SmartTouch? Start with [Developer Onboarding](developers/onboarding/index.md).
+New to SmartTouch? Start with the [Developer Journey](developers/windows-onboarding/index.md).
 
 Ready to build? Open the [API Reference](api-reference/index.md) or try the [API Playground](playground/index.md).
 
-Need application configuration? Continue to [Secrets Configuration](developers/secrets-config/index.md).
+Need application configuration? Continue to [Secrets Configuration](developers/windows-secrets-config/index.md).

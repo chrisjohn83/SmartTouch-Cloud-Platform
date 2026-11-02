@@ -9,6 +9,11 @@ exclude_docs: |
   developers/deploy-release/**
   developers/troubleshooting/**
   developers/platform-engineering/**
+  developers/get-started/set-up-local-development/**
+  developers/onboarding/**
+  developers/get-started/connect-first-device/**
+  developers/get-started/deploy-first-iot-service/**
+  developers/secrets-config/**
 
 theme:
   name: material
@@ -32,33 +37,33 @@ theme:
 nav:
   - Home: index.md
   - Getting Started:
-      - Connect First Device:
-          - Overview: developers/get-started/connect-first-device/index.md
-          - Provision Certificate: developers/get-started/connect-first-device/01-provision-certificate.md
-          - Install Remote Access Agent: developers/get-started/connect-first-device/02-install-remote-access-agent.md
-          - Open First Remote Session: developers/get-started/connect-first-device/03-open-first-remote-session.md
-      - Deploy First IoT Service:
-          - Overview: developers/get-started/deploy-first-iot-service/index.md
-          - Create Service Spec: developers/get-started/deploy-first-iot-service/01-create-service-spec.md
-          - Build and Push Image: developers/get-started/deploy-first-iot-service/02-build-push-image.md
-          - Verify Deployment: developers/get-started/deploy-first-iot-service/03-verify-deployment.md
+      - Test Device API:
+          - Overview: developers/get-started/windows-device-api/index.md
+          - Register Device: developers/get-started/windows-device-api/01-register-device.md
+          - Inspect Device: developers/get-started/windows-device-api/02-inspect-device.md
+          - Verify Agent Status: developers/get-started/windows-device-api/03-verify-agent-status.md
+      - Test Deployment API:
+          - Overview: developers/get-started/windows-deployment-api/index.md
+          - Prepare Request: developers/get-started/windows-deployment-api/01-prepare-service-request.md
+          - Submit Deployment: developers/get-started/windows-deployment-api/02-submit-deployment.md
+          - Verify Deployment: developers/get-started/windows-deployment-api/03-verify-deployment.md
       - Set Up Local Development:
-          - Overview: developers/get-started/set-up-local-development/index.md
-          - Install STCTL: developers/get-started/set-up-local-development/01-install-stctl.md
-          - Configure Kubernetes: developers/get-started/set-up-local-development/02-configure-kubernetes.md
-          - Run Service Locally: developers/get-started/set-up-local-development/03-run-service-locally.md
+          - Overview: developers/get-started/windows-local-development/index.md
+          - Set Up Windows API Tools: developers/get-started/windows-local-development/01-set-up-api-tools.md
+          - Optional Kubernetes: developers/get-started/windows-local-development/02-optional-kubernetes.md
+          - Run Portal and API: developers/get-started/windows-local-development/03-run-portal-and-api.md
   - Developer Journey:
-      - Overview: developers/onboarding/index.md
-      - Prerequisites: developers/onboarding/prerequisites.md
-      - Platform Concepts: developers/onboarding/platform-concepts.md
-      - Authentication: developers/onboarding/authentication.md
-      - First API Call: developers/onboarding/first-api-call.md
-      - Common Errors: developers/onboarding/common-errors.md
+      - Overview: developers/windows-onboarding/index.md
+      - Prerequisites: developers/windows-onboarding/prerequisites.md
+      - Platform Concepts: developers/windows-onboarding/platform-concepts.md
+      - Authentication: developers/windows-onboarding/authentication.md
+      - First API Call: developers/windows-onboarding/first-api-call.md
+      - Common Errors: developers/windows-onboarding/common-errors.md
       - Secrets Configuration:
-          - Overview: developers/secrets-config/index.md
-          - Environment Configuration: developers/secrets-config/how-to-environment-config.md
-          - Manage Secrets: developers/secrets-config/how-to-manage-secrets.md
-          - SSD Schema: developers/secrets-config/ssd-schema-reference.md
+          - Overview: developers/windows-secrets-config/index.md
+          - Environment Configuration: developers/windows-secrets-config/environment-configuration.md
+          - Manage Secrets: developers/windows-secrets-config/manage-secrets.md
+          - Deployment Request Schema: developers/windows-secrets-config/deployment-request-schema.md
   - API Reference:
       - Overview: api-reference/index.md
       - Device API:
