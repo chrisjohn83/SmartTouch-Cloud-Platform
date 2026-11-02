@@ -7,11 +7,18 @@
   <style>body { margin: 0; }</style>
 </head>
 <body>
-  <script
-    id="api-reference"
-    data-url="/SmartTouch-Cloud-Platform/assets/openapi/audit-log-api-v2.yaml"
-    data-configuration='{"theme":"purple","hideModels":false,"defaultHttpClient":{"targetKey":"shell","clientKey":"curl"}}'
-    src="https://cdn.jsdelivr.net/npm/@scalar/api-reference">
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script>
+    Scalar.createApiReference('#app', {
+      url: '/SmartTouch-Cloud-Platform/assets/openapi/audit-log-api-v2.yaml',
+      theme: 'purple',
+      hideTestRequestButton: false,
+      hideClientButton: false,
+      modelsSectionLabel: 'Schemas',
+      defaultHttpClient: { targetKey: 'shell', clientKey: 'curl' },
+      agent: { disabled: true }
+    });
   </script>
 </body>
 </html>

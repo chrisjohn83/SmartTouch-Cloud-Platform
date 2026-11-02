@@ -115,6 +115,7 @@ markdown_extensions:
 extra_css:
   - assets/stylesheets/rag-ask.css
   - assets/stylesheets/api-version-selector.css
+  - assets/stylesheets/api-mode.css
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
