@@ -15,22 +15,13 @@
 
   <div id="app"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script src="../javascripts/scalar-playground.js"></script>
   <script>
-    window.onload = () => {
-      const script = document.createElement('script');
-
-      script.id = 'api-reference';
-
-      script.setAttribute(
-        'data-url',
-        '/SmartTouch-Cloud-Platform/assets/openapi/deployment-api.yaml'
-      );
-
-      document.body.appendChild(script);
-
-      script.src =
-        'https://cdn.jsdelivr.net/npm/@scalar/api-reference';
-    };
+    SmartTouchPlayground.create(
+      '#app',
+      '/SmartTouch-Cloud-Platform/assets/openapi/deployment-api.yaml'
+    );
   </script>
 
 </body>
