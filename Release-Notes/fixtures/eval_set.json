@@ -1,0 +1,253 @@
+[
+ {
+  "item": {
+   "id": "eval:1",
+   "source": "github",
+   "title": "Add user authentication system",
+   "url": "https://example.com/1"
+  },
+  "expected": "New Features"
+ },
+ {
+  "item": {
+   "id": "eval:2",
+   "source": "github",
+   "title": "Create new dashboard view",
+   "url": "https://example.com/2"
+  },
+  "expected": "New Features"
+ },
+ {
+  "item": {
+   "id": "eval:3",
+   "source": "github",
+   "title": "Introduce webhook support",
+   "url": "https://example.com/3"
+  },
+  "expected": "New Features"
+ },
+ {
+  "item": {
+   "id": "eval:4",
+   "source": "github",
+   "title": "Add caching layer for API responses",
+   "url": "https://example.com/4"
+  },
+  "expected": "New Features"
+ },
+ {
+  "item": {
+   "id": "eval:5",
+   "source": "jira",
+   "title": "Export reports as CSV",
+   "url": "https://example.com/5",
+   "issue_type": "Story"
+  },
+  "expected": "New Features"
+ },
+ {
+  "item": {
+   "id": "eval:6",
+   "source": "github",
+   "title": "Improve search performance by 50%",
+   "url": "https://example.com/6"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:7",
+   "source": "github",
+   "title": "Update API response format",
+   "url": "https://example.com/7"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:8",
+   "source": "github",
+   "title": "Optimize database queries",
+   "url": "https://example.com/8"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:9",
+   "source": "github",
+   "title": "Refactor authentication flow to use JWT tokens",
+   "url": "https://example.com/9"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:10",
+   "source": "github",
+   "title": "Add better error messages",
+   "url": "https://example.com/10"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:11",
+   "source": "jira",
+   "title": "Checkout page loads faster on mobile",
+   "url": "https://example.com/11",
+   "issue_type": "Improvement"
+  },
+  "expected": "Enhancements"
+ },
+ {
+  "item": {
+   "id": "eval:12",
+   "source": "github",
+   "title": "Fix memory leak in parser",
+   "url": "https://example.com/12"
+  },
+  "expected": "Bug Fixes"
+ },
+ {
+  "item": {
+   "id": "eval:13",
+   "source": "github",
+   "title": "Resolve login timeout issue",
+   "url": "https://example.com/13"
+  },
+  "expected": "Bug Fixes"
+ },
+ {
+  "item": {
+   "id": "eval:14",
+   "source": "github",
+   "title": "Correct validation logic error",
+   "url": "https://example.com/14"
+  },
+  "expected": "Bug Fixes"
+ },
+ {
+  "item": {
+   "id": "eval:15",
+   "source": "jira",
+   "title": "Orders total shows wrong currency",
+   "url": "https://example.com/15",
+   "issue_type": "Bug"
+  },
+  "expected": "Bug Fixes"
+ },
+ {
+  "item": {
+   "id": "eval:16",
+   "source": "github",
+   "title": "fix(api): handle empty pagination cursor",
+   "url": "https://example.com/16"
+  },
+  "expected": "Bug Fixes"
+ },
+ {
+  "item": {
+   "id": "eval:17",
+   "source": "github",
+   "title": "Update API documentation",
+   "url": "https://example.com/17",
+   "files": [
+    "docs/api.md"
+   ]
+  },
+  "expected": "Documentation"
+ },
+ {
+  "item": {
+   "id": "eval:18",
+   "source": "github",
+   "title": "Fix typo in README",
+   "url": "https://example.com/18",
+   "files": [
+    "README.md"
+   ]
+  },
+  "expected": "Documentation"
+ },
+ {
+  "item": {
+   "id": "eval:19",
+   "source": "github",
+   "title": "Add usage examples to guide",
+   "url": "https://example.com/19"
+  },
+  "expected": "Documentation"
+ },
+ {
+  "item": {
+   "id": "eval:20",
+   "source": "github",
+   "title": "WIP: experiment with new pricing",
+   "url": "https://example.com/20"
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:21",
+   "source": "github",
+   "title": "chore: upgrade webpack",
+   "url": "https://example.com/21"
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:22",
+   "source": "github",
+   "title": "Bump axios from 1.6.0 to 1.7.2",
+   "url": "https://example.com/22",
+   "author": "dependabot[bot]"
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:23",
+   "source": "github",
+   "title": "Add tests for login flow",
+   "url": "https://example.com/23",
+   "files": [
+    "tests/test_login.py"
+   ]
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:24",
+   "source": "github",
+   "title": "Update CI/CD pipeline configuration",
+   "url": "https://example.com/24",
+   "files": [
+    ".github/workflows/deploy.yml"
+   ]
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:25",
+   "source": "github",
+   "title": "Merge pull request #88 from feature/x",
+   "url": "https://example.com/25"
+  },
+  "expected": "EXCLUDED"
+ },
+ {
+  "item": {
+   "id": "eval:26",
+   "source": "jira",
+   "title": "Write unit tests for exporter",
+   "url": "https://example.com/26",
+   "issue_type": "Sub-task"
+  },
+  "expected": "EXCLUDED"
+ }
+]

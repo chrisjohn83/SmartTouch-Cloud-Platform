@@ -21,42 +21,52 @@ jobs:
       - name: Fetch base branch
         run: git fetch --depth=1 origin ${{ github.base_ref }}
 
+      - name: Resolve v1 contract location on base branch
+        id: contract-base
+        shell: bash
+        run: |
+          if git cat-file -e "origin/${{ github.base_ref }}:docs/openapi/v1/device-api.yaml"; then
+            echo "prefix=docs/openapi/v1" >> "$GITHUB_OUTPUT"
+          else
+            echo "prefix=docs/openapi" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check audit log API breaking changes
         uses: oasdiff/oasdiff-action/breaking@v0
         with:
-          base: 'origin/${{ github.base_ref }}:docs/openapi/audit-log-api.yaml'
-          revision: 'HEAD:docs/openapi/audit-log-api.yaml'
+          base: 'origin/${{ github.base_ref }}:${{ steps.contract-base.outputs.prefix }}/audit-log-api.yaml'
+          revision: 'HEAD:docs/openapi/v1/audit-log-api.yaml'
           fail-on: WARN
           review: false
 
       - name: Check deployment API breaking changes
         uses: oasdiff/oasdiff-action/breaking@v0
         with:
-          base: 'origin/${{ github.base_ref }}:docs/openapi/deployment-api.yaml'
-          revision: 'HEAD:docs/openapi/deployment-api.yaml'
+          base: 'origin/${{ github.base_ref }}:${{ steps.contract-base.outputs.prefix }}/deployment-api.yaml'
+          revision: 'HEAD:docs/openapi/v1/deployment-api.yaml'
           fail-on: WARN
           review: false
 
       - name: Check device API breaking changes
         uses: oasdiff/oasdiff-action/breaking@v0
         with:
-          base: 'origin/${{ github.base_ref }}:docs/openapi/device-api.yaml'
-          revision: 'HEAD:docs/openapi/device-api.yaml'
+          base: 'origin/${{ github.base_ref }}:${{ steps.contract-base.outputs.prefix }}/device-api.yaml'
+          revision: 'HEAD:docs/openapi/v1/device-api.yaml'
           fail-on: WARN
           review: false
 
       - name: Check remote access API breaking changes
         uses: oasdiff/oasdiff-action/breaking@v0
         with:
-          base: 'origin/${{ github.base_ref }}:docs/openapi/remote-access-api.yaml'
-          revision: 'HEAD:docs/openapi/remote-access-api.yaml'
+          base: 'origin/${{ github.base_ref }}:${{ steps.contract-base.outputs.prefix }}/remote-access-api.yaml'
+          revision: 'HEAD:docs/openapi/v1/remote-access-api.yaml'
           fail-on: WARN
           review: false
 
       - name: Check session API breaking changes
         uses: oasdiff/oasdiff-action/breaking@v0
         with:
-          base: 'origin/${{ github.base_ref }}:docs/openapi/session-api.yaml'
-          revision: 'HEAD:docs/openapi/session-api.yaml'
+          base: 'origin/${{ github.base_ref }}:${{ steps.contract-base.outputs.prefix }}/session-api.yaml'
+          revision: 'HEAD:docs/openapi/v1/session-api.yaml'
           fail-on: WARN
           review: false

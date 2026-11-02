@@ -1,0 +1,189 @@
+{
+ "values": [
+  {
+   "id": 41,
+   "title": "PLAT-225 Fix session timeout on Safari",
+   "description": "Session refresh now works on Safari, so users are no longer signed out after a few minutes.\nFixes PLAT-225",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/41"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/41"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/auth/refresh.ts"
+   ]
+  },
+  {
+   "id": 42,
+   "title": "Add dark mode toggle to settings",
+   "description": "Users can switch the app to a dark theme from Settings.",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/42"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/42"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/settings/theme.tsx",
+    "app/theme/dark.ts"
+   ]
+  },
+  {
+   "id": 43,
+   "title": "Optimize image loading on product list",
+   "description": "Product images on the list page load progressively, so the list appears sooner on slow connections.",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/43"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/43"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/catalog/list.tsx"
+   ]
+  },
+  {
+   "id": 44,
+   "title": "Revert \"Experimental carousel\"",
+   "description": "",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/44"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/44"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/home/carousel.tsx"
+   ]
+  },
+  {
+   "id": 45,
+   "title": "Update README setup steps",
+   "description": "Clarifies the local setup steps for new contributors.",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/45"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/45"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "README.md"
+   ]
+  },
+  {
+   "id": 46,
+   "title": "temp: debug logging for crash reports",
+   "description": "",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/46"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/46"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/logging.ts"
+   ]
+  },
+  {
+   "id": 47,
+   "title": "Resolve crash when opening order history offline",
+   "description": "Order history now opens offline and shows the last synced orders instead of crashing.",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/47"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/47"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/orders/history.tsx"
+   ]
+  },
+  {
+   "id": 48,
+   "title": "Rotate staging credentials script",
+   "description": "For PLAT-230",
+   "author": {
+    "display_name": "Dana Lee"
+   },
+   "state": "MERGED",
+   "links": {
+    "html": {
+     "href": "https://bitbucket.org/acme/mobile-app/pull-requests/48"
+    }
+   },
+   "source": {
+    "branch": {
+     "name": "feature/48"
+    }
+   },
+   "updated_on": "2026-10-22T09:00:00+00:00",
+   "_files": [
+    "app/config/staging.ts"
+   ]
+  }
+ ]
+}

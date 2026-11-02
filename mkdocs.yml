@@ -51,18 +51,30 @@ nav:
   - Build and Integrate:
       - API Reference:
           - Overview: api-reference/index.md
-          - Device API: api-reference/device-api.md
-          - Deployment API: api-reference/deployment-api.md
+          - Device API:
+              - V1: api-reference/device-api.md
+              - V2: api-reference/device-api-v2.md
+          - Deployment API:
+              - V1: api-reference/deployment-api.md
+              - V2: api-reference/deployment-api-v2.md
           - Session API: api-reference/session-api.md
           - Remote Access Sessions: api-reference/remote-access-api.md
-          - Audit Logs: api-reference/audit-log-api.md
+          - Audit Log API:
+              - V1: api-reference/audit-log-api.md
+              - V2: api-reference/audit-log-api-v2.md
       - API Playground:
           - Overview: playground/index.md
-          - Device API: playground/device-api.md
-          - Deployment API: playground/deployment-api.md
+          - Device API:
+              - V1: playground/device-api.md
+              - V2: playground/device-api-v2.md
+          - Deployment API:
+              - V1: playground/deployment-api.md
+              - V2: playground/deployment-api-v2.md
           - Session API: playground/session-api.md
           - Remote Access Sessions: playground/remote-access-api.md
-          - Audit Logs: playground/audit-log-api.md
+          - Audit Log API:
+              - V1: playground/audit-log-api.md
+              - V2: playground/audit-log-api-v2.md
       - Secrets Configuration:
           - Overview: developers/secrets-config/index.md
           - Environment Configuration: developers/secrets-config/how-to-environment-config.md
@@ -102,10 +114,13 @@ markdown_extensions:
 
 extra_css:
   - assets/stylesheets/rag-ask.css
+  - assets/stylesheets/api-version-selector.css
+  - assets/stylesheets/api-mode.css
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
   - assets/javascripts/rag-ask.js
+  - assets/javascripts/api-version-selector.js
 copyright: >
   © 2026 SmartTouch Cloud Platform |
   Documentation Prototype by Chris Johnjoseph
