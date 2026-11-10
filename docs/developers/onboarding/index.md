@@ -90,7 +90,6 @@ Each step in [First API call](./first-api-call.md) shows the `stctl` command and
 ## If you get stuck
 
 - [Common errors](./common-errors.md) — covers the most frequent errors at each step of the journey.
-- [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md) — agent and certificate issues.
 <!-- - [stctl CLI reference](../api-reference/stctl-cli-reference.md) — full command reference. -->
 
 <!-- - [SmartTouch REST API reference](../api-reference/index.md) — full endpoint reference. -->
@@ -103,7 +102,6 @@ Once you have completed the journey, the rest of the developer section is task-b
 
 | Next topic | Link |
 | --- | --- |
-| Deploy a service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
+| Deploy a service | [Deploy your first IoT service](../get-started/deploy-first-iot-service/index.md) |
 | Connect a physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
-| Instrument your service | [How do I instrument my service?](../observability/how-to-instrument-service.md) |
 | Manage secrets | [How do I manage secrets securely?](../secrets-config/how-to-manage-secrets.md) |

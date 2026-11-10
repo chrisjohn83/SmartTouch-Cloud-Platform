@@ -1,0 +1,57 @@
+name: Platform API v2
+
+on:
+  pull_request:
+    paths:
+      - "services/platform-api-v2/**"
+      - "docs/openapi/v2/*.yaml"
+      - "docs/assets/openapi/*-api-v2.yaml"
+      - "docs/api-reference/*-api-v2.md"
+      - "docs/playground/*-api-v2.md"
+      - "docs/assets/playground/*-v2.html"
+      - "redocly.yaml"
+      - ".github/workflows/platform-api-v2.yml"
+  push:
+    branches: [main]
+    paths:
+      - "services/platform-api-v2/**"
+      - "docs/openapi/v2/*.yaml"
+      - "docs/assets/openapi/*-api-v2.yaml"
+      - "redocly.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  test-contracts-and-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install API dependencies
+        working-directory: services/platform-api-v2
+        run: python -m pip install -r requirements.txt
+
+      - name: Run API tests
+        working-directory: services/platform-api-v2
+        run: python -m pytest -q
+
+      - name: Verify generated OpenAPI specifications
+        working-directory: services/platform-api-v2
+        run: |
+          python scripts/export_openapi.py
+          git diff --exit-code -- ../../docs/openapi ../../docs/assets/openapi
+
+      - name: Validate OpenAPI specifications
+        run: |
+          npm ci --include=dev
+          npm run lint:openapi
