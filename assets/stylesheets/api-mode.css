@@ -1,0 +1,46 @@
+.st-api-mode {
+  align-items: center;
+  border-left: 0.25rem solid;
+  border-radius: 0.35rem;
+  display: grid;
+  gap: 0.25rem 1rem;
+  grid-template-columns: 1fr auto;
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+}
+
+.st-api-mode strong,
+.st-api-mode span {
+  grid-column: 1;
+}
+
+.st-api-mode a {
+  font-weight: 700;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  white-space: nowrap;
+}
+
+.st-api-mode-reference {
+  background: color-mix(in srgb, #1976d2 10%, var(--md-default-bg-color));
+  border-color: #1976d2;
+}
+
+.st-api-mode-playground {
+  background: color-mix(in srgb, #00875a 11%, var(--md-default-bg-color));
+  border-color: #00875a;
+}
+
+.st-api-mode-playground strong::before {
+  color: #00875a;
+  content: "●";
+  margin-right: 0.4rem;
+}
+
+@media screen and (max-width: 44.9844em) {
+  .st-api-mode {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
