@@ -74,4 +74,4 @@ This tutorial group walks you through deploying the **Remote Access Service** â€
 ## Next steps after this group
 
 - [Connect a device for remote access](../connect-first-device/index.md)
-- [How do I view the session audit log?](../../observability/how-to-view-logs.md)
+- [Explore the Audit Log API](../../../api-reference/audit-log-api.md)

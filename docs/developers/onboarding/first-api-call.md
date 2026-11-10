@@ -225,7 +225,7 @@ Expected response:
 }
 ```
 
-**If `agent_status` is `offline`:** The device agent is not connected. See [Why is my device not connecting?](../troubleshooting/why-device-not-connecting.md) before proceeding.
+**If `agent_status` is `offline`:** The device agent is not connected. Follow the device checks in [Common errors](./common-errors.md) before proceeding.
 
 ---
 
@@ -540,7 +540,7 @@ See [Common errors](./common-errors.md) for a reference to every error you may h
 | What to do next | Link |
 | --- | --- |
 | Connect a real physical device | [Connect a device for remote access](../get-started/connect-first-device/index.md) |
-| Deploy your first IoT service | [How do I deploy a service?](../deploy-release/how-to-deploy-service.md) |
+| Deploy your first IoT service | [Deploy your first IoT service](../get-started/deploy-first-iot-service/index.md) |
 
 <!-- | See all REST API endpoints | [SmartTouch REST API reference](../api-reference/index.md) | -->
 

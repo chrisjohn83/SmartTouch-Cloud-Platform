@@ -31,7 +31,7 @@ info:
     | Disconnect an agent          | administrator      |
 
     ## Authentication
-    All endpoints require a bearer token obtained via `stctl auth token`.
+    All endpoints require an HTTP bearer token issued by the configured identity provider.
 
     ## Base URL
     ```
@@ -403,7 +403,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: |
-        Obtain a token with `stctl auth token`.
+        Use the bearer token issued by the configured identity provider.
         Pass it as `Authorization: Bearer <token>`.
         Tokens expire after 8 hours.
 

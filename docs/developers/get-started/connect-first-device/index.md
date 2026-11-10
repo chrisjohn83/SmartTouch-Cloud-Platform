@@ -87,4 +87,4 @@ The simulator handles certificate provisioning and agent installation automatica
 
 ## Next steps after this group
 
-- [How do I view the session audit log?](../../observability/how-to-view-logs.md)
+- [Explore the Audit Log API](../../../api-reference/audit-log-api.md)
