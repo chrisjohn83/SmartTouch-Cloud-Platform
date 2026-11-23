@@ -1,0 +1,8 @@
+# Release Notes generated data
+Release-Notes/data/*
+!Release-Notes/data/.gitkeep
+
+# Release Notes credentials and local configuration
+Release-Notes/.env
+Release-Notes/config/secrets.yaml
+Release-Notes/config/*.local.yaml

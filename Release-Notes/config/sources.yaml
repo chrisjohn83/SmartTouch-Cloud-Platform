@@ -1,0 +1,46 @@
+database:
+  type: sqlite
+  path: data/release_notes.db
+
+collection:
+  default_lookback_days: 30
+  overlap_minutes: 10
+
+sources:
+  github:
+    enabled: true
+    repository: chrisjohn83/SmartTouch-Cloud-Platform
+    base_branch: main
+    token_env: GITHUB_TOKEN
+    known_issue_label: known-issue
+
+  jira:
+    enabled: false
+    base_url_env: ATLASSIAN_BASE_URL
+    project_keys:
+      - SMART
+    email_env: ATLASSIAN_EMAIL
+    token_env: ATLASSIAN_API_TOKEN
+    release_note_field: ""
+    known_issue_jql: >-
+      project = SMART
+      AND statusCategory != Done
+      AND labels = known-issue
+
+  confluence:
+    enabled: false
+    base_url_env: ATLASSIAN_BASE_URL
+    space_keys:
+      - SMART
+    email_env: ATLASSIAN_EMAIL
+    token_env: ATLASSIAN_API_TOKEN
+    labels:
+      - release-note
+
+  bitbucket:
+    enabled: false
+    workspace: ""
+    repository: ""
+    base_branch: main
+    token_env: BITBUCKET_ACCESS_TOKEN
+    
