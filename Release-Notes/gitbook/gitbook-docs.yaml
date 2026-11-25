@@ -1,0 +1,11 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: SmartTouch Release Notes
+  structure:
+    - type: space
+      key: space-release-notes
+      title: Release Notes
+      path: release-notes
+      default: true
+      content:
+        directory: ./release-notes
